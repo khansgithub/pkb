@@ -83,6 +83,47 @@ class ParseMarkdown:
         logger.debug(freq)
         return max_freq_word or ""
 
+    def parse_mardown_codeblock_start(self, line, section_index):
+        '''
+        Parse: ```<language>
+        '''
+        code_block_language = line[3:]
+        if not code_block_language:
+            logger.error(
+                f"Section '{section_index[section_index[self._last]]}' "
+                "is missing the Language for it's code block"
+            )
+            # code_block_language = "plaintext"
+            # guess_code_language = True
+            # raise Exception("Malformed code block")
+        return code_block_language or None
+
+    def parse_mardown_codeblock_end(self, section_index, code_block: list[str]):
+        '''
+        Parse: ```, when the codeblock is ending
+        If in the opening of this codeblock no language was present, take a guess by passing the code and headings to the llm
+        '''
+        # grab all the headings and their values, except for the "_" headings which are empty headings
+        _headings_present = [
+            k
+            for k in section_index.keys()
+            if isinstance(k, int) and section_index[k] != "_"
+        ]
+
+        # get the title of all the headings and concat it
+        _path = ", ".join(
+            cast(
+                list[str], [section_index[h] for h in _headings_present]
+            )
+        )
+
+        code_block_language = self.guess_codeblock_language(
+            code_block, _path
+        )
+
+        return code_block_language
+    
+
     def parse_markdown(self) -> dict:
         # heading / section parsing ############################################
         line_is_heading = lambda line: line[0] == "#"
@@ -112,38 +153,49 @@ class ParseMarkdown:
                 # start of code block
                 if not is_code_block:
                     is_code_block = True
-                    code_block_language = line[3:]
-                    if not code_block_language:
-                        logger.error(
-                            f"Section '{section_index[section_index[self._last]]}' "
-                            "is missing the Language for it's code block"
-                        )
-                        code_block_language = "plaintext"
-                        guess_code_language = True
+                    # code_block_language = line[3:]
+                    # if not code_block_language:
+                    #     logger.error(
+                    #         f"Section '{section_index[section_index[self._last]]}' "
+                    #         "is missing the Language for it's code block"
+                    #     )
+                    #     code_block_language = "plaintext"
+                    #     guess_code_language = True
                         # raise Exception("Malformed code block")
-                    code_block = [code_block_language]
+                    # code_block = [code_block_language]
+                    code_block_language = self.parse_mardown_codeblock_start(
+                        line, section_index
+                    )
+                    if not code_block_language:
+                        guess_code_language = True
+
+                    code_block = [code_block_language or "plaintext"]
+                
 
                 # end of code block
                 else:
                     is_code_block = False
                     if guess_code_language:
-                        # grab all the headings and their values, except for the "_" headings which are empty headings
-                        _headings_present = [
-                            k
-                            for k in section_index.keys()
-                            if isinstance(k, int) and section_index[k] != "_"
-                        ]
+                        code_block_language = self.parse_mardown_codeblock_end(section_index,
+                                                         code_block)
+                    # if guess_code_language:
+                    #     # grab all the headings and their values, except for the "_" headings which are empty headings
+                    #     _headings_present = [
+                    #         k
+                    #         for k in section_index.keys()
+                    #         if isinstance(k, int) and section_index[k] != "_"
+                    #     ]
 
-                        # get the title of all the headings and concat it
-                        _path = ", ".join(
-                            cast(
-                                list[str], [section_index[h] for h in _headings_present]
-                            )
-                        )
+                    #     # get the title of all the headings and concat it
+                    #     _path = ", ".join(
+                    #         cast(
+                    #             list[str], [section_index[h] for h in _headings_present]
+                    #         )
+                    #     )
 
-                        code_block_language = self.guess_codeblock_language(
-                            code_block, _path
-                        )
+                    #     code_block_language = self.guess_codeblock_language(
+                    #         code_block, _path
+                    #     )
 
                     code_block[0] = code_block_language or "plaintext"
                     current_section.append(code_block)
