@@ -13,6 +13,16 @@ class ParseMarkdown:
     _root: dict[str, list[Any]]
     _last = "_last"
     _llm = OllamaLLM(model="mistral")
+    _prompt =(
+        "I will give you a code block, and you will take a guess as to what language or DSL the code is in. "
+        "Give me a single word answer, do not give me any further explanation at all."
+        r"If you do not have 100% certainity of the language, reply with 'plaintext'."
+        "I will also provide you with some text as context, to help you make a more accurate guess."
+        "Use the context to take a educated guess."
+        r"Respond in json, in the following format: {'prediction' : '<put your prediction here>'}"
+        r"code block: \n\n{code}"
+        r"context: {path}"
+    )
 
     def __init__(self, raw_text: str) -> None:
         self.raw_text = raw_text
@@ -35,17 +45,8 @@ class ParseMarkdown:
 
     def _guess_codeblock_language(self, codeblock: list[str], path: str) -> str:
         code = r"\n".join(codeblock)
-        template = (
-            "I will give you a code block, and you will take a guess as to what language or DSL the code is in. "
-            "Give me a single word answer, do not give me any further explanation at all."
-            r"If you do not have 100% certainity of the language, reply with 'plaintext'."
-            "I will also provide you with some text as context, to help you make a more accurate guess."
-            "Use the context to take a educated guess."
-            r"Respond in json, in the following format: {'prediction' : '<put your prediction here>'}"
-            f"code block: \n\n{code}"
-            f"context: {path}"
-        )
-        language_guess = self._llm.invoke(template)
+        language_guess = self._llm.invoke(
+            self._prompt.format(code=code, path=path))
 
         lg_match = re.search("{(.*?)}", language_guess)
         if lg_match:
@@ -90,13 +91,12 @@ class ParseMarkdown:
         new_section_index: Callable[[], dict[str | int, str | int]] = lambda: {
             self._last: 0
         }
-
         section = []
         section_tracker = 0
         section_index = new_section_index()
         current_section = []
         ########################################################################
-
+        
         # code block parsing ###################################################
         is_code_block = False
         code_block_language = ""
