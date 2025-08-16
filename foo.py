@@ -1,7 +1,10 @@
+# ruff: noqa
+# mypy: ignore-errors
+
 import json
 import logging
 import re
-from typing import Any, Callable, cast
+from typing import Any, Callable, cast, overload
 
 import markdown
 import numpy as np
@@ -481,35 +484,6 @@ def sklearn():
         print(f"Similarity: {similarity:.3f} | Snippet: {snippets[idx]}")
 
 
-def markdownit():
-
-    md = markdown.Markdown(extensions=["toc"])
-
-    md.convert(raw_text)
-    import ipdb
-
-    ipdb.set_trace()
-    md_dict = getattr(md, "toc_tokens")
-    md_json = json.dumps(md_dict)
-
-    with open("temp.txt", "w") as f:
-        f.writelines(md_json)
-
-
-def m2j():
-    import markdown_to_json
-
-    raw_text = """
-# git
-## global
-"""
-    md_dict = markdown_to_json.dictify(raw_text)
-    md_json = json.dumps(md_dict)
-
-    with open("temp.json", "w") as f:
-        f.writelines(md_json)
-
-
 def custom_parse():
     #     raw_text = """
     # # git
@@ -587,11 +561,11 @@ def custom_parse():
         logging.debug(f"{language_guess=}")
         return language_guess or ""
 
-    def guess_codeblock_language(codeblock: list[str], path: str, n: int = 5) -> str:
+    def guess_codeblock_language(codeblock: list[str], path: str, k: int = 5) -> str:
         freq: dict[str, int] = {}
         max_freq_count = 0
         max_freq_word = ""
-        for attempt in range(n):
+        for attempt in range(k):
             guess = _guess_codeblock_language(codeblock, path)
             if not guess:
                 continue
@@ -632,7 +606,6 @@ def custom_parse():
                     )
                     code_block_language = "plaintext"
                     guess_code_language = True
-                    # raise Exception("Malformed code block")
                 code_block = [code_block_language]
 
             # end of code block
@@ -720,4 +693,84 @@ def custom_parse():
 
 # markdownit()
 # m2j()
-custom_parse()
+
+
+def overload():
+    from typing import Union
+
+    class Foo:
+        @overload
+        def x(self, f: int) -> int: ...
+
+        @overload
+        def x(self, f: str) -> str: ...
+
+        # Single runtime implementation
+        def x(self, f: Union[int, str]) -> Union[int, str]:
+            if isinstance(f, int):
+                print("x - int")
+                return f * 2
+            elif isinstance(f, str):
+                print("x - str")
+                return f.upper()
+            else:
+                raise TypeError(f"Unsupported type: {type(f)}")
+
+    f = Foo()
+
+    x: str = f.x("as")
+
+
+def bert_nn():
+    from transformers import AutoTokenizer, AutoModel
+    import torch
+    from sklearn.neighbors import NearestNeighbors
+    import numpy as np
+
+    # 1. Load CodeBERT model and tokenizer
+    model_name = "microsoft/codebert-base"
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
+    model = AutoModel.from_pretrained(model_name)
+
+    # 2. Example code snippets
+    code_snippets = [
+        "def add(a, b): return a + b",
+        "def subtract(x, y): return x - y",
+        "def multiply(m, n): return m * n",
+        "def divide(a, b): return a / b",
+    ]
+
+    # 3. Function to get embeddings
+    def get_codebert_embeddings(snippets):
+        embeddings = []
+        for code in snippets:
+            inputs = tokenizer(code, return_tensors="pt", truncation=True, padding=True)
+            with torch.no_grad():
+                outputs = model(**inputs)
+                # Use [CLS] token embedding
+                cls_embedding = outputs.last_hidden_state[:, 0, :].squeeze().numpy()
+                import ipdb
+
+                ipdb.set_trace()
+                embeddings.append(cls_embedding)
+        return np.array(embeddings)
+
+    # Generate embeddings
+    embeddings = get_codebert_embeddings(code_snippets)
+
+    # 4. Fit Nearest Neighbors
+    nn = NearestNeighbors(n_neighbors=2, metric="cosine")  # Use cosine similarity
+    nn.fit(embeddings)
+
+    # 5. Query nearest neighbor
+    query = "def sum_numbers(x, y): return x + y"
+    query_emb = get_codebert_embeddings([query])
+    distances, indices = nn.kneighbors(query_emb)
+
+    print("Query:", query)
+    print("Nearest neighbors:")
+    for idx, dist in zip(indices[0], distances[0]):
+        print(f"Code: {code_snippets[idx]}, Distance: {dist:.4f}")
+
+
+# bert_nn()

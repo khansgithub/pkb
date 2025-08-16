@@ -26,22 +26,24 @@ class SklearnVectorStore:
         self.nn = None
 
     def add(self, vector: np.ndarray, snippet: Snippet):
-        logger.debug(id(self))
+        # logger.debug(("Vector: ", vector))
         self.vectors.append(vector)
         self.metadata.append(snippet)
-        self.nn = NearestNeighbors(metric="cosine")
-        self.nn.fit(np.asarray(self.vectors))
         # logger.debug(self.vectors)
         # logger.debug(self.metadata)
         # logger.debug(self.nn)
 
+    def fit(self):
+        self.nn = NearestNeighbors(metric="cosine")
+        self.nn.fit(np.asarray(self.vectors))
+
     def search(self, query_vector: np.ndarray, k: int = 2) -> _SearchResults:
-        logger.debug(id(self))
+        # logger.debug(id(self))
         if not self.nn:
             logger.debug(f"self.nn == {self.nn}")
             return _SearchResults()
 
-        logger.debug({"Searhc query": query_vector})
+        # logger.debug({"Searhc query": query_vector})
         distances, indicies = self.nn.kneighbors(
             np.array([query_vector]), n_neighbors=min(k, len(self.vectors))
         )

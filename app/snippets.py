@@ -1,13 +1,16 @@
 from abc import ABC, abstractmethod
 from enum import Enum
+from pathlib import Path
 from typing import Annotated, override
 
 import pydantic
 import requests
 from markdown import Markdown
 
-from app.exceptions import FailedGistParseError, FailedGistRequestError
+from app.exceptions import (FailedGistFileOpenError, FailedGistParseError,
+                            FailedGistRequestError)
 from app.markdown import ParseMarkdown
+from app.utils import Index
 
 
 class SnippetLanguages(Enum):
@@ -19,13 +22,14 @@ class SnippetLanguages(Enum):
 
 
 class Snippet(pydantic.BaseModel):
-    language: SnippetLanguages
+    language: SnippetLanguages | str
     code: str
     details: Annotated[list[str], pydantic.Field(min_length=1)]
 
     def __str__(self) -> str:
-        r = f"{self.language} {self.code} {' '.join([s for s in self.details])}"
-        r = f"{self.language} {' '.join([s for s in self.details])}"
+        # r = f"{self.language} {self.code} {' '.join([s for s in self.details])}"
+        # r = f"{self.language} {' '.join([s for s in self.details])}"
+        r = self.code
         return r
         # return details + " ".join(
         #     [str(v) for k, v in self.model_dump().items() if k != "details"]
@@ -37,7 +41,8 @@ class SnippetSource(ABC):
     async def get_snippets(self) -> list[Snippet]: ...
 
 
-class SnippetGist(SnippetSource):
+# TODO
+class SnippetSourceGist(SnippetSource):
     gist_id: str
     comments_endpoint = "comments"
     gist_url = "https://gist.githubusercontent.com/khansgithub/{gist_id}/raw"
@@ -48,7 +53,7 @@ class SnippetGist(SnippetSource):
         self.gist_id = gist_id
         super().__init__()
 
-    def get_gist(self):
+    def get_gist(self) -> list[Snippet]:
         url = self.gist_url.format(self.gist_id)
         try:
             res = requests.get(url)
@@ -66,6 +71,7 @@ class SnippetGist(SnippetSource):
             )
 
         self.parse_markdown(res.text)
+        return []
 
     def parse_markdown(self, raw_text: str):
         parser = ParseMarkdown(raw_text)
@@ -75,10 +81,28 @@ class SnippetGist(SnippetSource):
             raise FailedGistParseError(f"Could not parse raw text: {raw_text=}") from e
 
 
-class SnippetFile(SnippetSource): ...
+class SnippetSourceFile(SnippetSource):
+    path: Path
+
+    def __init__(self, file: str | Path) -> None:
+        self.path = Path(file)
+        super().__init__()
+
+    async def get_snippets(self) -> list[Snippet]:
+        try:
+            lines = open(self.path, "r", encoding="utf-8").readlines()
+        except Exception as err:
+            raise FailedGistFileOpenError(
+                f"Could not load / read file ({self.path=})"
+            ) from err
+
+        parser = ParseMardownAsSnippets("\n".join(lines))
+        parser.parse_markdown()
+        snippets = parser._snippets
+        return snippets
 
 
-class SnippetRaw(SnippetSource):
+class SnippetSourceRaw(SnippetSource):
     @override
     async def get_snippets(self) -> list[Snippet]:
         return [
@@ -94,50 +118,33 @@ class SnippetRaw(SnippetSource):
             ),
             Snippet(
                 language=SnippetLanguages.python,
-                code="""
-import sys
-from unittest.mock import MagicMock
-
-mod = None
-missing_mod = False
-
-while missing_mod:
-    if mod:
-        print("Adding: " + mod)
-        sys.modules[mod] = MagicMock()
-        mod = False
-    try:
-        # import lines go here
-    except ModuleNotFoundError as e:
-        mod = e.msg.split(" ")[3].translate(str.maketrans('','','";\''))
-        print("Missing: " + mod)
-        missing_mod = True
-        # input("> ")
-# sys.exit(0)
-# resume rest of the code
-""",
+                code="""""",
                 details=["mock all missing imports dynamically"],
             ),
             Snippet(
                 language=SnippetLanguages.python,
-                code="""
-async def SSEStream(request: HttpRequest):
-    async def stream():
-        _cached_count = None
-        while True:
-            _cached_count = count
-            yield (
-                'event: event name'
-                '\n'
-                f'data: data'
-                '\n\n' # <- must be 2 new lines to end a message
-            )
-        await sleep(1.0)
-    return StreamingHttpResponse(stream(), content_type='text/event-stream')
-
-# usage: urls.py
-urlpatterns =  [path('stream', SSEStream, name='stream')]
-""",
+                code="""""",
                 details=["server event stream in django"],
             ),
         ]
+
+
+class ParseMardownAsSnippets(ParseMarkdown):
+    _snippets: list[Snippet]
+
+    def __init__(self, raw_text: str) -> None:
+        self._snippets = []
+        super().__init__(raw_text)
+
+    @override
+    def parse_codeblock_end(
+        self, guess_code_language: bool, code_block: list[str], section_index: Index
+    ) -> None:
+        """ """
+        snippet = Snippet(
+            language=code_block[0],
+            code="\n".join(code_block[1:]),
+            details=self._get_headings(section_index),
+        )
+
+        self._snippets.append(snippet)

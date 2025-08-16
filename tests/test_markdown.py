@@ -1,8 +1,13 @@
 import json
+import sys
 import unittest
+from unittest.mock import MagicMock
 
 from app import exceptions
-from app.markdown import ParseMarkdown
+
+sys.modules["langchain_ollama"] = MagicMock()
+sys.modules["langchain_huggingface"] = MagicMock()
+from app.snippets import ParseMardownAsSnippets, ParseMarkdown  # noqa: E402
 
 
 class TestMarkdown(unittest.TestCase):
@@ -147,6 +152,30 @@ class TestMarkdown(unittest.TestCase):
                     result = parser.parse_markdown()
                     # Compare JSON string representations for consistent formatting
                     self.assertEqual(json.dumps(result), json.dumps(case["expected"]))
+
+
+class TestMarkdownSnippet(unittest.TestCase):
+
+    def setUp(self) -> None:
+        self.test_cases = [
+            {
+                "name": "Code block",
+                "input": [
+                    "# Code Example",
+                    "```python",
+                    'print("Hello, world!")',
+                    "```",
+                ],
+                "expected": {"Code Example": [["python", 'print("Hello, world!")']]},
+            }
+        ]
+
+    def test_markdown_parsing(self):
+        case = self.test_cases[0]
+        text = "\n".join(case["input"])
+        parser = ParseMardownAsSnippets(text)
+        parser.parse_markdown()
+        print(parser._snippets)
 
 
 if __name__ == "__main__":

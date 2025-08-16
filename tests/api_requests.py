@@ -34,7 +34,7 @@ def sync() -> requests.Response:
 
 
 def search() -> requests.Response:
-    search_term = {"term": "cat"}
+    search_term = {"term": "git"}
     logging.info(f"{search_term=}")
     return base_req(endpoint=Routes.search, method=requests.post, json=search_term)
 
