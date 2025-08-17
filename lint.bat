@@ -13,4 +13,4 @@ isort .
 echo ---------------------------
 
 echo Running mypy
-mypy .
+mypy --exclude venv .

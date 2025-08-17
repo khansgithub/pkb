@@ -1,16 +1,17 @@
 from functools import cache
+from pathlib import Path
 
 import uvicorn
 from fastapi import Depends, FastAPI
 
 from app.app_logging import logger
-from app.embed import embed_text
+from app.embed import embed_text, embed_text_bert
 from app.models import (ResponseHealth, ResponseSearch, ResponseSync,
                         SearchRequest)
-from app.snippets import SnippetRaw, SnippetSource
+from app.snippets import SnippetSource, SnippetSourceFile, SnippetSourceRaw
 from app.vector import SklearnVectorStore, _SearchResults
 
-snippet_source = SnippetRaw()
+snippet_source = SnippetSourceRaw()
 
 app = FastAPI()
 
@@ -22,7 +23,8 @@ def get_store() -> SklearnVectorStore:
 
 @cache
 def get_snipet_source() -> SnippetSource:
-    return SnippetRaw()
+    # return SnippetSourceRaw()
+    return SnippetSourceFile(Path(__file__).parent.absolute()/"gist.md")
 
 
 @app.get("/health")
@@ -35,13 +37,16 @@ async def sync(
     store: SklearnVectorStore = Depends(get_store),
     snippet_source: SnippetSource = Depends(get_snipet_source),
 ):
+    # TODO: move logic out of here
     error = False
     try:
         snippets = await snippet_source.get_snippets()
         for snippet in snippets:
             logger.debug({"text being embedded", str(snippet)})
-            vec = embed_text(str(snippet))
+            # vec = embed_text(str(snippet))
+            vec = embed_text_bert(str(snippet))
             store.add(vec, snippet)
+        store.fit()
     except Exception as e:
         error = True
         logger.exception(e)
@@ -59,7 +64,7 @@ async def search(req: SearchRequest, store: SklearnVectorStore = Depends(get_sto
     error = False
     results: _SearchResults = _SearchResults()
     try:
-        vec = embed_text(req.term)
+        vec = embed_text_bert(req.term)
         results = store.search(vec)
         logger.debug({"Results": results})
     except Exception as e:
@@ -73,4 +78,4 @@ async def search(req: SearchRequest, store: SklearnVectorStore = Depends(get_sto
 
 
 if __name__ == "__main__":
-    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True)
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=True,  reload_dirs=["app"])

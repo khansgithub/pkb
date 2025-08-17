@@ -1,7 +1,10 @@
 import requests
 
 
-class FailedGistRequestError(Exception):
+class AppError(Exception): ...
+
+
+class FailedGistRequestError(AppError):
     """Raised when a http request to get the raw gist fails"""
 
     gist_url: str
@@ -18,10 +21,13 @@ class FailedGistRequestError(Exception):
         super().__init__(msg)
 
 
-class FailedGistParseError(Exception): ...
+class FailedGistParseError(AppError): ...
 
 
-class FailedMarkdownParseErrorDocumen(Exception): ...
+class FailedGistFileOpenError(AppError): ...
+
+
+class FailedMarkdownParseErrorDocumen(AppError): ...
 
 
 class MissingHeadingOne(FailedMarkdownParseErrorDocumen): ...
