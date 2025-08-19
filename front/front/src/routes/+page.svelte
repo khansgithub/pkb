@@ -1,15 +1,21 @@
 <script lang="ts">
-	import type { Attachment } from "svelte/attachments";
 	let x = $state(0);
 	let y = $state(0);
 	let circleClip: HTMLDivElement | null = null;
 
 	function captureMouse(e: MouseEvent) {
 		// console.log("x: ", e.x, "y: ", e.y);
+		[x, y] = [e.x, e.y];
+
 		if (circleClip != null){
-			let _x: string , _y: string = [circleClip.style.x, circleClip.style.y]
-			x = e.x - parseInt(_x)};
-			y = e.y - parseInt(circleClip.style.y)};
+			let clipper_x = circleClip.getBoundingClientRect().x
+			let clipper_y = circleClip.getBoundingClientRect().y
+
+			x -= clipper_x;
+			y -= clipper_y;
+			console.log("x: ", x, "y: ", y);
+			// console.log()
+			console.log("clipper_x: ", clipper_x, "clipper_y: ", clipper_y);
 		}
 		console.log("x: ", x, "y: ", y);
 	}
@@ -30,22 +36,25 @@
 				class="
 				absolute
 				left-0
+				-top-2
+				p-2
 				w-full
-				bg-pink-500
+				blur-lg
+				bg-none
 				rounded-full
-				px-5
-				z-100
+				-z-10
 				text-4xl
 				pointer-events-none
 				overflow-clip
 			"
 			>
 				<p class="opacity-0">.</p>
+				<div class="w-full h-full bg-pink absolute top-0 left-0"></div>
 				<div
 					class="
 						absolute
-						w-20
-						-m-10
+						w-40
+						-m-20
 						aspect-square
 						rounded-full
 						-z-10
