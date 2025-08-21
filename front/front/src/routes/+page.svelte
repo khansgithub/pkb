@@ -1,5 +1,9 @@
 <script lang="ts">
+	import { elementRoles } from "aria-query";
 	import type { Action } from "svelte/action";
+    import type { Attachment } from "svelte/attachments";
+	let z: Map<number, HTMLElement> = new Map();
+	// let z: Set<HTMLElement> = new Set();
 	let x = $state(0);
 	let y = $state(0);
 
@@ -34,6 +38,31 @@
 		console.log(hover_initial_x);
 	};
 
+	const addToZ: Attachment<HTMLDivElement> = (element: HTMLElement) => {
+		let _z: string | null = element.style.zIndex;
+		if (_z == "") {
+			for (let i = 0; i < element.classList.length; i++) {
+				let cls: string = element.classList.item(i) || "";
+				if(!(cls[0] == 'z' || (cls[0] == "!" && cls[1] == "z"))) continue;
+				let index: string | undefined = cls.split("-")[1];
+				if (index === undefined){
+					console.error(element);
+					throw new Error("Couldn't find tailwind index class");
+				}
+				_z = index;
+				break;
+			}
+			if(_z == "") return
+			// console.log("skipping", element.classList)
+		}
+		let zindex: number  = parseInt(_z);
+		if (Number.isNaN(zindex)){
+			throw new Error("Error parsing index");
+		}
+		z.set(zindex, element);
+		console.log(z)
+	};
+
 	function draggableHover(element: HTMLElement) {
 		let _x =
 			x - hover_initial_x - element.getBoundingClientRect().width / 2;
@@ -65,13 +94,11 @@
 				"point-none",
 				"top-0",
 				"w-screen",
-				"z-100",
 			],
 		},
 		id_middle: {
 			clipper: {
 				css: [
-					"!-z-1",
 					"!bg-none/0",
 					"!blur-sm",
 					"!overflow-hidden",
@@ -92,7 +119,6 @@
 						"mix-blend-overlay",
 						"rounded-full",
 						"w-[100px]",
-						"z-10",
 						// "aspect-square",
 						// "h-screen",
 						// "opacity-0"
@@ -102,7 +128,6 @@
 			},
 			back_glow: {
 				css: [
-					"!-z-10",
 					"!shadow-emerald-400",
 					"!shadow-lg",
 					"opacity-75",
@@ -120,8 +145,6 @@
 					"text-center",
 					"text-gray-100",
 					"w-full",
-					"z-10",
-					"z-100",
 					"shadow-blue-100",
 					"shadow-md",
 				],
@@ -139,11 +162,12 @@
 
 <div
 	id="noise"
-	class={c.noise.css.join(" ")}
+	class={cn(c.noise.css, "z-90")}
+	{@attach addToZ}
 	style='background-image:url("{get_noise(noise_freq)}");'
 ></div>
 
-<div
+<div {@attach addToZ}
 	class="min-h-screen w-full grid grid-rows-[auto,1fr,auto] overflow-hidden text-gray-300]"
 >
 	<div class="">top</div>
@@ -153,29 +177,41 @@
 				type="text"
 				name=""
 				id="search_box"
+				{@attach addToZ}
 				placeholder="foo"
-				class={cn(c.id_middle.input.css)}
+				class={cn(c.id_middle.input.css, "z-100	")}
 			/>
 
-			<div class={cn(c.id_middle.input.css, "z-10 !shadow-none radial-noise")} style='--noise: url("{get_noise(0.2)}")'></div>
+			<!-- <div
+				id="input-noise"
+				{@attach addToZ}
+				class={cn(
+					c.id_middle.input.css,
+					"!z-10 !shadow-none radial-noise",
+				)}
+				style='--noise: url("{get_noise(0.2)}")'
+			></div> -->
 
 			<!-- inner cursor light -->
 			<div
 				id="inner_light_container"
+				{@attach addToZ}
 				class={cn(
 					c.id_middle.input.css,
-					"!z-20 overflow-hidden !p-0 !bg-orange-900/0",
+					"z-30 overflow-hidden !p-0 !bg-orange-900/0",
 				)}
 			>
 				<div
 					id="inner_light_mask"
+					{@attach addToZ}
 					class={cn(
 						c.id_middle.input.css,
-						"overflow-hidden !p-0 !bg-black/100 -top-1 !z-11 blur-sm",
+						"overflow-hidden !p-0 !bg-black/100 -top-1 blur-sm",
 					)}
 				></div>
 				<div
 					id="inner_light_highlight"
+					{@attach addToZ}
 					{@attach draggableHover}
 					class={cn(c.id_middle.clipper.hover.css, "!bg-orange-800")}
 				></div>
@@ -185,6 +221,7 @@
 				<div
 					{@attach draggableHover}
 					use:setInitialX
+					{@attach addToZ}
 					class={cn(c.id_middle.clipper.hover.css, "!bg-emerald-200")}
 				></div>
 			</div>
@@ -200,7 +237,7 @@
 </div>
 
 {#snippet div(id: string, classes: string)}
-	<div {id} class={classes}></div>
+	<div {id} class={classes} {@attach addToZ}></div>
 {/snippet}
 
 <style>
@@ -210,16 +247,15 @@
 		mask-repeat: repeat;
 		mask-size: 100px 100px;
 	}
-	.noise{
+	.noise {
 		background-image: var(--noise);
 	}
 
-	.radial-noise{
-		background:
-			var(--noise);
-			/* radial-gradient(circle at center, rgb(255,255,255) 0%, #101828 100%); */
-		background-size: cover;
-		background-blend-mode: overlay;
-		mix-blend-mode: overlay;
+	.radial-noise {
+		background: var(--noise);
+		/* radial-gradient(circle at center, rgb(255,255,255) 0%, #101828 100%); */
+		/* background-size: cover;	 */
+		/* background-blend-mode: overlay; */
+		mix-blend-mode: none;
 	}
 </style>
