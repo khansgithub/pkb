@@ -11,11 +11,11 @@
 
 	let noise_freq = $state(0.2);
 	// let noise = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><filter id='noiseFilter'><feTurbulence type='fractalNoise' baseFrequency='${noise_freq}' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23noiseFilter)'/></svg>`
-	let noise2 = (f: number) => {
+	let noise = (f: number) => {
 		return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><filter id='noiseFilter'><feTurbulence type='fractalNoise' baseFrequency='${f}' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23noiseFilter)'/></svg>`;
 	};
 
-	let noise = (f: number) => {
+	let noise2 = (f: number) => {
 		return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' viewBox='0 0 700 700' width='700' height='700' opacity='1'%3E%3Cdefs%3E%3Cfilter id='nnnoise-filter' x='-20%25' y='-20%25' width='140%25' height='140%25' filterUnits='objectBoundingBox' primitiveUnits='userSpaceOnUse' color-interpolation-filters='linearRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='${f}' numOctaves='4' seed='15' stitchTiles='stitch' x='0%25' y='0%25' width='100%25' height='100%25' result='turbulence'%3E%3C/feTurbulence%3E%3CfeSpecularLighting surfaceScale='11' specularConstant='3' specularExponent='20' lighting-color='%23ffffff' x='0%25' y='0%25' width='100%25' height='100%25' in='turbulence' result='specularLighting'%3E%3CfeDistantLight azimuth='3' elevation='98'%3E%3C/feDistantLight%3E%3C/feSpecularLighting%3E%3CfeColorMatrix type='saturate' values='0' x='0%25' y='0%25' width='100%25' height='100%25' in='specularLighting' result='colormatrix'%3E%3C/feColorMatrix%3E%3C/filter%3E%3C/defs%3E%3Crect width='700' height='700' fill='transparent'%3E%3C/rect%3E%3Crect width='700' height='700' fill='%23ffffff' filter='url(%23nnnoise-filter)'%3E%3C/rect%3E%3C/svg%3E`;
 	};
 
@@ -28,6 +28,10 @@
 
 	function get_noise(freq: number) {
 		return noise(freq);
+	}
+
+	function get_noise_url(freq: number){
+		return `url("${get_noise(freq)}")`
 	}
 
 	const setInitialX: Action<HTMLDivElement, any, any> = (
@@ -114,7 +118,7 @@
 						"-mt-[250px]",
 						"absolute",
 						"bg-white",
-						"blur-3xl",
+						"blur-xl",
 						"h-[500px]",
 						"mix-blend-overlay",
 						"rounded-full",
@@ -179,18 +183,8 @@
 				id="search_box"
 				{@attach addToZ}
 				placeholder="foo"
-				class={cn(c.id_middle.input.css, "z-100	")}
+				class={cn(c.id_middle.input.css, "z-100")}
 			/>
-
-			<!-- <div
-				id="input-noise"
-				{@attach addToZ}
-				class={cn(
-					c.id_middle.input.css,
-					"!z-10 !shadow-none radial-noise",
-				)}
-				style='--noise: url("{get_noise(0.2)}")'
-			></div> -->
 
 			<!-- inner cursor light -->
 			<div
@@ -198,7 +192,7 @@
 				{@attach addToZ}
 				class={cn(
 					c.id_middle.input.css,
-					"z-30 overflow-hidden !p-0 !bg-orange-900/0",
+					"z-50 overflow-hidden !p-0 !bg-orange-900/0 !shadow-none blur-xs",
 				)}
 			>
 				<div
@@ -206,27 +200,51 @@
 					{@attach addToZ}
 					class={cn(
 						c.id_middle.input.css,
-						"overflow-hidden !p-0 !bg-black/100 -top-1 blur-sm",
+						"overflow-hidden !p-0 !bg-black/100 -top-[0.5vw] !shadow-none",
 					)}
 				></div>
 				<div
 					id="inner_light_highlight"
 					{@attach addToZ}
 					{@attach draggableHover}
-					class={cn(c.id_middle.clipper.hover.css, "!bg-orange-800")}
+					class={cn(c.id_middle.clipper.hover.css, "!bg-orange-800 !shadow-none")}
 				></div>
 			</div>
+			<!-- / inner cursor light -->
 
+				<div class="relative w-100 aspect-square overflow-hidden">
+					<div class="w-full h-full object-cover radial-noise" style="--noise: {get_noise_url(0.2)}"></div>
+
+					<!-- Feathered overlay using after pseudo-element -->
+					<!-- <div class="absolute inset-0 pointer-events-none
+								after:content-[''] after:absolute after:inset-0
+								after:bg-gradient-to-b after:from-transparent after:to-white">
+					</div> -->
+				</div>
+
+				<!-- <div
+					id="input-noise"
+					{@attach addToZ}
+					class={cn(
+						c.id_middle.input.css,
+						"!shadow-none radial-noise scale-y-115 scale-x-102 !mt-[0.5vw] z-40 mix-blend-overlay opacity-50",
+					)}
+					style='--noise: url("{get_noise(0.2)}")'
+				></div> -->
+
+			<!-- background cursor light -->
+			 {@render div("foo", cn(c.id_middle.input.css, "!bg-black z-30"))}
 			<div class={cn([c.id_middle.input.css, c.id_middle.clipper.css])}>
 				<div
 					{@attach draggableHover}
 					use:setInitialX
 					{@attach addToZ}
-					class={cn(c.id_middle.clipper.hover.css, "!bg-emerald-200")}
+					style='--noise: url("{get_noise(0.2)}")'
+					class={cn(c.id_middle.clipper.hover.css, "!bg-emerald-200 z-20")}
 				></div>
 			</div>
 
-			<!-- lower back flow -->
+			<!-- background-glow -->
 			{@render div(
 				"back_glow",
 				cn([c.id_middle.input.css, c.id_middle.back_glow.css]),
@@ -252,10 +270,11 @@
 	}
 
 	.radial-noise {
-		background: var(--noise);
-		/* radial-gradient(circle at center, rgb(255,255,255) 0%, #101828 100%); */
-		/* background-size: cover;	 */
-		/* background-blend-mode: overlay; */
-		mix-blend-mode: none;
+		background:
+			var(--noise),
+			radial-gradient(circle at center, rgb(255,255,255) 0%, rgba(0,0,0,1) 50%);
+		background-size: cover;	
+		background-blend-mode: multiply;
+		mix-blend-mode: screen;
 	}
 </style>
