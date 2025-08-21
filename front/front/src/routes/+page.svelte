@@ -5,18 +5,24 @@
 
 	let hover_initial_x: number = 0;
 
-	let noise_freq = $state(6.7)
+	let noise_freq = $state(0.2);
 	// let noise = `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><filter id='noiseFilter'><feTurbulence type='fractalNoise' baseFrequency='${noise_freq}' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23noiseFilter)'/></svg>`
-	let noise = (f: number) => {return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><filter id='noiseFilter'><feTurbulence type='fractalNoise' baseFrequency='${f}' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23noiseFilter)'/></svg>`}
+	let noise2 = (f: number) => {
+		return `data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 400'><filter id='noiseFilter'><feTurbulence type='fractalNoise' baseFrequency='${f}' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23noiseFilter)'/></svg>`;
+	};
+
+	let noise = (f: number) => {
+		return `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' version='1.1' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.dev/svgjs' viewBox='0 0 700 700' width='700' height='700' opacity='1'%3E%3Cdefs%3E%3Cfilter id='nnnoise-filter' x='-20%25' y='-20%25' width='140%25' height='140%25' filterUnits='objectBoundingBox' primitiveUnits='userSpaceOnUse' color-interpolation-filters='linearRGB'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='${f}' numOctaves='4' seed='15' stitchTiles='stitch' x='0%25' y='0%25' width='100%25' height='100%25' result='turbulence'%3E%3C/feTurbulence%3E%3CfeSpecularLighting surfaceScale='11' specularConstant='3' specularExponent='20' lighting-color='%23ffffff' x='0%25' y='0%25' width='100%25' height='100%25' in='turbulence' result='specularLighting'%3E%3CfeDistantLight azimuth='3' elevation='98'%3E%3C/feDistantLight%3E%3C/feSpecularLighting%3E%3CfeColorMatrix type='saturate' values='0' x='0%25' y='0%25' width='100%25' height='100%25' in='specularLighting' result='colormatrix'%3E%3C/feColorMatrix%3E%3C/filter%3E%3C/defs%3E%3Crect width='700' height='700' fill='transparent'%3E%3C/rect%3E%3Crect width='700' height='700' fill='%23ffffff' filter='url(%23nnnoise-filter)'%3E%3C/rect%3E%3C/svg%3E`;
+	};
 
 	let t = setInterval(() => {
 		let n = Math.random() * (1.1 - 0.9) + 0.9;
 		noise_freq *= n;
-	}, 1000/6)
+	}, 1000 / 6);
 
-	// clearInterval(t)
+	clearInterval(t);
 
-	function get_noise(freq: number){
+	function get_noise(freq: number) {
 		return noise(freq);
 	}
 
@@ -29,27 +35,38 @@
 	};
 
 	function draggableHover(element: HTMLElement) {
-		let _x = x - hover_initial_x - (element.getBoundingClientRect().width/2);
+		let _x =
+			x - hover_initial_x - element.getBoundingClientRect().width / 2;
 		if (hover_initial_x == 0) return;
-		element.style.left = `${_x}px`
+		element.style.left = `${_x}px`;
+	}
+
+	function cn(class_array: string[], class_names?: string): string;
+	function cn(class_array: string[][], class_names?: string): string;
+	function cn(
+		class_array: string[][] | string[],
+		class_names?: string,
+	): string {
+		return `${class_array.flat().join(" ")} ${class_names || ""}`;
 	}
 
 	let c = {
-		noise:{
+		noise: {
 			css: [
 				"fixed",
 				"h-screen",
-				"invert-100",
+				// "invert-100",
 				"left-0",
 				"m-0",
-				"mix-blend-multiply",
-				"opacity-80",
+				// "mix-blend-luminosity",
+				"mix-blend-overlay",
+				"opacity-0",
 				"p-0",
 				"point-none",
 				"top-0",
 				"w-screen",
 				"z-100",
-			]
+			],
 		},
 		id_middle: {
 			clipper: {
@@ -99,14 +116,14 @@
 					"h-[5vw]",
 					"px-5",
 					"rounded-full",
-					"text-4xl",
+					// "text-4xl",
 					"text-center",
 					"text-gray-100",
 					"w-full",
 					"z-10",
 					"z-100",
-					// "shadow-blue-100",
-					// "shadow-md",
+					"shadow-blue-100",
+					"shadow-md",
 				],
 			},
 		},
@@ -120,67 +137,89 @@
 	}}
 />
 
-<div id="noise" class={c.noise.css.join(" ")} style='background-image:url("{get_noise(noise_freq)}");'></div>
+<div
+	id="noise"
+	class={c.noise.css.join(" ")}
+	style='background-image:url("{get_noise(noise_freq)}");'
+></div>
 
 <div
 	class="min-h-screen w-full grid grid-rows-[auto,1fr,auto] overflow-hidden text-gray-300]"
 >
 	<div class="">top</div>
-	<div class="m-[20vw]" id="middle">
+	<div id="middle" class="m-[20vw] [font-size:_clamp(1em,5vw,10em)]">
 		<div class="relative">
 			<input
 				type="text"
 				name=""
-				id=""
+				id="search_box"
 				placeholder="foo"
-				class={c.id_middle.input.css.concat(..."".split(" ")).join(" ")}
+				class={cn(c.id_middle.input.css)}
 			/>
 
+			<div class={cn(c.id_middle.input.css, "z-10 !shadow-none radial-noise")} style='--noise: url("{get_noise(0.2)}")'></div>
+
 			<!-- inner cursor light -->
-			<div class={c.id_middle.input.css
-					.concat(..."!z-20 overflow-hidden !p-0 !bg-orange-900/0 ".split(" "))
-					.join(" ")}
+			<div
+				id="inner_light_container"
+				class={cn(
+					c.id_middle.input.css,
+					"!z-20 overflow-hidden !p-0 !bg-orange-900/0",
+				)}
 			>
-				<div class={c.id_middle.input.css
-					.concat(..."overflow-hidden !p-0 !bg-black/100 -top-2 !z-11 blur-xs".split(" "))
-					.join(" ")}>
-				</div>
-				<div {@attach draggableHover} class={c.id_middle.clipper.hover.css
-					.concat(..."!bg-orange-600".split(" "))
-				.join(" ")}></div>
+				<div
+					id="inner_light_mask"
+					class={cn(
+						c.id_middle.input.css,
+						"overflow-hidden !p-0 !bg-black/100 -top-1 !z-11 blur-sm",
+					)}
+				></div>
+				<div
+					id="inner_light_highlight"
+					{@attach draggableHover}
+					class={cn(c.id_middle.clipper.hover.css, "!bg-orange-800")}
+				></div>
 			</div>
 
-			{@render clipped_cursor_glow()}
-			<div
-				id="back_glow"
-				class={c.id_middle.input.css
-					.concat(c.id_middle.back_glow.css)
-					.join(" ")}
-			>
-				{@render hidden_p()}
+			<div class={cn([c.id_middle.input.css, c.id_middle.clipper.css])}>
+				<div
+					{@attach draggableHover}
+					use:setInitialX
+					class={cn(c.id_middle.clipper.hover.css, "!bg-emerald-200")}
+				></div>
 			</div>
+
+			<!-- lower back flow -->
+			{@render div(
+				"back_glow",
+				cn([c.id_middle.input.css, c.id_middle.back_glow.css]),
+			)}
 		</div>
 	</div>
 	<div class="">bottom</div>
 </div>
 
-{#snippet hidden_p()}
-	<!-- <p class="opacity-0">.</p> -->
+{#snippet div(id: string, classes: string)}
+	<div {id} class={classes}></div>
 {/snippet}
 
-{#snippet clipped_cursor_glow()}
-	<div
-		class={c.id_middle.input.css
-			.concat(c.id_middle.clipper.css)
-			.join(" ")}
-	>
-		{@render hidden_p()}
-		<div
-			{@attach draggableHover}
-			use:setInitialX
-			class={c.id_middle.clipper.hover.css
-				.concat(..."!bg-emerald-200".split(" "))
-				.join(" ")}
-		></div>
-	</div>
-{/snippet}
+<style>
+	.test {
+		/* background-image: var(--noise); */
+		mask-image: var(--noise);
+		mask-repeat: repeat;
+		mask-size: 100px 100px;
+	}
+	.noise{
+		background-image: var(--noise);
+	}
+
+	.radial-noise{
+		background:
+			var(--noise);
+			/* radial-gradient(circle at center, rgb(255,255,255) 0%, #101828 100%); */
+		background-size: cover;
+		background-blend-mode: overlay;
+		mix-blend-mode: overlay;
+	}
+</style>
