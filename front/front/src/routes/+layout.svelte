@@ -12,3 +12,7 @@
 <main class="text-white min-h-screen min-w-screen flex justify-center items-center">
 	{@render children?.()}
 </main>
+
+<style>
+	
+</style>
