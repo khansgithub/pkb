@@ -1,18 +1,17 @@
 import Dexie, {type EntityTable} from 'dexie';
 
 interface Query{
-    id: number, 
-    query: string,
-    response: object
+    query: string, // PK
+    snippet_ids: Array<Number>
 }
 
 
 var db = new Dexie("db") as Dexie & {
-    queries: EntityTable<Query, 'id'>;
+    queries: EntityTable<Query, 'query'>;
 };
 
 db.version(1).stores({
-    queries: "++id, query, response"
+    queries: "$query"
 })
 
 export type {Query};
