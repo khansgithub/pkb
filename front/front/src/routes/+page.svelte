@@ -1,5 +1,5 @@
-<script lang="ts">
-	import SearchBox from "../lib/search_box.svelte";
+<!-- <script lang="ts">
+	import SearchBox from "$lib/search_box.svelte";
 </script>
 
 <div
@@ -13,4 +13,4 @@
 </div>
 
 <style>
-</style>
+</style> -->
