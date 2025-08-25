@@ -1,45 +1,51 @@
 <script lang="ts">
-    import { send } from "$lib/api";
+    import { cacheResponse, queryInDb, send, type Response } from "$lib/api";
     import { debounce } from "lodash-es"; // or write a small helper
     import { db, type Query } from "../../db";
-    import { cn } from "../../util.svelte";
+    import { cn } from "$lib/util.svelte";
 
-    var button_classes = [
-        "px-4",
-        "py-2",
-        "rounded-lg",
-        "bg-black",
-        "text-white",
-        "shadow-sm",
-        "shadow-blue-300/20",
-        "hover:shadow-orange-500",
-        "transition",
-    ];
+    const DEBOUNCE_T = 700;
+
+    var button_classes: Array<string> = `
+active:from-cyan-600
+active:to-orange-600
+bg-gradient-to-r
+from-indigo-500
+to-pink-500
+via-purple-500
+duration-300
+ease-out
+font-semibold
+hover:shadow-pink-500/40
+hover:shadow-sm
+px-6
+py-3
+rounded-2xl
+shadow-indigo-500/30
+shadow-xs
+text-white
+transition-all
+`.split(" ")
 
     var text = $state("");
-    var response = $state();
+    var response: Response = $state({} as Response);
 
     var i = 0;
 
     var d_send = debounce(async (q: string) => {
         console.log("debounce", i++);
-        try {
-            response = await send(q);
-            let row_id = await db.queries.add($state.snapshot(response));
-            console.log("Response:", $state.snapshot(response));
-            console.log("id", row_id);
-        } catch (e) {
-            console.error(e);
-        }
-    }, 700);
 
-    function f(e: Event) {
-        d_send(text);
-    }
+        console.log("Check cache");
+        let cached_query: Response | undefined;
+        if (cached_query = await queryInDb(q)) return cached_query
+
+        console.log("Send POST");
+        response = await send(q).then(cacheResponse);
+    }, DEBOUNCE_T);
 
     async function sync(e: MouseEvent){
         e.preventDefault();
-        await sync
+        
     }
 </script>
 
@@ -48,7 +54,7 @@
         <input
             id=""
             type="text"
-            oninput={f}
+            oninput={async _ => await d_send(text)}
             class="border-2"
             bind:value={text}
         />
@@ -56,7 +62,7 @@
         <p>Respones: {JSON.stringify(response)}</p>
     </div>
 
-    <div class="jw-full nplace-self-center">
+    <div class="w-full place-self-center">
         <button onclick={sync} class={cn(button_classes, "w-full")}> Sync </button>
     </div>
 </main>
