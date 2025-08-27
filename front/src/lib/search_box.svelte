@@ -7,22 +7,6 @@
 
     let hover_initial_x: number = $state(0);
 
-    function jitterInRange(
-        value: number,
-        step: number = 0.1,
-        min: number = 0.05,
-        max: number = 0.08,
-    ): number {
-        const delta = (Math.random() * 2 - 1) * step; // random between -step and +step
-        let result = value + delta;
-
-        // Clamp to [min, max]
-        if (result < min) result = min;
-        if (result > max) result = max;
-
-        return result;
-    }
-
     let t = updateNoiseInternal();
     clearInterval(t);
 

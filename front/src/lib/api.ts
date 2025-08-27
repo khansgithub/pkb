@@ -1,37 +1,46 @@
 import DOMPurify from 'dompurify';
 import { db, type Query } from '../db';
 import { BACKEND, ENDPOINTS } from './const';
+import { observeObject } from './debug';
 
 var sanitise = DOMPurify.sanitize;
 var base_url = (): URL => new URL(BACKEND)
 
-export interface Response extends Query { };
+// export interface Response extends Query { };
+
+export class Response implements Query{
+    query: string
+    snippet_ids: Number[];
+    constructor(query: string, snippets_id: Number[]){
+        this.query = query;
+        this.snippet_ids = snippets_id;
+        Object.freeze(this); // getting a strange error where dexie.put would change `this.query`
+    }
+}
 
 export async function send(query: string): Promise<Response> {
     let q: string = sanitise(query);
-
-    console.log("POST: ", q);
-
+    console.log("Sending POST with santisied query:", q);
     let url: URL = new URL(ENDPOINTS.query, base_url());
     url.searchParams.append("q", query);
 
     let res = await fetch(url, { method: "post" });
     if (!(res.status >= 200 && res.status < 300)) {}
-    let response = <Response> await res.json();
+    let response_json = await res.json() as Query;
+    let response = new Response(response_json.query, response_json.snippet_ids);
     console.log("Response: ", response || "Failed to parse response");
-
     return response;
 }
 
-export async function cacheResponse(res: Response) {
+export async function cacheResponse(response: Response): Promise<Response> {
+    console.log("Caching response");
     try {
-        let row_id = await db.queries.put(res);
-        console.log("Response:",);
-        console.log("id", row_id);
+        let row_id = await db.queries.put(response, response.query);
+        console.log("Cached. Row id:", row_id);
     } catch (err) {
-        console.error("error with putting response into queries")
+        console.error("error with putting response into queries table")
     }
-    return res;
+    return response;
 }
 
 export async function sync(): Promise<boolean> {

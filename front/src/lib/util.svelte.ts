@@ -1,6 +1,7 @@
 var noise_freq = $state(0.2);
 
-export function updateNoiseInternal(): number {
+// ReturnType<typeof setTimeout>
+export function updateNoiseInternal(): NodeJS.Timeout {
     let t = setInterval(() => {
         let n = Math.random() * (1 - -0.5) + -0.5;
         noise_freq += n;
@@ -106,3 +107,19 @@ export var c = {
         },
     },
 };
+
+export function jitterInRange(
+    value: number,
+    step: number = 0.1,
+    min: number = 0.05,
+    max: number = 0.08,
+): number {
+    const delta = (Math.random() * 2 - 1) * step; // random between -step and +step
+    let result = value + delta;
+
+    // Clamp to [min, max]
+    if (result < min) result = min;
+    if (result > max) result = max;
+
+    return result;
+}
