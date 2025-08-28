@@ -1,15 +1,17 @@
-    import { http, HttpResponse} from 'msw'
-import { type Query } from '../db';
+import { http, HttpResponse } from 'msw'
 import type { Response as R } from '$lib/api';
 import { BACKEND, ENDPOINTS } from '$lib/const';
+import { logger as app_logger } from '$lib/logger';
+
+const logger = app_logger.child({ service: 'msw' });
 
 let base = new URL(BACKEND);
 let u = (endpoint: string): string => {
     let url = new URL(endpoint, base).toString();
-    console.log("msw: Building url: ", url);
     return url;
 };
 
+// cors
 http.options('*', () => {
     return new Response(null, {
         status: 200,
@@ -21,26 +23,41 @@ http.options('*', () => {
     })
 });
 
-// i really don't understand how the parameters of `post` work...
-export const handlers = [
-    http.get(u("/*"), () => {
-        console.log("INTERCEPT");
-        return new HttpResponse();
-    }),
-    http.post(u(ENDPOINTS.query), async ({ request, params }) => {
+let query = http.post(
+    u(ENDPOINTS.query),
+    async ({ request, params }) => {
         const url = new URL(request.url)
         let query = url.searchParams.get("q");
         let response = <R>{
             "query": query,
             "snippet_ids": []
         };
-        console.log("msw: query", query);
-        console.log("msw: /query response:")
-        console.log("msw", response); 
+        logger.info(query, "query");
+        logger.info(response, "response");
 
         return HttpResponse.json(response);
-    }),
-    http.post(u(ENDPOINTS.sync), ({ request, params, cookies }) => {
+    }
+);
+
+let sync = http.post(
+    u(ENDPOINTS.sync),
+    async ({ request, params, cookies }) => {
+        let delay = 5000;
+        logger.info(delay, "Delay")
+        await new Promise(f => setTimeout(f, delay));
         return HttpResponse.json({});
+    }
+);
+
+let _handler = {
+    [ENDPOINTS.query]: query,
+    [ENDPOINTS.sync]: sync
+}
+
+export const handlers = [
+    http.get(u("/*"), () => {
+        logger.info("INTERCEPT");
+        return new HttpResponse();
     }),
+    ...Object.values(_handler)
 ];

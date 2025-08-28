@@ -2,6 +2,9 @@ import DOMPurify from 'dompurify';
 import { db, type Query } from '../db';
 import { BACKEND, ENDPOINTS } from './const';
 import { observeObject } from './debug';
+import { logger as app_logger } from './logger';
+
+const logger = app_logger.child({service: "api"});
 
 var sanitise = DOMPurify.sanitize;
 var base_url = (): URL => new URL(BACKEND)
@@ -20,7 +23,7 @@ export class Response implements Query{
 
 export async function send(query: string): Promise<Response> {
     let q: string = sanitise(query);
-    console.log("Sending POST with santisied query:", q);
+    logger.info("Sending POST with santisied query: " + q);
     let url: URL = new URL(ENDPOINTS.query, base_url());
     url.searchParams.append("q", query);
 
@@ -28,15 +31,15 @@ export async function send(query: string): Promise<Response> {
     if (!(res.status >= 200 && res.status < 300)) {}
     let response_json = await res.json() as Query;
     let response = new Response(response_json.query, response_json.snippet_ids);
-    console.log("Response: ", response || "Failed to parse response");
+    logger.info(response || {}, "Response");
     return response;
 }
 
 export async function cacheResponse(response: Response): Promise<Response> {
-    console.log("Caching response");
+    logger.info("Caching response");
     try {
         let row_id = await db.queries.put(response, response.query);
-        console.log("Cached. Row id:", row_id);
+        logger.info(["Cached. Row id: ", row_id]);
     } catch (err) {
         console.error("error with putting response into queries table")
     }
@@ -44,28 +47,28 @@ export async function cacheResponse(response: Response): Promise<Response> {
 }
 
 export async function sync(): Promise<boolean> {
-    console.log("Clear table")
+    logger.info("Clear table")
     let db_has_cleared = await clearTable();
-    console.log("Clear table:", db_has_cleared);
+    logger.info(["Clear table: ", db_has_cleared]);
 
-    console.log("Call sync endpoint");
+    logger.info("Call sync endpoint");
     let url: URL = new URL(ENDPOINTS.sync, base_url());
     let res = await fetch(url, { method: "post" });
     if (!(res.status >= 200 && res.status < 300)) {
         throw new Error("Failed")
     }
     // let response = <Response> await res.json();
-    // console.log("Response: ", response || "Failed to parse response");
+    // logger.info("Response: ", response || "Failed to parse response");
     // return response;
     return true;
 }
 
 async function clearTable(): Promise<boolean> {
-    console.log("Clearning database")
+    logger.info("Clearning database")
     await db.queries.clear();
     let table_count = await db.queries.count();
     let clear_success = table_count == 0;
-    console.log("row count = ", table_count);
+    logger.info(["row count = ", table_count]);
 
     if (!clear_success) {
         // error handle if the databse failed to clear

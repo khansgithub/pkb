@@ -1,14 +1,17 @@
 from abc import ABC, abstractmethod
 from enum import Enum
 from pathlib import Path
-from typing import Annotated, override
+from typing import Annotated, Never, override
 
 import pydantic
 import requests
 from markdown import Markdown
 
-from app.exceptions import (FailedGistFileOpenError, FailedGistParseError,
-                            FailedGistRequestError)
+from app.exceptions import (
+    FailedGistFileOpenError,
+    FailedGistParseError,
+    FailedGistRequestError,
+)
 from app.markdown import ParseMarkdown
 from app.utils import Index
 
@@ -23,14 +26,16 @@ class SnippetLanguages(Enum):
 
 class Snippet(pydantic.BaseModel):
     language: SnippetLanguages | str
-    code: str
+    # code: str
+    code: list[str]
     details: Annotated[list[str], pydantic.Field(min_length=1)]
+    title: str
 
     def __str__(self) -> str:
         # r = f"{self.language} {self.code} {' '.join([s for s in self.details])}"
         # r = f"{self.language} {' '.join([s for s in self.details])}"
         r = self.code
-        return r
+        return self.model_dump_json()
         # return details + " ".join(
         #     [str(v) for k, v in self.model_dump().items() if k != "details"]
         # )
@@ -41,7 +46,6 @@ class SnippetSource(ABC):
     async def get_snippets(self) -> list[Snippet]: ...
 
 
-# TODO
 class SnippetSourceGist(SnippetSource):
     gist_id: str
     comments_endpoint = "comments"
@@ -90,13 +94,13 @@ class SnippetSourceFile(SnippetSource):
 
     async def get_snippets(self) -> list[Snippet]:
         try:
-            lines = open(self.path, "r", encoding="utf-8").readlines()
+            lines = open(self.path, "r", encoding="utf-8").read()
         except Exception as err:
             raise FailedGistFileOpenError(
                 f"Could not load / read file ({self.path=})"
             ) from err
 
-        parser = ParseMardownAsSnippets("\n".join(lines))
+        parser = ParseMardownAsSnippets(lines)
         parser.parse_markdown()
         snippets = parser._snippets
         return snippets
@@ -108,23 +112,18 @@ class SnippetSourceRaw(SnippetSource):
         return [
             Snippet(
                 language=SnippetLanguages.python,
-                code="...",
+                code=["..."],
                 details=["first line of details", "second line of details"],
+                title="foo / bar"
             ),
             Snippet(
                 language=SnippetLanguages.python,
-                code=r"set FILE=config.py && isort %FILE%  && black %FILE% && ruff check %FILE% --fix  && mypy %FILE%",
-                details=["lint + formatting", "poetry add -D black ruff pylint isort"],
-            ),
-            Snippet(
-                language=SnippetLanguages.python,
-                code="""""",
-                details=["mock all missing imports dynamically"],
-            ),
-            Snippet(
-                language=SnippetLanguages.python,
-                code="""""",
-                details=["server event stream in django"],
+                code=[
+                    r"poetry add -D black ruff pylint isort",
+                    r"set FILE=config.py && isort %FILE%  && black %FILE% && ruff check %FILE% --fix  && mypy %FILE%"
+                ],
+                details=[],
+                title="python / lint + formatting"
             ),
         ]
 
@@ -137,14 +136,24 @@ class ParseMardownAsSnippets(ParseMarkdown):
         super().__init__(raw_text)
 
     @override
-    def parse_codeblock_end(
-        self, guess_code_language: bool, code_block: list[str], section_index: Index
-    ) -> None:
-        """ """
-        snippet = Snippet(
-            language=code_block[0],
-            code="\n".join(code_block[1:]),
-            details=self._get_headings(section_index),
-        )
+    def new_section(self, current_section) -> list[Never]:
+        if len(current_section) != 0:
+            import ipdb; ipdb.set_trace()
+        return super().new_section(current_section)
 
-        self._snippets.append(snippet)
+    # @override
+    # def parse_codeblock_end(
+    #     self, guess_code_language: bool, code_block: list[str], section_index: Index
+    # ) -> None:
+    #     """ """
+    #     section = self.get_deepest_section(self.get_root(section_index), section_index)
+    #     print(section)
+    #     if len(section) != 0:
+    #         import ipdb; ipdb.set_trace()
+    #     snippet = Snippet(
+    #         language=code_block[0],
+    #         code="\n".join(code_block[1:]),
+    #         details=self._get_headings(section_index),
+    #     )
+
+    #     self._snippets.append(snippet)
