@@ -9,22 +9,25 @@ from app import exceptions
 from app.app_logging import logger
 from app.utils import Index
 
+class SectionTracker(SimpleNamespace):
+    level: int = 0
+    index: Index = Index()
+    current: list[Any] = []
 
 class ParseMarkdown:
     raw_text: str
     _root: dict[str, list[Any]]
-    _last = "_last"
-    _llm = OllamaLLM(model="mistral")
-    _prompt = (
-        "I will give you a code block, and you will take a guess as to what language or DSL the code is in. "
-        "Give me a single word answer, do not give me any further explanation at all."
-        r"If you do not have 100% certainity of the language, reply with 'plaintext'."
-        "I will also provide you with some text as context, to help you make a more accurate guess."
-        "Use the context to take a educated guess."
-        r"Respond in json, in the following format: {{'prediction' : '<put your prediction here>'}}"
-        r"code block: \n\n{code}"
-        r"context: {path}"
-    )
+    # _llm = OllamaLLM(model="mistral")
+    # _prompt = (
+    #     "I will give you a code block, and you will take a guess as to what language or DSL the code is in. "
+    #     "Give me a single word answer, do not give me any further explanation at all."
+    #     r"If you do not have 100% certainity of the language, reply with 'plaintext'."
+    #     "I will also provide you with some text as context, to help you make a more accurate guess."
+    #     "Use the context to take a educated guess."
+    #     r"Respond in json, in the following format: {{'prediction' : '<put your prediction here>'}}"
+    #     r"code block: \n\n{code}"
+    #     r"context: {path}"
+    # )
 
     def __init__(self, raw_text: str) -> None:
         self.raw_text = raw_text
@@ -58,48 +61,48 @@ class ParseMarkdown:
             i += 1
         return traverse
 
-    def _guess_codeblock_language(self, codeblock: list[str], path: str) -> str:
-        code = r"\n".join(codeblock)
-        language_guess = self._llm.invoke(self._prompt.format(code=code, path=path))
+    # def _guess_codeblock_language(self, codeblock: list[str], path: str) -> str:
+    #     code = r"\n".join(codeblock)
+    #     language_guess = self._llm.invoke(self._prompt.format(code=code, path=path))
 
-        lg_match = re.search("{(.*?)}", language_guess)
-        if lg_match:
-            lg_json: str = lg_match.group()
-            try:
-                lg_json = lg_json.replace("'", '"').lower()
-                logger.debug("parsing: ", lg_json)
-                lg_dict: dict[str, str] = json.loads(lg_json)
-                language_guess = lg_dict.get("prediction", "")
-            except (json.JSONDecodeError, TypeError):
-                logger.error(f"Failed to guess codeblock language. {language_guess=}")
-                language_guess = ""
+    #     lg_match = re.search("{(.*?)}", language_guess)
+    #     if lg_match:
+    #         lg_json: str = lg_match.group()
+    #         try:
+    #             lg_json = lg_json.replace("'", '"').lower()
+    #             logger.debug("parsing: ", lg_json)
+    #             lg_dict: dict[str, str] = json.loads(lg_json)
+    #             language_guess = lg_dict.get("prediction", "")
+    #         except (json.JSONDecodeError, TypeError):
+    #             logger.error(f"Failed to guess codeblock language. {language_guess=}")
+    #             language_guess = ""
 
-        logger.debug(f"{language_guess=}")
-        return language_guess or ""
+    #     logger.debug(f"{language_guess=}")
+    #     return language_guess or ""
 
-    def guess_codeblock_language(
-        self, codeblock: list[str], section_index: Index, n: int = 5
-    ) -> str | None:
+    # def guess_codeblock_language(
+    #     self, codeblock: list[str], section_index: Index, n: int = 5
+    # ) -> str | None:
 
-        # get the title of all the headings and concat it
-        path = ", ".join(self._get_headings(section_index))
+    #     # get the title of all the headings and concat it
+    #     path = ", ".join(self._get_headings(section_index))
 
-        freq: dict[str, int] = {}
-        max_freq_count = 0
-        max_freq_word = ""
-        for attempt in range(n):
-            guess = self._guess_codeblock_language(codeblock, path)
-            if not guess:
-                continue
+    #     freq: dict[str, int] = {}
+    #     max_freq_count = 0
+    #     max_freq_word = ""
+    #     for attempt in range(n):
+    #         guess = self._guess_codeblock_language(codeblock, path)
+    #         if not guess:
+    #             continue
 
-            freq.setdefault(guess, 0)
-            freq[guess] += 1
-            count = freq[guess]
+    #         freq.setdefault(guess, 0)
+    #         freq[guess] += 1
+    #         count = freq[guess]
 
-            if count > max_freq_count:
-                max_freq_word = guess
-        logger.debug(freq)
-        return max_freq_word or None
+    #         if count > max_freq_count:
+    #             max_freq_word = guess
+    #     logger.debug(freq)
+    #     return max_freq_word or None
 
     def get_codeblock_language(self, line: str, section_index: Index) -> str | None:
         """
@@ -117,17 +120,17 @@ class ParseMarkdown:
         return code_block_language or None
 
     def parse_codeblock_end(
-        self, guess_code_language: bool, code_block: list[str], section_index: Index
+        self, code_block: list[str], section_index: Index
     ) -> None:
         """
         Updates code_block[0] with the codeblocks language, guessed by an llm
         """
-        if not guess_code_language:
-            return
-        code_block_language = ""
-        code_block_language = (
-            self.guess_codeblock_language(code_block, section_index) or "plaintext"
-        )
+        # if not guess_code_language:
+        #     return
+        code_block_language = "plaintext"
+        # code_block_language = (
+        #     self.guess_codeblock_language(code_block, section_index) or "plaintext"
+        # )
 
         code_block[0] = code_block_language
 
@@ -136,19 +139,13 @@ class ParseMarkdown:
         line_is_heading = lambda line: line[0] == "#"
         line_is_codeblock = lambda line: line.startswith("```")
 
-        class SectionTracker(SimpleNamespace):
-            level: int = 0
-            index: Index = Index()
-            current: list[Any] = []
-
         section_tracker = SectionTracker()
-        ########################################################################
 
         # code block parsing ###################################################
         is_code_block = False
         code_block_language = ""
         code_block = []
-        guess_code_language = False
+        # guess_code_language = False
         ########################################################################
 
         for line in self.raw_text.splitlines():
@@ -164,7 +161,7 @@ class ParseMarkdown:
                         self.get_codeblock_language(line, section_tracker.index) or ""
                     )
 
-                    guess_code_language = not code_block_language
+                    # guess_code_language = not code_block_language
 
                     code_block = [code_block_language or section_tracker.index[1]]
 
@@ -172,7 +169,7 @@ class ParseMarkdown:
                     # end ``` of code block
                     is_code_block = False
                     self.parse_codeblock_end(
-                        guess_code_language, code_block, section_tracker.index
+                        code_block, section_tracker.index
                     )
                     section_tracker.current.append(code_block)
 
