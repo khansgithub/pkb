@@ -5,7 +5,6 @@ from typing import Annotated, Never, override
 
 import pydantic
 import requests
-from markdown import Markdown
 
 from app.exceptions import (
     FailedGistFileOpenError,
@@ -14,6 +13,8 @@ from app.exceptions import (
 )
 from app.markdown import ParseMarkdown
 from app.utils import Index
+from app.app_logging import logger
+logger = logger.getChild(__name__)
 
 
 class SnippetLanguages(Enum):
@@ -27,7 +28,7 @@ class SnippetLanguages(Enum):
 class Snippet(pydantic.BaseModel):
     language: SnippetLanguages | str
     # code: str
-    code: list[str]
+    code: list[str] | str
     details: Annotated[list[str], pydantic.Field(min_length=1)]
     title: str
 
@@ -138,22 +139,25 @@ class ParseMardownAsSnippets(ParseMarkdown):
     @override
     def new_section(self, current_section) -> list[Never]:
         if len(current_section) != 0:
-            import ipdb; ipdb.set_trace()
+            pass
+            # import ipdb; ipdb.set_trace()
         return super().new_section(current_section)
 
-    # @override
-    # def parse_codeblock_end(
-    #     self, guess_code_language: bool, code_block: list[str], section_index: Index
-    # ) -> None:
-    #     """ """
-    #     section = self.get_deepest_section(self.get_root(section_index), section_index)
-    #     print(section)
-    #     if len(section) != 0:
-    #         import ipdb; ipdb.set_trace()
-    #     snippet = Snippet(
-    #         language=code_block[0],
-    #         code="\n".join(code_block[1:]),
-    #         details=self._get_headings(section_index),
-    #     )
+    @override
+    def parse_codeblock_end(
+        self, guess_code_language: bool, code_block: list[str], section_index: Index
+    ) -> None:
+        """ """
+        section = self.get_deepest_section(self.get_root(section_index), section_index)
+        print(section)
+        if len(section) != 0:
+            pass
+            # import ipdb; ipdb.set_trace()
+        snippet = Snippet(
+            language=code_block[0],
+            code="\n".join(code_block[1:]),
+            details=self._get_headings(section_index),
+            title=section_index[1],
+        )
 
-    #     self._snippets.append(snippet)
+        self._snippets.append(snippet)

@@ -405,5 +405,412 @@
             "kotlin vscode tasks"
         ],
         "title": "kotlin"
+    },
+    {
+        "language": "bash",
+        "code": "git config --global user.email \"you@example.com\"\ngit config --global user.name \"Your Name\"",
+        "details": [
+            "git",
+            "global user.email user.name"
+        ],
+        "title": "git"
+    },
+    {
+        "language": "bash",
+        "code": "su -s /bin/bash <user>",
+        "details": [
+            "git",
+            "global user.email user.name",
+            "switch user and choose which shell to use"
+        ],
+        "title": "git"
+    },
+    {
+        "language": "bash",
+        "code": "git config --global credential.helper cache\ngit config --local credential.helper cache\ngit config --global --unset credential.helper",
+        "details": [
+            "git",
+            "global user.email user.name",
+            "credential cache helper"
+        ],
+        "title": "git"
+    },
+    {
+        "language": "bash",
+        "code": "git clone https://bitbucket.org/<repo>.git --config credential.helper=",
+        "details": [
+            "git",
+            "global user.email user.name",
+            "disable credential helper for single command"
+        ],
+        "title": "git"
+    },
+    {
+        "language": "bash",
+        "code": "ls /run/service/",
+        "details": [
+            "s6",
+            "list services"
+        ],
+        "title": "s6"
+    },
+    {
+        "language": "bash",
+        "code": "s6-svc -r /run/service/svc-openssh-server",
+        "details": [
+            "s6",
+            "restart service"
+        ],
+        "title": "s6"
+    },
+    {
+        "language": "bash",
+        "code": "curl -fsSL https://get.docker.com -o get-docker.sh\nsh get-docker.sh\nsudo usermod -aG docker $USER\nnewgrp docker",
+        "details": [
+            "docker",
+            "get docker"
+        ],
+        "title": "docker"
+    },
+    {
+        "language": "shell",
+        "code": "docker ps -a --format \"{{.Names}}\" ",
+        "details": [
+            "docker",
+            "list containers by name"
+        ],
+        "title": "docker"
+    },
+    {
+        "language": "shell",
+        "code": "docker run \\\n    ...\n    --health-cmd \"set -e;  nc -zv localhost 22; if [ $? -eq 0 ]; then exit 0; else exit 1; fi\" \\\n    --health-interval=10s \n    ...",
+        "details": [
+            "docker",
+            "basic health check "
+        ],
+        "title": "docker"
+    },
+    {
+        "language": "bash",
+        "code": "# set to working version\nDOCKER_API_VERSION=1.41",
+        "details": [
+            "docker",
+            "troubleshooting",
+            "Error response from daemon: client version 1.40 is too new..."
+        ],
+        "title": "docker"
+    },
+    {
+        "language": "docker",
+        "code": "docker ps --format \"{{printf \\\"%-30s %-20s\\\" .Names .Status}}\"",
+        "details": [
+            "docker",
+            "etc",
+            "docker ps name and status format"
+        ],
+        "title": "docker"
+    },
+    {
+        "language": "docker",
+        "code": "watch 'docker ps --format \"{{printf \\\"%-30s %-20s\\\" .Names .Status}}\"'",
+        "details": [
+            "docker",
+            "etc",
+            "docker ps name and status format"
+        ],
+        "title": "docker"
+    },
+    {
+        "language": "python",
+        "code": "# foo.py\nimport foo.bar\nfoo.bar.foobar()",
+        "details": [
+            "python",
+            "monkeytype add type hints"
+        ],
+        "title": "python"
+    },
+    {
+        "language": "python",
+        "code": "monkeytype run foo.py\n...\nmonkeytype apply foo.bar",
+        "details": [
+            "python",
+            "monkeytype add type hints"
+        ],
+        "title": "python"
+    },
+    {
+        "language": "python",
+        "code": "import ipdb\nipdb.set_trace()",
+        "details": [
+            "python",
+            "interactive pdb"
+        ],
+        "title": "python"
+    },
+    {
+        "language": "python",
+        "code": "├── README\n├── pyproject.toml\n├── setup.py\n└── src\n    └── foobar\n        └── __init__.py",
+        "details": [
+            "python",
+            "module structure"
+        ],
+        "title": "python"
+    },
+    {
+        "language": "python",
+        "code": "[build-system]\nrequires = [\"setuptools>=61.0\"]\nbuild-backend = \"setuptools.build_meta\"",
+        "details": [
+            "python",
+            "module structure",
+            "pyproject.toml"
+        ],
+        "title": "python"
+    },
+    {
+        "language": "python",
+        "code": "#! /usr/bin/env python\nfrom setuptools import setup\nif __name__ == \"__main__\":\n    setup()",
+        "details": [
+            "python",
+            "module structure",
+            "setup.py"
+        ],
+        "title": "python"
+    },
+    {
+        "language": "bash",
+        "code": "pip install --editable .\npip install -e .",
+        "details": [
+            "python",
+            "install module develop mode"
+        ],
+        "title": "python"
+    },
+    {
+        "language": "golang",
+        "code": "value, exists := foo[\"bar\"]\nif (!exists) {}",
+        "details": [
+            "go",
+            "safe map look up"
+        ],
+        "title": "go"
+    },
+    {
+        "language": "bash",
+        "code": "# https://go.dev/doc/install\nwget <tar_from_https://go.dev/doc/install>\nrm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz\nsudo ln -s /usr/local/go/bin/go /usr/bin/go\n#sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz",
+        "details": [
+            "go",
+            "get go"
+        ],
+        "title": "go"
+    },
+    {
+        "language": "bash",
+        "code": "# view jobs\njobs\n# send job to background and stop\nctrl  + z\n# resume background job\nbg [job id]\n# switch to job\nfg [job id]\n# run command as background job\ntail -f log.txt &",
+        "details": [
+            "linux",
+            "jobs"
+        ],
+        "title": "linux"
+    },
+    {
+        "language": "bash",
+        "code": "cd -P ./sym-link-dir",
+        "details": [
+            "linux",
+            "cd follow sym link"
+        ],
+        "title": "linux"
+    },
+    {
+        "language": "bash",
+        "code": "sudo netstat -tunlp",
+        "details": [
+            "linux",
+            "list all listening ports and associated services"
+        ],
+        "title": "linux"
+    },
+    {
+        "language": "bash",
+        "code": "stat -c %a foo.txt",
+        "details": [
+            "linux",
+            "get umask"
+        ],
+        "title": "linux"
+    },
+    {
+        "language": "tmux",
+        "code": "        new window - CTRL + b + c\n     switch window - CTRL + b + [0-9]+\n  vertical split | - CTRL + b + %\n horizonal split _ - CTRL + b + \"\n   navigate panels - CTRL + b + ↑ / ↓ / ← / →",
+        "details": [
+            "tmux",
+            "basics"
+        ],
+        "title": "tmux"
+    },
+    {
+        "language": "tmux",
+        "code": "CTRL + B + ,",
+        "details": [
+            "tmux",
+            "rename window / pane",
+            "window"
+        ],
+        "title": "tmux"
+    },
+    {
+        "language": "tmux",
+        "code": "CTRL + B + :\nselect-pane -T <PANE NAME>",
+        "details": [
+            "tmux",
+            "rename window / pane",
+            "pane"
+        ],
+        "title": "tmux"
+    },
+    {
+        "language": "tmux",
+        "code": "CTRL + b + d",
+        "details": [
+            "tmux",
+            "session",
+            "minimise session"
+        ],
+        "title": "tmux"
+    },
+    {
+        "language": "tmux",
+        "code": "tmux a",
+        "details": [
+            "tmux",
+            "session",
+            "attach to running session"
+        ],
+        "title": "tmux"
+    },
+    {
+        "language": "redis",
+        "code": "redis-cli",
+        "details": [
+            "redis"
+        ],
+        "title": "redis"
+    },
+    {
+        "language": "redis",
+        "code": "keys * ",
+        "details": [
+            "redis",
+            "list keys"
+        ],
+        "title": "redis"
+    },
+    {
+        "language": "redis",
+        "code": "xrange <key> - + ",
+        "details": [
+            "redis",
+            "read stream"
+        ],
+        "title": "redis"
+    },
+    {
+        "language": "redis",
+        "code": "#             < query >\nredis-cli keys rq:res* | awk '{print $1}' | xargs redis-cli del",
+        "details": [
+            "redis",
+            "find keys and pipe to delete"
+        ],
+        "title": "redis"
+    },
+    {
+        "language": "curl",
+        "code": "curl localhost:3000/workflow -X POST  -H 'Content-Type: application/json' --data-binary \"@data.json\"",
+        "details": [
+            "curl",
+            "pass file to curl as data"
+        ],
+        "title": "curl"
+    },
+    {
+        "language": "nodejs",
+        "code": "export NODE_PATH=$(npm root --quiet -g)",
+        "details": [
+            "nodejs",
+            "set NODE_PATH"
+        ],
+        "title": "nodejs"
+    },
+    {
+        "language": "nodejs",
+        "code": "/home/node/app/node_modules/.bin",
+        "details": [
+            "nodejs",
+            "node_modules bin dir"
+        ],
+        "title": "nodejs"
+    },
+    {
+        "language": "typescript",
+        "code": "sudo apt-get update\nsudo apt-get install -y ca-certificates curl gnupg\nsudo mkdir -p /etc/apt/keyrings\ncurl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg\nsudo chmod 644 /etc/apt/keyrings/nodesource.gpg\nsudo apt-get update\nsudo apt-get install nodejs -y\nsudo npm install -g typescript\nsudo chwon ubuntu -R /usr/lib/node_modules/typescript \nsudo chwon ubuntu /usr/lib/node_modules/typescript",
+        "details": [
+            "typescript",
+            "installing on corp VM"
+        ],
+        "title": "typescript"
+    },
+    {
+        "language": "typescript",
+        "code": "// launch.json\n{\n    \"type\": \"node\",\n    \"request\": \"launch\",\n    \"name\": \"ts debug\",\n    \"skipFiles\": [\"<node_internals>/**\"],\n    \"program\": \"${workspaceFolder}/src/index.ts\",\n    \"runtimeArgs\": [\"-r\", \"ts-node/register\", \"-r\", \"tsconfig-paths/register\"],\n    \"console\": \"internalConsole\"\n}\n// tsconfig.json\n{\n    \"sourceMap\": true    \n}",
+        "details": [
+            "typescript",
+            "debug in vscode"
+        ],
+        "title": "typescript"
+    },
+    {
+        "language": "javascript",
+        "code": "// /package.json\n{\n    \"scripts\": {\n        \"start\": \"nodemon ./src/index.ts\"\n    },\n    \"nodemonConfig\": {\n        \"exec\": \"tsc && ts-node .\",\n        \"ext\": \"ts\"\n    }\n}\n// /src/tsconfig.json\n{\n    ...\n    \"include\": [\"./src/frontend/foobar.ts\"]\n}\n// /src/frontend/tsconfig.json\n{\n    \"compilerOptions\": {\n        \"module\": \"ES6\",\n        \"target\": \"ES2017\",\n        \"outFile\": \"./foobar.js\",\n        \"rootDir\": \".\",\n        \"sourceMap\": true,\n        \"noEmit\": false\n    }\n}",
+        "details": [
+            "typescript",
+            "transpile multile ts files"
+        ],
+        "title": "typescript"
+    },
+    {
+        "language": "js",
+        "code": "var html_to_insert = \"<p>New paragraph</p>\";\n// with .innerHTML, destroys event listeners\ndocument.getElementById('mydiv').innerHTML += html_to_insert;\n// with .insertAdjacentHTML, preserves event listeners\ndocument.getElementById('mydiv').insertAdjacentHTML('beforeend', html_to_insert);",
+        "details": [
+            "stupid front end stuff",
+            "appending innerHTML breaks all event listeners"
+        ],
+        "title": "stupid front end stuff"
+    },
+    {
+        "language": "json",
+        "code": "// example file\n// .vscode/tasks.json\n{\n\t\"version\": \"2.0.0\",\n\t\"inputs\": [\n\t\t{\n\t\t\t\"id\": \"imageName\",\n\t\t\t\"type\": \"promptString\",\n\t\t\t\"description\": \"Enter the image name\",\n\t\t\t\"default\": \"my-container-image\"\n\t\t},\n\t],\n\t\"tasks\": [\n\t\t{\n\t\t\t\"type\": \"typescript\",\n\t\t\t\"tsconfig\": \"portal/client/tsconfig.json\",\n\t\t\t\"problemMatcher\": [\n\t\t\t\t\"$tsc\"\n\t\t\t],\n\t\t\t\"group\": \"build\",\n\t\t\t\"label\": \"tsc: build - portal/client/tsconfig.json\"\n\t\t},\n\t\t{\n\t\t\t\"label\": \"Build Image\",\n\t\t\t\"type\": \"shell\",\n\t\t\t\"command\": \"podman\",\n\t\t\t\"args\": [\n\t\t\t\t\"build\",\n\t\t\t\t\"-f\",\n\t\t\t\t\"${file}\",\n\t\t\t\t\"-t\",\n\t\t\t\t\"${input:imageName}:${input:imageTag}\"\n\t\t\t],\n\t\t\t\"group\": {\n\t\t\t\t\"kind\": \"build\"\n\t\t\t}\n\t\t}\n\t]\n}",
+        "details": [
+            "vs code",
+            "custom tasks"
+        ],
+        "title": "vs code"
+    },
+    {
+        "language": "bash",
+        "code": "kubectl rollout restart deployment/core-service  -n osna ",
+        "details": [
+            "k8",
+            "restart deployment"
+        ],
+        "title": "k8"
+    },
+    {
+        "language": "json",
+        "code": "{\n    \"version\": \"2.0.0\",\n    \"tasks\": [\n        {\n            \"label\": \"Build Kotlin File with Kotlinc\",\n            \"type\": \"shell\",\n            \"command\": \"kotlinc ${file} -include-runtime -d ${fileBasenameNoExtension}.jar\",\n            \"group\": {\n                \"kind\": \"build\",\n                \"isDefault\":  \"**/*.kt\"\n            },\n            \"problemMatcher\": [],\n            \"windows\": {\n                \"command\": \"kotlinc ${file} -include-runtime -d ${fileBasenameNoExtension}.jar\"\n            },\n            \"presentation\": {\n                \"echo\": true,\n                \"reveal\": \"always\",\n                \"focus\": false,\n                \"panel\": \"shared\"\n            }\n        },\n        {\n            \"label\": \"Build Kotiln Gradle project\",\n            \"type\": \"shell\",\n            \"command\": \"IF EXIST gradlew.bat (gradlew build -x test) ELSE (echo 'gradlew.bat not found in the project root' && exit /b 1)\",\n            \"options\": {\n                \"cwd\": \"${workspaceFolder}\"\n            },\n            \"problemMatcher\": [],\n            \"group\": {\n                \"kind\": \"build\",\n                \"isDefault\": false\n            }\n        },\n        {\n            \"label\": \"Run Kotiln Gradle project\",\n            \"type\": \"shell\",\n            \"command\": \"IF EXIST gradlew.bat (gradlew  run) ELSE (echo 'gradlew.bat not found in the project root' && exit /b 1)\",\n            \"options\": {\n                \"cwd\": \"${workspaceFolder}\"\n            },\n            \"problemMatcher\": [],\n            \"group\":{\n                \"kind\": \"run\"\n            }\n        }\n    ]\n}",
+        "details": [
+            "kotlin",
+            "kotlin vscode tasks"
+        ],
+        "title": "kotlin"
     }
 ]

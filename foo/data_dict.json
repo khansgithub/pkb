@@ -1,0 +1,708 @@
+{
+    "contents": [
+        "- [git](#git)",
+        "- [s6](#s6)",
+        "- [docker](#docker)",
+        "- [python](#python)",
+        "- [go](#go)",
+        "- [linux](#linux)",
+        "- [tmux](#tmux)",
+        "- [redis](#redis)",
+        "- [curl](#curl)",
+        "- [nodejs](#nodejs)",
+        "- [typescript](#typescript)",
+        "- [stupid front end stuff](#stupidfrontendstuff)",
+        "- [vs code](#vscode)",
+        "- [k8](#k8)",
+        "- [kotlin](#kotlin)",
+        "---"
+    ],
+    "git": [
+        {
+            "_": [
+                {
+                    "global user.email user.name": [
+                        [
+                            "bash",
+                            "git config --global user.email \"you@example.com\"",
+                            "git config --global user.name \"Your Name\""
+                        ],
+                        {
+                            "switch user and choose which shell to use": [
+                                [
+                                    "bash",
+                                    "su -s /bin/bash <user>"
+                                ]
+                            ]
+                        },
+                        {
+                            "credential cache helper": [
+                                [
+                                    "bash",
+                                    "git config --global credential.helper cache",
+                                    "git config --local credential.helper cache",
+                                    "git config --global --unset credential.helper"
+                                ]
+                            ]
+                        },
+                        {
+                            "disable credential helper for single command": [
+                                [
+                                    "bash",
+                                    "git clone https://bitbucket.org/<repo>.git --config credential.helper="
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "s6": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "list services": [
+                                [
+                                    "bash",
+                                    "ls /run/service/"
+                                ]
+                            ]
+                        },
+                        {
+                            "restart service": [
+                                [
+                                    "bash",
+                                    "s6-svc -r /run/service/svc-openssh-server"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "docker": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "get docker": [
+                                [
+                                    "bash",
+                                    "curl -fsSL https://get.docker.com -o get-docker.sh",
+                                    "sh get-docker.sh",
+                                    "sudo usermod -aG docker $USER",
+                                    "newgrp docker"
+                                ]
+                            ]
+                        },
+                        {
+                            "list containers by name": [
+                                [
+                                    "shell",
+                                    "docker ps -a --format \"{{.Names}}\" "
+                                ]
+                            ]
+                        },
+                        {
+                            "basic health check ": [
+                                [
+                                    "shell",
+                                    "docker run \\",
+                                    "    ...",
+                                    "    --health-cmd \"set -e;  nc -zv localhost 22; if [ $? -eq 0 ]; then exit 0; else exit 1; fi\" \\",
+                                    "    --health-interval=10s ",
+                                    "    ..."
+                                ]
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "troubleshooting": [
+                        {
+                            "Error response from daemon: client version 1.40 is too new...": [
+                                [
+                                    "bash",
+                                    "# set to working version",
+                                    "DOCKER_API_VERSION=1.41"
+                                ]
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "etc": [
+                        {
+                            "docker ps name and status format": [
+                                [
+                                    "docker",
+                                    "docker ps --format \"{{printf \\\"%-30s %-20s\\\" .Names .Status}}\""
+                                ],
+                                [
+                                    "docker",
+                                    "watch 'docker ps --format \"{{printf \\\"%-30s %-20s\\\" .Names .Status}}\"'"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "python": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "monkeytype add type hints": [
+                                [
+                                    "python",
+                                    "# foo.py",
+                                    "import foo.bar",
+                                    "foo.bar.foobar()"
+                                ],
+                                [
+                                    "python",
+                                    "monkeytype run foo.py",
+                                    "...",
+                                    "monkeytype apply foo.bar"
+                                ]
+                            ]
+                        },
+                        {
+                            "interactive pdb": [
+                                [
+                                    "python",
+                                    "import ipdb",
+                                    "ipdb.set_trace()"
+                                ]
+                            ]
+                        },
+                        {
+                            "module structure": [
+                                "_https://ianhopkinson.org.uk/2022/02/understanding-setup-py-setup-cfg-and-pyproject-toml-in-python/_",
+                                [
+                                    "python",
+                                    "├── README",
+                                    "├── pyproject.toml",
+                                    "├── setup.py",
+                                    "└── src",
+                                    "    └── foobar",
+                                    "        └── __init__.py"
+                                ],
+                                {
+                                    "pyproject.toml": [
+                                        [
+                                            "python",
+                                            "[build-system]",
+                                            "requires = [\"setuptools>=61.0\"]",
+                                            "build-backend = \"setuptools.build_meta\""
+                                        ]
+                                    ]
+                                },
+                                {
+                                    "setup.py": [
+                                        [
+                                            "python",
+                                            "#! /usr/bin/env python",
+                                            "from setuptools import setup",
+                                            "if __name__ == \"__main__\":",
+                                            "    setup()"
+                                        ]
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "install module develop mode": [
+                                [
+                                    "bash",
+                                    "pip install --editable .",
+                                    "pip install -e ."
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "go": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "safe map look up": [
+                                [
+                                    "golang",
+                                    "value, exists := foo[\"bar\"]",
+                                    "if (!exists) {}"
+                                ]
+                            ]
+                        },
+                        {
+                            "get go": [
+                                [
+                                    "bash",
+                                    "# https://go.dev/doc/install",
+                                    "wget <tar_from_https://go.dev/doc/install>",
+                                    "rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz",
+                                    "sudo ln -s /usr/local/go/bin/go /usr/bin/go",
+                                    "#sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "linux": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "jobs": [
+                                [
+                                    "bash",
+                                    "# view jobs",
+                                    "jobs",
+                                    "# send job to background and stop",
+                                    "ctrl  + z",
+                                    "# resume background job",
+                                    "bg [job id]",
+                                    "# switch to job",
+                                    "fg [job id]",
+                                    "# run command as background job",
+                                    "tail -f log.txt &"
+                                ]
+                            ]
+                        },
+                        {
+                            "cd follow sym link": [
+                                [
+                                    "bash",
+                                    "cd -P ./sym-link-dir"
+                                ]
+                            ]
+                        },
+                        {
+                            "list all listening ports and associated services": [
+                                [
+                                    "bash",
+                                    "sudo netstat -tunlp"
+                                ]
+                            ]
+                        },
+                        {
+                            "get umask": [
+                                [
+                                    "bash",
+                                    "stat -c %a foo.txt"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "tmux": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "basics": [
+                                [
+                                    "tmux",
+                                    "        new window - CTRL + b + c",
+                                    "     switch window - CTRL + b + [0-9]+",
+                                    "  vertical split | - CTRL + b + %",
+                                    " horizonal split _ - CTRL + b + \"",
+                                    "   navigate panels - CTRL + b + ↑ / ↓ / ← / →"
+                                ]
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "rename window / pane": [
+                        {
+                            "window": [
+                                [
+                                    "tmux",
+                                    "CTRL + B + ,"
+                                ]
+                            ]
+                        },
+                        {
+                            "pane": [
+                                [
+                                    "tmux",
+                                    "CTRL + B + :",
+                                    "select-pane -T <PANE NAME>"
+                                ]
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "session": [
+                        {
+                            "minimise session": [
+                                [
+                                    "tmux",
+                                    "CTRL + b + d"
+                                ]
+                            ]
+                        },
+                        {
+                            "attach to running session": [
+                                [
+                                    "tmux",
+                                    "tmux a"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "redis": [
+        [
+            "redis",
+            "redis-cli"
+        ],
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "list keys": [
+                                [
+                                    "redis",
+                                    "keys * "
+                                ]
+                            ]
+                        },
+                        {
+                            "read stream": [
+                                [
+                                    "redis",
+                                    "xrange <key> - + "
+                                ]
+                            ]
+                        },
+                        {
+                            "find keys and pipe to delete": [
+                                [
+                                    "redis",
+                                    "#             < query >",
+                                    "redis-cli keys rq:res* | awk '{print $1}' | xargs redis-cli del"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "curl": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "pass file to curl as data": [
+                                [
+                                    "curl",
+                                    "curl localhost:3000/workflow -X POST  -H 'Content-Type: application/json' --data-binary \"@data.json\""
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "nodejs": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "set NODE_PATH": [
+                                "sometimes when using Node interactive, it might not be able to find global packages. hence it's necessary to set NODE_PATH",
+                                [
+                                    "nodejs",
+                                    "export NODE_PATH=$(npm root --quiet -g)"
+                                ]
+                            ]
+                        },
+                        {
+                            "node_modules bin dir": [
+                                [
+                                    "nodejs",
+                                    "/home/node/app/node_modules/.bin"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "typescript": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "installing on corp VM": [
+                                [
+                                    "typescript",
+                                    "sudo apt-get update",
+                                    "sudo apt-get install -y ca-certificates curl gnupg",
+                                    "sudo mkdir -p /etc/apt/keyrings",
+                                    "curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg",
+                                    "sudo chmod 644 /etc/apt/keyrings/nodesource.gpg",
+                                    "sudo apt-get update",
+                                    "sudo apt-get install nodejs -y",
+                                    "sudo npm install -g typescript",
+                                    "sudo chwon ubuntu -R /usr/lib/node_modules/typescript ",
+                                    "sudo chwon ubuntu /usr/lib/node_modules/typescript"
+                                ]
+                            ]
+                        },
+                        {
+                            "debug in vscode": [
+                                [
+                                    "typescript",
+                                    "// launch.json",
+                                    "{",
+                                    "    \"type\": \"node\",",
+                                    "    \"request\": \"launch\",",
+                                    "    \"name\": \"ts debug\",",
+                                    "    \"skipFiles\": [\"<node_internals>/**\"],",
+                                    "    \"program\": \"${workspaceFolder}/src/index.ts\",",
+                                    "    \"runtimeArgs\": [\"-r\", \"ts-node/register\", \"-r\", \"tsconfig-paths/register\"],",
+                                    "    \"console\": \"internalConsole\"",
+                                    "}",
+                                    "// tsconfig.json",
+                                    "{",
+                                    "    \"sourceMap\": true    ",
+                                    "}"
+                                ]
+                            ]
+                        },
+                        {
+                            "transpile multile ts files": [
+                                [
+                                    "javascript",
+                                    "// /package.json",
+                                    "{",
+                                    "    \"scripts\": {",
+                                    "        \"start\": \"nodemon ./src/index.ts\"",
+                                    "    },",
+                                    "    \"nodemonConfig\": {",
+                                    "        \"exec\": \"tsc && ts-node .\",",
+                                    "        \"ext\": \"ts\"",
+                                    "    }",
+                                    "}",
+                                    "// /src/tsconfig.json",
+                                    "{",
+                                    "    ...",
+                                    "    \"include\": [\"./src/frontend/foobar.ts\"]",
+                                    "}",
+                                    "// /src/frontend/tsconfig.json",
+                                    "{",
+                                    "    \"compilerOptions\": {",
+                                    "        \"module\": \"ES6\",",
+                                    "        \"target\": \"ES2017\",",
+                                    "        \"outFile\": \"./foobar.js\",",
+                                    "        \"rootDir\": \".\",",
+                                    "        \"sourceMap\": true,",
+                                    "        \"noEmit\": false",
+                                    "    }",
+                                    "}"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "stupid front end stuff": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "appending innerHTML breaks all event listeners": [
+                                [
+                                    "js",
+                                    "var html_to_insert = \"<p>New paragraph</p>\";",
+                                    "// with .innerHTML, destroys event listeners",
+                                    "document.getElementById('mydiv').innerHTML += html_to_insert;",
+                                    "// with .insertAdjacentHTML, preserves event listeners",
+                                    "document.getElementById('mydiv').insertAdjacentHTML('beforeend', html_to_insert);"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "vs code": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "custom tasks": [
+                                [
+                                    "json",
+                                    "// example file",
+                                    "// .vscode/tasks.json",
+                                    "{",
+                                    "\t\"version\": \"2.0.0\",",
+                                    "\t\"inputs\": [",
+                                    "\t\t{",
+                                    "\t\t\t\"id\": \"imageName\",",
+                                    "\t\t\t\"type\": \"promptString\",",
+                                    "\t\t\t\"description\": \"Enter the image name\",",
+                                    "\t\t\t\"default\": \"my-container-image\"",
+                                    "\t\t},",
+                                    "\t],",
+                                    "\t\"tasks\": [",
+                                    "\t\t{",
+                                    "\t\t\t\"type\": \"typescript\",",
+                                    "\t\t\t\"tsconfig\": \"portal/client/tsconfig.json\",",
+                                    "\t\t\t\"problemMatcher\": [",
+                                    "\t\t\t\t\"$tsc\"",
+                                    "\t\t\t],",
+                                    "\t\t\t\"group\": \"build\",",
+                                    "\t\t\t\"label\": \"tsc: build - portal/client/tsconfig.json\"",
+                                    "\t\t},",
+                                    "\t\t{",
+                                    "\t\t\t\"label\": \"Build Image\",",
+                                    "\t\t\t\"type\": \"shell\",",
+                                    "\t\t\t\"command\": \"podman\",",
+                                    "\t\t\t\"args\": [",
+                                    "\t\t\t\t\"build\",",
+                                    "\t\t\t\t\"-f\",",
+                                    "\t\t\t\t\"${file}\",",
+                                    "\t\t\t\t\"-t\",",
+                                    "\t\t\t\t\"${input:imageName}:${input:imageTag}\"",
+                                    "\t\t\t],",
+                                    "\t\t\t\"group\": {",
+                                    "\t\t\t\t\"kind\": \"build\"",
+                                    "\t\t\t}",
+                                    "\t\t}",
+                                    "\t]",
+                                    "}"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "k8": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "restart deployment": [
+                                [
+                                    "bash",
+                                    "kubectl rollout restart deployment/core-service  -n osna "
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "kotlin": [
+        {
+            "_": [
+                {
+                    "_": [
+                        {
+                            "kotlin vscode tasks": [
+                                [
+                                    "json",
+                                    "{",
+                                    "    \"version\": \"2.0.0\",",
+                                    "    \"tasks\": [",
+                                    "        {",
+                                    "            \"label\": \"Build Kotlin File with Kotlinc\",",
+                                    "            \"type\": \"shell\",",
+                                    "            \"command\": \"kotlinc ${file} -include-runtime -d ${fileBasenameNoExtension}.jar\",",
+                                    "            \"group\": {",
+                                    "                \"kind\": \"build\",",
+                                    "                \"isDefault\":  \"**/*.kt\"",
+                                    "            },",
+                                    "            \"problemMatcher\": [],",
+                                    "            \"windows\": {",
+                                    "                \"command\": \"kotlinc ${file} -include-runtime -d ${fileBasenameNoExtension}.jar\"",
+                                    "            },",
+                                    "            \"presentation\": {",
+                                    "                \"echo\": true,",
+                                    "                \"reveal\": \"always\",",
+                                    "                \"focus\": false,",
+                                    "                \"panel\": \"shared\"",
+                                    "            }",
+                                    "        },",
+                                    "        {",
+                                    "            \"label\": \"Build Kotiln Gradle project\",",
+                                    "            \"type\": \"shell\",",
+                                    "            \"command\": \"IF EXIST gradlew.bat (gradlew build -x test) ELSE (echo 'gradlew.bat not found in the project root' && exit /b 1)\",",
+                                    "            \"options\": {",
+                                    "                \"cwd\": \"${workspaceFolder}\"",
+                                    "            },",
+                                    "            \"problemMatcher\": [],",
+                                    "            \"group\": {",
+                                    "                \"kind\": \"build\",",
+                                    "                \"isDefault\": false",
+                                    "            }",
+                                    "        },",
+                                    "        {",
+                                    "            \"label\": \"Run Kotiln Gradle project\",",
+                                    "            \"type\": \"shell\",",
+                                    "            \"command\": \"IF EXIST gradlew.bat (gradlew  run) ELSE (echo 'gradlew.bat not found in the project root' && exit /b 1)\",",
+                                    "            \"options\": {",
+                                    "                \"cwd\": \"${workspaceFolder}\"",
+                                    "            },",
+                                    "            \"problemMatcher\": [],",
+                                    "            \"group\":{",
+                                    "                \"kind\": \"run\"",
+                                    "            }",
+                                    "        }",
+                                    "    ]",
+                                    "}"
+                                ]
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
