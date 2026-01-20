@@ -1,0 +1,15 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: pkb
+      POSTGRES_PASSWORD: pkb
+      POSTGRES_DB: pkb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pkb_pgdata:/var/lib/postgresql/data
+
+volumes:
+  pkb_pgdata:
+

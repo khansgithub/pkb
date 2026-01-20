@@ -1,17 +1,12 @@
 from pathlib import Path
-from unittest import IsolatedAsyncioTestCase
+from unittest import TestCase
 
-from app.snippets import SnippetSourceFile
+from app.ingest import extract_snippets_from_markdown
 
 
-class TestSnippets(IsolatedAsyncioTestCase):
-    def setUp(self) -> None:
-        return super().setUp()
-
-    async def test_SnippetSourceFile(self):
-        parser = SnippetSourceFile(Path(__file__).parent / "gist.md")
-        snippets = await parser.get_snippets()
-        for s in snippets:
-            # print(json.dumps(dict(s), indent=4))
-            print(dict(s))
-            input("")
+class TestSnippets(TestCase):
+    def test_extract_snippets_from_markdown(self):
+        md = (Path(__file__).parent / "gist.md").read_text(encoding="utf-8")
+        snippets = extract_snippets_from_markdown(md)
+        self.assertGreater(len(snippets), 0)
+        self.assertTrue(all(s.code.strip() for s in snippets))

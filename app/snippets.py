@@ -135,12 +135,6 @@ class ParseMardownAsSnippets(ParseMarkdown):
         self._snippets = []
         super().__init__(raw_text)
 
-    @override
-    def new_section(self, current_section) -> list[Never]:
-        if len(current_section) != 0:
-            import ipdb; ipdb.set_trace()
-        return super().new_section(current_section)
-
     # @override
     # def parse_codeblock_end(
     #     self, guess_code_language: bool, code_block: list[str], section_index: Index
