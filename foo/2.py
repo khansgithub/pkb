@@ -31,13 +31,22 @@ def save_to_json_as_dict(markdown_to_snippets_parser: ParseMardownAsSnippets, fi
 def save_to_json_as_snippets_array(markdown_to_snippets_parser: ParseMardownAsSnippets, filename: str) -> None:
     # As a side effect, the snippets are parsed and stored in parsed_to_snippets._snippets when `parse_markdown`` is called
     markdown_to_snippets_parser.parse_markdown()
+    snippets_to_dump = [s.model_dump() for s in markdown_to_snippets_parser._snippets]
+    # for snippet in snippets_to_dump:
+    #     snippet["details"] = " ".join(snippet["details"])
 
     with open(Path(__file__).parent / filename, "w", encoding="utf-8") as f:
         # import ipdb; ipdb.set_trace()
-        snippets_to_dump = [s.model_dump() for s in markdown_to_snippets_parser._snippets]
         # data_to_dump = data
         logger.info(f"data length: {len(snippets_to_dump)}")
         json.dump(snippets_to_dump, f, ensure_ascii=False, indent=4)
 
+def save_to_json_as_text_csv(markdown_to_snippets_parser: ParseMardownAsSnippets, filename: str) -> None:
+    snippets_to_dump = [s.model_dump() for s in markdown_to_snippets_parser._snippets]
+    with open(Path(__file__).parent / filename, "w", encoding="utf-8") as f:
+        for snippet in snippets_to_dump:
+            f.write(f"{snippet['language']},{snippet['title']},{" ".join(snippet['details'])}\n")
+
 save_to_json_as_dict(markdown_to_snippets_parser, "data_dict.json")
 save_to_json_as_snippets_array(markdown_to_snippets_parser, "data_snippets.json")
+save_to_json_as_text_csv(markdown_to_snippets_parser, "data_snippets.csv")

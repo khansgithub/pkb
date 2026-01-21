@@ -168,9 +168,7 @@ class ParseMarkdown:
                 else:
                     # end ``` of code block
                     is_code_block = False
-                    self.parse_codeblock_end(
-                        code_block, section_tracker.index
-                    )
+                    self.parse_codeblock_end(self, code_block, section_tracker.index)
                     section_tracker.current.append(code_block)
 
             elif is_code_block:

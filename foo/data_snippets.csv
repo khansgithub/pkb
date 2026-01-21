@@ -1,0 +1,89 @@
+text
+bash git git global user.email user.name
+bash git git global user.email user.name switch user and choose which shell to use
+bash git git global user.email user.name credential cache helper
+bash git git global user.email user.name disable credential helper for single command
+bash s6 s6 list services
+bash s6 s6 restart service
+bash docker docker get docker
+shell docker docker list containers by name
+shell docker docker basic health check 
+bash docker docker troubleshooting Error response from daemon: client version 1.40 is too new...
+docker docker docker etc docker ps name and status format
+docker docker docker etc docker ps name and status format
+python python python monkeytype add type hints
+python python python monkeytype add type hints
+python python python interactive pdb
+python python python module structure
+python python python module structure pyproject.toml
+python python python module structure setup.py
+bash python python install module develop mode
+golang go go safe map look up
+bash go go get go
+bash linux linux jobs
+bash linux linux cd follow sym link
+bash linux linux list all listening ports and associated services
+bash linux linux get umask
+tmux tmux tmux basics
+tmux tmux tmux rename window / pane window
+tmux tmux tmux rename window / pane pane
+tmux tmux tmux session minimise session
+tmux tmux tmux session attach to running session
+redis redis redis
+redis redis redis list keys
+redis redis redis read stream
+redis redis redis find keys and pipe to delete
+curl curl curl pass file to curl as data
+nodejs nodejs nodejs set NODE_PATH
+nodejs nodejs nodejs node_modules bin dir
+typescript typescript typescript installing on corp VM
+typescript typescript typescript debug in vscode
+javascript typescript typescript transpile multile ts files
+js stupid front end stuff stupid front end stuff appending innerHTML breaks all event listeners
+json vs code vs code custom tasks
+bash k8 k8 restart deployment
+json kotlin kotlin kotlin vscode tasks
+bash git git global user.email user.name
+bash git git global user.email user.name switch user and choose which shell to use
+bash git git global user.email user.name credential cache helper
+bash git git global user.email user.name disable credential helper for single command
+bash s6 s6 list services
+bash s6 s6 restart service
+bash docker docker get docker
+shell docker docker list containers by name
+shell docker docker basic health check 
+bash docker docker troubleshooting Error response from daemon: client version 1.40 is too new...
+docker docker docker etc docker ps name and status format
+docker docker docker etc docker ps name and status format
+python python python monkeytype add type hints
+python python python monkeytype add type hints
+python python python interactive pdb
+python python python module structure
+python python python module structure pyproject.toml
+python python python module structure setup.py
+bash python python install module develop mode
+golang go go safe map look up
+bash go go get go
+bash linux linux jobs
+bash linux linux cd follow sym link
+bash linux linux list all listening ports and associated services
+bash linux linux get umask
+tmux tmux tmux basics
+tmux tmux tmux rename window / pane window
+tmux tmux tmux rename window / pane pane
+tmux tmux tmux session minimise session
+tmux tmux tmux session attach to running session
+redis redis redis
+redis redis redis list keys
+redis redis redis read stream
+redis redis redis find keys and pipe to delete
+curl curl curl pass file to curl as data
+nodejs nodejs nodejs set NODE_PATH
+nodejs nodejs nodejs node_modules bin dir
+typescript typescript typescript installing on corp VM
+typescript typescript typescript debug in vscode
+javascript typescript typescript transpile multile ts files
+js stupid front end stuff stupid front end stuff appending innerHTML breaks all event listeners
+json vs code vs code custom tasks
+bash k8 k8 restart deployment
+json kotlin kotlin kotlin vscode tasks
