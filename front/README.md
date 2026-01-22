@@ -1,38 +1,72 @@
-# sv
+## Personal Knowledge Base - WIP
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+Building a prototype knowledge base to consolidate small sippets of information I've kept in gists. 
+The tool will primarily present a UI to search for differnet snippets based on their metadata.
+Aim is to use local AI to enrich the metadata for each snippet, and provide extra insights into the data and features.
 
-## Creating a project
+Project is WIP and primarily for learning and experimentation.
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Technologies / Learning
 
-```sh
-# create a new project in the current directory
-npx sv create
+- **Svelte**
+- **Langchain**, **Ollama**, **LangGraph**, **SkLearn**
+- **Postgres**
 
-# create a new project in my-app
-npx sv create my-app
+## Progress
+
+- **Parses markdown gists into structured sections and snippets**
+- **Models snippets as data**
+- **Embeds snippets and performs similarity search (prototype)**
+  - Embedding functions live in `app/embed.py` (currently includes CodeBERT-based embedding code)
+  - Experiementing with differnt local models for best semantics
+  - Also testing using Postgres for full-text search on metadata (without embedding the code itself), instead of using sklearn.
+  - A lightweight in-memory vector store uses `sklearn.neighbors.NearestNeighbors` with cosine distance
+- **Exposes a small FastAPI backend (prototype)**
+  - `POST /sync` reads snippets and builds the vector index
+  - `POST /search` embeds a query and returns nearest snippets
+- **Front end search interface (prototype)**
+  - Building a rich, heavy, interactive search interface.
+
+## Running locally (WIP)
+
+### Prereqs
+
+- Python 3.11+ recommended
+- Some embedding paths in `app/embed.py` require additional ML deps (e.g. `torch`, `transformers`). If you hit import errors, install the missing packages for your platform.
+
+### Setup
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
 ```
 
-## Developing
+### Run the API
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+```bash
+python -m app.main
+```
 
-```sh
+### Use the API
+
+Build the in-memory index from `app/gist.md`:
+
+```bash
+curl -X POST http://localhost:8000/sync
+```
+
+Search:
+
+```bash
+curl -X POST http://localhost:8000/search \
+  -H 'Content-Type: application/json' \
+  -d '{"term":"docker healthcheck"}'
+```
+
+### UI
+
+```bash
+# /front/
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
-
-## Building
-
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
