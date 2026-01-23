@@ -9,7 +9,7 @@ Project is WIP and primarily for learning and experimentation.
 ## Technologies / Learning
 
 - **Svelte**
-- **Langchain**, **Ollama**, **LangGraph**, **SkLearn**
+- **Langchain**, **Ollama**, **SkLearn**
 - **Postgres**
 
 ## Progress
