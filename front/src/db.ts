@@ -1,9 +1,5 @@
 import Dexie, { type EntityTable } from 'dexie';
-
-interface Query {
-    query: string, // PK
-    snippet_ids: Array<Number>
-}
+import type { Query } from './lib/api.contract';
 
 var db = new Dexie("db") as Dexie & {
     queries: EntityTable<Query, 'query'>;

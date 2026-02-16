@@ -1,5 +1,6 @@
 import DOMPurify from 'dompurify';
-import { db, type Query } from '../db';
+import { db } from '../db';
+import { type Query, QueryResponseSchema } from './api.contract';
 import { BACKEND, ENDPOINTS } from './const';
 import { observeObject } from './debug';
 import { logger as app_logger } from './logger';
@@ -11,12 +12,12 @@ var base_url = (): URL => new URL(BACKEND)
 
 // export interface Response extends Query { };
 
-export class Response implements Query{
-    query: string
-    snippet_ids: Number[];
-    constructor(query: string, snippets_id: Number[]){
+export class Response implements Query {
+    query: string;
+    snippet_ids: number[];
+    constructor(query: string, snippet_ids: number[]) {
         this.query = query;
-        this.snippet_ids = snippets_id;
+        this.snippet_ids = snippet_ids;
         Object.freeze(this); // getting a strange error where dexie.put would change `this.query`
     }
 }
@@ -29,7 +30,7 @@ export async function send(query: string): Promise<Response> {
 
     let res = await fetch(url, { method: "post" });
     if (!(res.status >= 200 && res.status < 300)) {}
-    let response_json = await res.json() as Query;
+    let response_json = QueryResponseSchema.parse(await res.json());
     let response = new Response(response_json.query, response_json.snippet_ids);
     logger.info(response || {}, "Response");
     return response;
@@ -38,7 +39,7 @@ export async function send(query: string): Promise<Response> {
 export async function cacheResponse(response: Response): Promise<Response> {
     logger.info("Caching response");
     try {
-        let row_id = await db.queries.put(response, response.query);
+        let row_id = await db.queries.put(response);
         logger.info(["Cached. Row id: ", row_id]);
     } catch (err) {
         console.error("error with putting response into queries table")
