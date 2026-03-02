@@ -1,0 +1,105 @@
+[
+    {
+        "name": "foo",
+        "level": 1,
+        "snippets": [],
+        "children": [
+            {
+                "name": "[1]code with lang",
+                "level": 2,
+                "snippets": [
+                    {
+                        "lang": "bash",
+                        "code": [
+                            "echo hello"
+                        ]
+                    }
+                ],
+                "children": []
+            },
+            {
+                "name": "[2]code without lang",
+                "level": 2,
+                "snippets": [
+                    {
+                        "lang": "",
+                        "code": [
+                            "plain text block"
+                        ]
+                    }
+                ],
+                "children": []
+            },
+            {
+                "name": "[3]text and code",
+                "level": 2,
+                "snippets": [
+                    {
+                        "text": [
+                            "Some text before code.\n"
+                        ]
+                    },
+                    {
+                        "lang": "python",
+                        "code": [
+                            "print(\"hi\")"
+                        ]
+                    },
+                    {
+                        "text": [
+                            "More text after.\n"
+                        ]
+                    }
+                ],
+                "children": []
+            },
+            {
+                "name": "nested",
+                "level": 2,
+                "snippets": [],
+                "children": [
+                    {
+                        "name": "[4]level 3",
+                        "level": 3,
+                        "snippets": [
+                            {
+                                "lang": "go",
+                                "code": [
+                                    "fmt.Println(\"nested\")"
+                                ]
+                            }
+                        ],
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "name": "[5]sibling",
+                "level": 2,
+                "snippets": [
+                    {
+                        "lang": "sql",
+                        "code": [
+                            "SELECT 1;"
+                        ]
+                    }
+                ],
+                "children": []
+            }
+        ],
+        "hashes": [
+            "1c312405c9ab0dd45a4aa20f3c73b34d",
+            "859f184e77847977318bbb7333e489b3",
+            "cd18203adcdc4404664fea34541d8717",
+            "dde7eb472c4dee193dbfaf34ce473af5",
+            "0f89ed2f0a2373ff3e19400a0f479b60",
+            "aef1670f14ef68ff12a1052445c96172",
+            "725dc7ebe1efe9e7909b9ae7f2e0a106",
+            "71568061b2970a4b7c5160fe75356e10",
+            "f7e09611a382be2cd6b6e6ce4d8dfe3a",
+            "75d37fd2908fd4d252b9b5ab0b90bd0c",
+            "526346002f67bc89e97054cf65daa5e0",
+            "0cace3d9f2f2eb5bad9ba89c2a291327"
+        ]
+    }
+]

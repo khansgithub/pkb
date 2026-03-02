@@ -1,0 +1,2240 @@
+[
+    {
+        "name": "misc",
+        "level": 1,
+        "snippets": [
+            {
+                "lang": "python",
+                "code": [
+                    "if __name__ == \"__main__\":",
+                    "    clean_up_loop = False",
+                    "    loop = asyncio.get_event_loop()",
+                    "    try:",
+                    "        loop.run_until_complete(run())",
+                    "    except Exception:",
+                    "        clean_up_loop = True",
+                    "        pass",
+                    "    finally:",
+                    "        async def close_sessions_and_consumers():",
+                    "            for k in kafka.CONSUMERS:",
+                    "                await k.stop()",
+                    "            await kafka.SESSION.close()",
+                    "        loop.run_until_complete(close_sessions_and_consumers())",
+                    "",
+                    "        if clean_up_loop:",
+                    "            pending = asyncio.all_tasks()",
+                    "            for task in pending:",
+                    "                task.cancel()",
+                    "            loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))",
+                    "            loop.stop()",
+                    "            loop.close()"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "go",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "bypass unused function error"
+                ]
+            },
+            {
+                "lang": "golang",
+                "code": [
+                    "(func(args... interface{}){})(scrape_cpu, scrape_hostname)"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "go",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "go fmt on current directory go files and all subdirectories"
+                ]
+            },
+            {
+                "lang": "golang",
+                "code": [
+                    "go fmt ./..."
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "go",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "embedded types"
+                ]
+            },
+            {
+                "lang": "go",
+                "code": [
+                    "type Person struct {",
+                    "  Name string",
+                    "}",
+                    "func (p *Person) Talk() {",
+                    "  fmt.Println(\"Hi, my name is\", p.Name)",
+                    "}",
+                    "",
+                    "type Android struct {",
+                    "  Person // Android is also type Person!",
+                    "  Model string",
+                    "}",
+                    "",
+                    "a := new(Android)",
+                    "a.Person.Talk()",
+                    "",
+                    "a.Talk() // polymorphism!"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "go",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "mutex classes"
+                ]
+            },
+            {
+                "text": [
+                    "sync.RWLock()"
+                ]
+            },
+            {
+                "text": [
+                    "sync.Once"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "go",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "init function in packages"
+                ]
+            },
+            {
+                "lang": "go",
+                "code": [
+                    "var Foo string",
+                    "// runs like package constructor",
+                    "func init(){",
+                    "    Foo = \"foobar\"",
+                    "}"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "go",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "type signature for parameters of self containing recursive functions"
+                ]
+            },
+            {
+                "lang": "go",
+                "code": [
+                    "func getLastLetterRecursivley(word string) {",
+                    "    type rFunc func(string, rFunc) // <- allows recursive function to be defined",
+                    "    var f rFunc = func(word string, f rFunc) {",
+                    "        if len(word) == 1 {",
+                    "            fmt.Println(\"Last character is:\", word)",
+                    "            return",
+                    "        }",
+                    "        f(word[len(word) - 1: ], f)",
+                    "        return",
+                    "    }",
+                    "    go f(x, f)",
+                    "    for {} // keep function running to we can still print",
+                    "}"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "go",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "generics + type constraint"
+                ]
+            },
+            {
+                "lang": "go",
+                "code": [
+                    "type StringOrInt interface{",
+                    "\tstring | int",
+                    "}",
+                    "",
+                    "func main() {",
+                    "\t{",
+                    "\t\tvar x = foo[int]()",
+                    "\t\tfmt.Println(x)",
+                    "\t}",
+                    "",
+                    "\t{",
+                    "\t\tvar x = foo[string]()",
+                    "\t\tfmt.Println(x)",
+                    "\t}",
+                    "",
+                    "\t{",
+                    "\t\tvar x = foo[bool]() // err",
+                    "\t\tfmt.Println(x)",
+                    "\t}",
+                    "",
+                    "}",
+                    "",
+                    "func foo[T StringOrInt]() []T {",
+                    "\tvar x T",
+                    "\treturn []T{x}",
+                    "}"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "log an exception with traceback"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "import logging",
+                    "",
+                    "fooLogger = logging.getLogget(\"foo\")",
+                    "",
+                    "def foo():",
+                    "    try:",
+                    "        raise Exception(\"foo error\")",
+                    "    except Exception as e:",
+                    "        fooLogger.exception(e)"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "catch multiple class of exceptions in one block"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "try:",
+                    "    foo()",
+                    "except (Exception, KeyboardInterrupt) as e:",
+                    "    if isinstance(e, KeyboardInterrupt):",
+                    "        print('KeyboardInterrupt')",
+                    "    else:",
+                    "        pass"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "k8",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "set `imagePullPolicy` to `Always`, then delete the pod, to easily update the pod with a newer image"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "ts",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "better tsc config options for writing ts files to be used as js for the browser"
+                ]
+            },
+            {
+                "lang": "json",
+                "code": [
+                    "{",
+                    "    \"compilerOptions\": {",
+                    "        \"target\": \"ES2017\",",
+                    "        \"module\": \"ES6\",",
+                    "        \"outDir\": \".\", // <- creates JS for all TS in the pwd",
+                    "        \"rootDir\": \".\",",
+                    "        \"sourceMap\": false,",
+                    "        \"noEmit\": false",
+                    "    }",
+                    "}"
+                ]
+            },
+            {
+                "lang": "ts",
+                "code": [
+                    "// order.ts",
+                    "import { create_toast, show_toast } from \"./utils.js\"  // <- use \".js\" instead of no extension like normal ts modules",
+                    "...",
+                    "",
+                    "// util.ts",
+                    "document.addEventListener(\"DOMContentLoaded\", function (e) {  // <- this works just fine!",
+                    "    // blah blah",
+                    "});",
+                    ""
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "shared class field across all object instances"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "from typing import List",
+                    "",
+                    "class Foo()",
+                    "    static_field: List[int] = []",
+                    "",
+                    "    def __init__(self, i: int):",
+                    "        self.static_field.append(i)",
+                    "    ",
+                    "    def getList(self) -> List[int]:",
+                    "        return self.static_field",
+                    "",
+                    "a = Foo(1)",
+                    "b = Foo(999)",
+                    "",
+                    "print (a.getList())",
+                    "print (b.getList())",
+                    "",
+                    "'''",
+                    "[1, 999]",
+                    "[1, 999]",
+                    "'''"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "ts",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "transpile multile ts files"
+                ]
+            },
+            {
+                "lang": "typescript",
+                "code": [
+                    "/***",
+                    "app/",
+                    "    - tsconfig.json",
+                    "    src/",
+                    "        - index.ts",
+                    "        - front/",
+                    "            - tsconfig.json",
+                    "            - foo.ts",
+                    "***/",
+                    "",
+                    "// app/src/tsconfig.json",
+                    "{",
+                    "    \"compilerOptions\": {",
+                    "        \"noEmit\": true",
+                    "    },",
+                    "    \"include\": [\"./src/**/*.ts\"],",
+                    "    \"exclude\": [\"**/node_modules/*\", \"./src/front/**/*\"]",
+                    "}",
+                    "",
+                    "// app/src/front/tsconfig.json",
+                    "{",
+                    "    \"compilerOptions\": {",
+                    "        \"noEmit\": false",
+                    "    },",
+                    "    \"include\": [\"*.ts\"],",
+                    "    \"exclude\": [] // <- this was important!",
+                    "}",
+                    "",
+                    "// tsc with build option from /app/",
+                    "tsc -b . ./src/front"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "node",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "`fs.readdir` is NOT blocking; use `fs.readdirSync` instead"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "`__post_init__` for dataclasses"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "function overload. `functools.singledispatch` only dispatches on the type of the first argument."
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "from functools import singledispatch",
+                    "",
+                    "@singledispatch",
+                    "def func(arg):",
+                    "    print(f\"Default: {arg}\")",
+                    "",
+                    "@func.register(int)",
+                    "def _(arg):",
+                    "    print(f\"Integer: {arg}\")",
+                    "",
+                    "@func.register(str)",
+                    "def _(arg):",
+                    "    print(f\"String: {arg}\")",
+                    "",
+                    "func(1)        # Output: Integer: 1",
+                    "func('hello')  # Output: String: hello"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "`str.startswith` and `str.endswith` can take a `Tuple` as a parameter (https://docs.python.org/3/library/stdtypes.html#str.startswith)"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "interface[\"name\"].startswith((\"ge\", \"xe\", \"ae\", \"et\"))"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "decorators are applied from **bottom up**"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "def b():",
+                    "    print(\"Running function: b\")",
+                    "",
+                    "def a():",
+                    "    print(\"Running function: a\")",
+                    "",
+                    "def main():",
+                    "    return_a = a()",
+                    "    return_b = b()",
+                    "    ",
+                    "    print(f\"{return_a=}, {return_b=}\")",
+                    "",
+                    "@patch(\"__main__.b\")  # <- Second parameter to `mock`",
+                    "@patch(\"__main__.a\")  # <- First parameter to `mock`",
+                    "def mock(a: MagicMock, b: MagicMock,):",
+                    "    a.return_value = \"mocked a\"",
+                    "    b.return_value = \"mocked b\"",
+                    "    main()",
+                    "    ",
+                    "mock()",
+                    "'''",
+                    " > return_a='mocked a', return_b='mocked b'",
+                    "'''",
+                    "################",
+                    "",
+                    "@patch(\"__main__.a\")",
+                    "@patch(\"__main__.b\")  # <- First parameter, mismatched with naming it parameter 'a;MagicMock'",
+                    "def mock(a: MagicMock, b: MagicMock,):",
+                    "    a.return_value = \"mocked a\"",
+                    "    b.return_value = \"mocked b\"",
+                    "    main()",
+                    "'''",
+                    "> return_a='mocked b', return_b='mocked a'",
+                    "         ^         ^ ",
+                    "    mocked with wrong value",
+                    "'''"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "disable default console logger after adding more handlers by disabling `propagate`"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "logger = logging.getLogger(\"foo\")",
+                    "rh = RichHandler(show_level=True, show_path=True,",
+                    "                        markup=True, rich_tracebacks=True)",
+                    "",
+                    "logger.handlers = [rh]",
+                    "logger.propagate = False"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "preserve type inference of wrapped functions (i don't get how this works, need to read it later, but it works)"
+                ]
+            },
+            {
+                "text": [
+                    "https://stackoverflow.com/a/74080156"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "poetry"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "poetry new <project name>",
+                    "cd <project name>",
+                    "poetry lock",
+                    "poetry add [list of packages to add]",
+                    "poetry add --editable <path to editable another python repo>",
+                    "poetry install # this actually installs the packages into site_packages in a new venv",
+                    "",
+                    "poetry shell # activate python venv",
+                    "python3 main.py",
+                    "exit"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "rust",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "a `reference` and `pointer` are not the same thing (i think)"
+                ]
+            },
+            {
+                "lang": "rust",
+                "code": [
+                    "// https://ntietz.com/blog/rust-references-vs-pointers/",
+                    "fn main() {",
+                    "    let x: u32 = 10;",
+                    "    let ref_x: &u32 = &x;",
+                    "    let pointer_x: *const u32 = &x;",
+                    "",
+                    "    println!(\"x: {x}\");",
+                    "    println!(\"ref_x: {}\", ref_x);",
+                    "    println!(\"pointer_x: {:?}\", pointer_x);",
+                    "}"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "pytest",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "label a test, and run all tests with that label"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "# test.py",
+                    "@pytest.mark.solo",
+                    "def test_solo(mocker):",
+                    "    pass"
+                ]
+            },
+            {
+                "lang": "",
+                "code": [
+                    "# pytest.ini",
+                    "[pytest]",
+                    "markers =",
+                    "    solo: mark a test as a solo test"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "pytest -m solo"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "bash",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "retain environment variables when using sudo"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "sudo -E foobar"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "learnings for making programs easier to test"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "def get_netbox() -> api:",
+                    "  global nb",
+                    "  return nb if nb else setup_nb()"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "pyenv",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "some libraries required"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git libgdbm-dev libnss3-dev",
+                    "pyenv install 3.11"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "function which might be passed an RLock or None"
+                ]
+            },
+            {
+                "lang": "pythong",
+                "code": [
+                    "    with stdout_lock or nullcontext():",
+                    "        logger.info(f\"Polled {hostname} successfully\")"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "docker",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "docker build creates cache, which can add up"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "docker builder prune"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "when extending multiple classes, the functions of the first class takes precedence"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "class A:",
+                    "    def __init__(self):",
+                    "        print(\"A.__init__\")",
+                    "",
+                    "class B:",
+                    "    def __init__(self):",
+                    "        print(\"B.__init__\")",
+                    "",
+                    "class AB(A, B): ...",
+                    "    ",
+                    "ab = AB()",
+                    "# > A.__init__"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "go through all child mocks created (properties of mocks)"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "    children_list = [",
+                    "        *list(mock_netbox._mock_children.items())",
+                    "    ]",
+                    "    all_children_mocks = []",
+                    "    # import ipdb; ipdb.set_trace()",
+                    "    while children_list:",
+                    "        children = children_list.pop()",
+                    "        print(children)",
+                    "        all_children_mocks.append(children)",
+                    "        if (c:=list(children)[1]._mock_children.items()):",
+                    "            for child in c:",
+                    "                children_list.append(list(child))"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "mypy to text with certain logs removed"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "mypy foo.py > mypy.txt; sed -i -e note:/d' -e '/of \"Logger\"/d' -e '/\\[import-untyped\\]/d' mypy.txt; less mypy.txt "
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "1px loading icon with the cursor set to the start of the line. this makes it so when another thread prints to stdout, it will overwrite the loading logo."
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "def loading_dots2(end_event: Event, sleep_duration: float = 1 / 4):",
+                    "    animation = cycle([\"|\", \"/\", \"-\", \"\\\\\"])",
+                    "    hide_cursor = \"\\033[?25l\"",
+                    "    show_cursor = \"\\033[?25h\"",
+                    "    clear_line = \"\\r\\033[K\"",
+                    "    cursor_to_start_of_line = \"\\r\"",
+                    "",
+                    "    sys.stdout.write(hide_cursor)",
+                    "    sys.stdout.flush()",
+                    "    try:",
+                    "        while not end_event.is_set():",
+                    "            sys.stdout.write(hide_cursor)",
+                    "            sys.stdout.write(clear_line)",
+                    "            sys.stdout.write(next(animation))",
+                    "            sys.stdout.write(cursor_to_start_of_line)",
+                    "            sys.stdout.flush()",
+                    "            time.sleep(sleep_duration)",
+                    "    except KeyboardInterrupt:",
+                    "        pass",
+                    "    finally:",
+                    "        sys.stdout.write(clear_line)",
+                    "        # sys.stdout.write(show_cursor)",
+                    "        sys.stdout.flush()"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "protocol vs abc"
+                ]
+            },
+            {
+                "text": [
+                    "https://medium.com/@pouyahallaj/introduction-1616b3a4a637"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "to force typecast use `cast`"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "from typing import cast",
+                    "a: str | None = \"foo\"",
+                    "b: str = cast(str, a)"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "error handling in decorators can be difficult. is there is a try block inside the decorator, and the calling function was passed with incorrect parameters, the traceback only show the try block inside the decorator. the calling function, which called the decorated function with wrong parameters, will not be shown."
+                ]
+            },
+            {
+                "text": [
+                    "the takeaway might be to always raise exceptions in a decorator"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "1\timport logging",
+                    "2\tfrom abc import ABC",
+                    "3\timport functools",
+                    "4\tfrom typing import Callable, TypeVar, ParamSpec, Any",
+                    "5\tP = ParamSpec(\"P\")",
+                    "6\tT = TypeVar(\"T\")",
+                    "7\tlogging.basicConfig(level=logging.DEBUG)",
+                    "8\tdef calling_function():",
+                    "9\t    decorator(a=2) # decorator will call `foo`` with wrong parameters, but the main invoker is this function",
+                    "10\t    ",
+                    "11\tdef decorator(*args, **kwargs):",
+                    "12\t    try:",
+                    "13\t        foo(*args, **kwargs)",
+                    "14\t    except Exception:",
+                    "15\t        # the traceback will be printed here, but it will not show that `calling_function` passed the values to `decorator`",
+                    "16\t        logging.exception(\"An error occurred\")",
+                    "17\tdef foo():",
+                    "18\t    pass",
+                    "19\tcalling_function()"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "use seconds if it's >60 or minutes, and add 's' . uses the fact that `string=\"a\"[:-1]` gives the empty string"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "f\"{[f'{(s:=sleep_duration)} second', f'{(m:=sleep_duration//60)} minute'][s>=60] + 's'[:m>1 or (s> 1 and m < 1)]}\""
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "all try/catch blocks of code, should have a unit test associated with it"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "forward declare"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "def foo() -> \"SomeClass\":",
+                    "    ..."
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "add a function to an object instance and have it take self"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "mock_workflow_mocker.proxy_configure_mock = types.MethodType(proxy_configure_mock, mock_workflow_mocker)"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "typing a function that returns `self`"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "from typing import Self",
+                    "def foo(self) -> Self:",
+                    "    return self"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "css",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "position a `position: absolute` element inside a `relative`"
+                ]
+            },
+            {
+                "lang": "",
+                "code": [
+                    ".foo",
+                    "  .bar",
+                    "  .bar2",
+                    "  .bar3"
+                ]
+            },
+            {
+                "lang": "",
+                "code": [
+                    "body{",
+                    "  background: black;",
+                    "}",
+                    "",
+                    "div{ width: 100px; height: 100px; border: 1px solid white;}",
+                    "",
+                    ".foo{",
+                    "  width: 80%;",
+                    "  display: flex;",
+                    "  position: relative; /* this is crucial! default is `static` _not_ `relative` */",
+                    "}",
+                    "",
+                    ".bar{",
+                    "  background: lightgrey;",
+                    "  position: absolute;",
+                    "  right: 0;",
+                    "}"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "vue",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "smooth fade animation that doesn't snap between transitions"
+                ]
+            },
+            {
+                "lang": "",
+                "code": [
+                    "<script setup>",
+                    "  const classes = ref({",
+                    "    fadeIn: false,",
+                    "    fadeOut: false,",
+                    "  });",
+                    "  const elem = ref(null);",
+                    "  const opacityValue = ref(0.0);",
+                    "  ",
+                    "  function enter() {",
+                    "    classes.value.animationPause = true;",
+                    "",
+                    "    classes.value.fadeOut = false",
+                    "",
+                    "    opacityValue.value = getCurrentOpacity();;",
+                    "    classes.value.fadeIn = false;",
+                    "    classes.value.fadeIn = true;",
+                    "",
+                    "    classes.value.animationPause = false;",
+                    "  }",
+                    "",
+                    "  function leave() {",
+                    "    classes.value.animationPause = true;",
+                    "",
+                    "    classes.value.fadeIn = false;",
+                    "    opacityValue.value = getCurrentOpacity();",
+                    "",
+                    "    classes.value.fadeOut = false;",
+                    "    classes.value.fadeOut = true;",
+                    "",
+                    "    classes.value.animationPause = false;",
+                    "  }",
+                    "  function getCurrentOpacity() {",
+                    "    let elem = elem.value as unknown as HTMLElement;",
+                    "    let elem_styles = window.getComputedStyle(elem);",
+                    "    return parseFloat(elem_styles.opacity)",
+                    "  }",
+                    "</script>",
+                    "",
+                    "<template>",
+                    "  <div ",
+                    "    @mouseenter=\"e => enter()}\"",
+                    "    @mouseleave=\"e => leave()\"",
+                    "    :class=\"classes\"",
+                    "    :ref=\"elem\"",
+                    "  >",
+                    "",
+                    "  </div>",
+                    "</template>",
+                    "",
+                    "<style>",
+                    "div {",
+                    "  opacity: 0;",
+                    "}",
+                    ".fadeIn {",
+                    "  animation: fade-in 0.5s;",
+                    "  animation-fill-mode: forwards;",
+                    "}",
+                    "",
+                    ".fadeOut {",
+                    "  animation: fade-out 0.5s;",
+                    "  animation-fill-mode: forwards;",
+                    "}",
+                    "",
+                    ".animationPause{",
+                    "  animation-play-state: paused;",
+                    "}",
+                    "",
+                    "@keyframes fade-in {",
+                    "  from {",
+                    "    opacity: v-bind(\"opacityValue\")",
+                    "  }",
+                    "",
+                    "  to {",
+                    "    opacity:1;",
+                    "  }",
+                    "}",
+                    "",
+                    "@keyframes fade-out {",
+                    "  from {",
+                    "    opacity: v-bind(\"opacityValue\");",
+                    "  }",
+                    "",
+                    "  to {",
+                    "    opacity: 0;",
+                    "  }",
+                    "}",
+                    "</style>"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "linux",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "tar switches"
+                ]
+            },
+            {
+                "lang": "",
+                "code": [
+                    "https://superuser.com/a/156215",
+                    "x - extract files",
+                    "c - create archive",
+                    "t - list files",
+                    "v - verbose (list files as it processes them)",
+                    "j - use bz2 compression",
+                    "z - use gz compression",
+                    "f - read or write files to disk",
+                    "Examples",
+                    "",
+                    "Uncompress a tar.gz file: tar zxf tarball.tar.gz",
+                    "",
+                    "Uncompress a tar.bz2 file: tar jxf tarball.tar.bz2",
+                    "",
+                    "Create a tar.gz file: tar zcvf tarvall.tar.gz mydir/*"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "cue",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "output cue file to json"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "cue eval schema.cue --out json"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "sql",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "lint sql"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "# apt install pipx",
+                    "# pipx install sqlfluff",
+                    "sqlfluff lint --dialect postgres schema.ql"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "go",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "`struct`s cannot be `const` because they're inherently composite types"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "correct way to error handle an **async** Task, scheduled with `asyncio.create_task`. don't use `asyncio.add_done_callback(cb)` because it will not  properly capture the traceback when getting the error with `def cb(task): ... task.exception()`(for some reason idk)"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "t: Task = asyncio.create_task(foo())",
+                    "",
+                    "# for async tasks only because non-async tasks just crash the whole event loop",
+                    "async def foo():",
+                    "  # use try/except here to error handle",
+                    "  try:",
+                    "    function_that_errors()",
+                    "  except Exception as e:",
+                    "    logging.exception(e)"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "Microsoft Tunnels",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "steps to install tunnels"
+                ]
+            },
+            {
+                "lang": "",
+                "code": [
+                    "wget -O vscode_cli.tar.gz 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' && tar -xzf vscode_cli.tar.gz -C /opt",
+                    "",
+                    "chmod +x /opt/code",
+                    "cd opt",
+                    "./code tunnel",
+                    "",
+                    "# install Microsoft: Tunnels",
+                    "# Remote-Tunnels: Connect to Tunnel"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "bash",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "check if a folder exists using the `test` commands"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "if test -d cisco_bindings; then echo exists; else echo does not; fi"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "pyenv",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "set global python version"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "> pyenv versions",
+                    "  system",
+                    "* 3.11.9 (set by /root/.pyenv/version)",
+                    "> pyenv global 3.11.9"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python env",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "script to install `pyenv` to install `python` to install `pipx` to install `poetry` ..."
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "apt-get install locales",
+                    "localedef -i en_US -f UTF-8 en_US.UTF-8",
+                    "",
+                    "apt install curl",
+                    "",
+                    "curl https://pyenv.run | ",
+                    "",
+                    "for file in .bash_profile .profile .bashrc; do",
+                    "    echo 'export PYENV_ROOT=\"$HOME/.pyenv\"' >> ~/$file",
+                    "    echo '[[ -d $PYENV_ROOT/bin ]] && export PATH=\"$PYENV_ROOT/bin:$PATH\"' >> ~/$file",
+                    "    echo 'eval \"$(pyenv init -)\"' >> ~/$file",
+                    "done",
+                    "",
+                    "echo 'eval \"$(pyenv virtualenv-init -)\"' >> ~/.bashrc",
+                    "",
+                    "apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git libgdbm-dev libnss3-dev",
+                    "pyenv install 3.11",
+                    "",
+                    "# restart shell",
+                    "bash",
+                    "",
+                    "pyenv global 3.11.9",
+                    "",
+                    "python -m pip install --user pipx",
+                    "",
+                    "python -m pipx ensurepath",
+                    "",
+                    "python -m pipx completions",
+                    "",
+                    "eval \"$(register-python-argcomplete pipx)\"",
+                    "",
+                    "# restart shell",
+                    "bash",
+                    "",
+                    "pipx install poetry"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "run a specific `pytest` (with stdout collection)"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "pytest -s ./tests/test_exception_handlers.py::test_exception_handler"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "poetry make venv locally"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "# poetry.toml",
+                    "[virtualenvs]",
+                    "in-project = true",
+                    "",
+                    "# OR",
+                    "",
+                    "# locally",
+                    "poetry config virtualenvs.in-project true --local",
+                    "",
+                    "# OR ",
+                    "",
+                    "# globally",
+                    "poetry config virtualenvs.in-project true"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "misc",
+        "level": 1,
+        "snippets": [
+            {
+                "lang": "",
+                "code": [
+                    "# get current deployment config",
+                    "kubectl get deployment osnal2 n osna -o yaml > deployment.yaml",
+                    "",
+                    "# patch deployment",
+                    "kubectl apply -f  deployment.yaml ",
+                    "",
+                    "# push to pod",
+                    "kubectl cp \"/home/ubuntu/osna/osna-l2-main/osna-l2/producer.py\" \"osna/osnal2-f458bd694-hl4tj:/app\"",
+                    "kubectl cp \"/home/ubuntu/osna/osna-l2-main/osna-l2\" \"osna/$(kubectl get pods | grep l2 | awk '{print $1}'):/app\"",
+                    "",
+                    "# kill all BASH processes except current",
+                    "ps -C bash -o pid= | grep -v \"^ *$$\" | xargs kill -9 ",
+                    "",
+                    "# poetry image",
+                    "## Dockerfile",
+                    "from python:3.11-slim",
+                    "",
+                    "env PATH=\"/root/.local/bin:${PATH}\"",
+                    "run bash -c \"pip install --user pipx && \\",
+                    "    pipx ensurepath && \\",
+                    "    pipx completions && \\",
+                    "    pipx install poetry\"",
+                    "",
+                    "## docker-compose.yaml",
+                    "services:",
+                    "  python-poetry:",
+                    "    build:",
+                    "      context: .",
+                    "      dockerfile: Dockerfile",
+                    "    image: python-poetry:latest"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "misc",
+        "level": 1,
+        "snippets": [
+            {
+                "lang": "",
+                "code": [
+                    "-net::ERR_BLOCKED_BY_CLIENT"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "misc",
+        "level": 1,
+        "snippets": [
+            {
+                "lang": "",
+                "code": [
+                    "npm create vite@latest",
+                    "npm i --save-dev @tsconfig/svelte",
+                    "./tsconfig.node.json: $.compilerOptions.noEmit > $.compilerOptions.emitDeclarationOnly // https://stackoverflow.com/a/77369498"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "linux",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "kill a proc in `jobs` using `%` syntax"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "jobs",
+                    "> [1]+  Running                 poetry run main &",
+                    "kill -9 %1",
+                    "> [1]+  Killed                  poetry run main"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "node",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "run node tools from cli"
+                ]
+            },
+            {
+                "lang": "",
+                "code": [
+                    "npx tsc"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "misc",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "alternate values like the squares on a chess board, if you have indices for x + y (row and column)"
+                ]
+            },
+            {
+                "lang": "typescript",
+                "code": [
+                    "x&1 ^ y&1 ? true : false",
+                    "",
+                    "/***",
+                    "x&1 -> odd or even row/column",
+                    "y&1 -> odd of even square",
+                    "",
+                    "x&1 0 0 1 1 ",
+                    "y&1 0 1 0 1",
+                    "XOR 0 1 1 0",
+                    "",
+                    "the first cell of an odd row, must be the same as the first cell of an even row, for a chequered pattern.",
+                    "",
+                    "0 1 0 1",
+                    "1 0 1 0",
+                    "***/"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "typescript",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "dynamic (hacky??) type guard"
+                ]
+            },
+            {
+                "lang": "typescript",
+                "code": [
+                    "function identify<Type>(arg: unknown, field: string): arg is Type {",
+                    "    return (arg as any)[field] !== undefined;",
+                    "}",
+                    "",
+                    "identify<Piece>(square, \"piece_type\")"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "css",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "prevent an element from exceeding the screen and ever overflowing"
+                ]
+            },
+            {
+                "lang": "css",
+                "code": [
+                    "body{",
+                    "    max-height: 99vh;",
+                    "}"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "svelte",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "use `{@const}` to create in-template variables, also works with reactive states (but you cannot create reactive states i.e. $state rune, in the directive"
+                ]
+            },
+            {
+                "lang": "svelte",
+                "code": [
+                    "{@const square: Piece | Empty = g.get(...}",
+                    "{@const marked = !isPiece(square) ? square.is_marked() : null}",
+                    "<div class=\"{marked ? 'marked' : null}\"></div>"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "css",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "use `pointer-events: none` to disable mouse events of an element. can be useful when two elements are stacked on top of each other, and you want to allow the events of the element beneath through"
+                ]
+            },
+            {
+                "lang": "html",
+                "code": [
+                    "<div id=\"foo\"> ",
+                    "  <p>foo</p>",
+                    "</div>",
+                    "<div id=\"bar\">",
+                    "  <p>bar</p>",
+                    "</div>"
+                ]
+            },
+            {
+                "lang": "css",
+                "code": [
+                    "#foo{",
+                    "  position: absolute;",
+                    "  background: red;",
+                    "  width: 100px;",
+                    "  height: 100px;",
+                    "  left: 50px;",
+                    "  top: 50px;",
+                    "  color: black;",
+                    "  text-align: right;",
+                    "}",
+                    "",
+                    "#bar{",
+                    "  position: absolute;",
+                    "  background: blue;",
+                    "  width: 100px;",
+                    "  height: 100px;",
+                    "  color: white;",
+                    "  text-align: right;",
+                    "  pointer-events: none; /* click + hover are disabled for this */",
+                    "}"
+                ]
+            },
+            {
+                "lang": "typescript",
+                "code": [
+                    "let foo = document.getElementById(\"foo\") as HTMLElement;",
+                    "let bar = document.getElementById(\"bar\") as HTMLElement;",
+                    "",
+                    "foo.addEventListener(\"mouseover\", e => console.log(\"foo hover\")});",
+                    "foo.addEventListener(\"click\", e => console.log(\"foo click\")});",
+                    "",
+                    "bar.addEventListener(\"mouseover\", e => console.log(\"bar hover\")});",
+                    "bar.addEventListener(\"click\", e => console.log(\"bar click\")});"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "android",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "get the SHA1 signature"
+                ]
+            },
+            {
+                "lang": "batch",
+                "code": [
+                    "keytool -list -v -keystore C:\\Users\\%USERNAME%\\.android\\debug.keystore -alias androiddebugkey -storepass android -keypass android"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "android",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "when using `by` for property delegation with `collectAsState`, there will be an error unless you import `import androidx.compose.runtime.getValue`"
+                ]
+            },
+            {
+                "lang": "kotlin",
+                "code": [
+                    "import androidx.compose.runtime.getValue",
+                    "",
+                    "// ...",
+                    "",
+                    "val navTarget by navVM.navTarget.collectAsState(initial = \"home\")",
+                    "// without getValue import: ",
+                    "// Type 'androidx. compose. runtime. State<kotlin. Any?>' has no method 'getValue(Nothing?, KProperty0<*>)', so it cannot serve as a delegate."
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "kotlin",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "null saftey expression"
+                ]
+            },
+            {
+                "lang": "kotlin",
+                "code": [
+                    "// typescript -> if (isTypeFoo()) doFooStuf()",
+                    "// kotlin:",
+                    "foo?.let { doFooStuff() }"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "typescript",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "`this` can be typehinted in the function signature, useful when using with `bind`"
+                ]
+            },
+            {
+                "lang": "typescript",
+                "code": [
+                    "class Foo{",
+                    "    public foobar = function(this: Bar){",
+                    "        this.print_bar() // ts understands `this` is typeof Bar",
+                    "    }.bind(new Bar())",
+                    "}",
+                    "const foo = new Foo()",
+                    "foo.foobar()",
+                    "// -> \"bar\""
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "svelte",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "getting vitest set up (fucking pita)"
+                ]
+            },
+            {
+                "lang": "",
+                "code": [
+                    "# run in project",
+                    "npx sv add vitest",
+                    "",
+                    "mv test src/"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "server event stream in django"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "async def SSEStream(request: HttpRequest):",
+                    "    async def stream():",
+                    "        _cached_count = None",
+                    "        while True:",
+                    "            _cached_count = count",
+                    "            yield (",
+                    "                'event: event name'",
+                    "                '\\n'",
+                    "                f'data: data'",
+                    "                '\\n\\n' # <- must be 2 new lines to end a message",
+                    "            )",
+                    "        await sleep(1.0)",
+                    "    return StreamingHttpResponse(stream(), content_type='text/event-stream')",
+                    "",
+                    "# usage: urls.py",
+                    "urlpatterns =  [path('stream', SSEStream, name='stream')]"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "django interactive shell"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "# channels example",
+                    "$ python3 manage.py shell",
+                    "import channels.layers",
+                    "channel_layer = channels.layers.get_channel_layer()",
+                    "from asgiref.sync import async_to_sync",
+                    "async_to_sync(channel_layer.send)('test_channel', {'type': 'hello'})",
+                    "async_to_sync(channel_layer.receive)('test_channel')",
+                    "{'type': 'hello'}"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "mock all missing imports dynamically"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "import sys",
+                    "from unittest.mock import MagicMock",
+                    "",
+                    "mod = None",
+                    "missing_mod = False",
+                    "",
+                    "while missing_mod:",
+                    "    if mod:",
+                    "        print(\"Adding: \" + mod)",
+                    "        sys.modules[mod] = MagicMock()",
+                    "        mod = False",
+                    "    try:",
+                    "        # import lines go here",
+                    "    except ModuleNotFoundError as e:",
+                    "        mod = e.msg.split(\" \")[3].translate(str.maketrans('','','\";\\''))",
+                    "        print(\"Missing: \" + mod)",
+                    "        missing_mod = True",
+                    "        # input(\"> \")",
+                    "# sys.exit(0)",
+                    "# resume rest of the code"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "lint + formatting"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "poetry add -D black ruff pylint isort",
+                    "set FILE=config.py && isort %FILE%  && black %FILE% && ruff check %FILE% --fix  && mypy %FILE%"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "css",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "feathered clipping mask"
+                ]
+            },
+            {
+                "lang": "css",
+                "code": [
+                    "background:",
+                    "\tvar(--noise), /* url(\"noise svg here\") */",
+                    "\tradial-gradient(circle at center, rgb(255,255,255) 0%, rgba(0,0,0,1) 50%);",
+                    "background-size: cover;\t",
+                    "background-blend-mode: multiply;",
+                    "mix-blend-mode: screen;"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "rich logger"
+                ]
+            },
+            {
+                "lang": "python",
+                "code": [
+                    "import logging",
+                    "",
+                    "from rich.logging import RichHandler",
+                    "",
+                    "logging.basicConfig(level=logging.INFO)",
+                    "",
+                    "logger = logging.getLogger(\"app\")",
+                    "logger.handlers = [RichHandler(rich_tracebacks=True)]",
+                    "logger.level = logging.DEBUG",
+                    "logger.propagate = False"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "web",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "using `filter` encapsulates a `position:fixed` object in a block, making its position **relative** to that invisible block, and **not relative to the window**"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "typescript",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "custom error boilerplate"
+                ]
+            },
+            {
+                "lang": "typescript",
+                "code": [
+                    "type ErrorTypes = ",
+                    "    | 'FooError'; // Add more as needed",
+                    "",
+                    "type ErrorMessageFn = (vars?: unknown) => string;",
+                    "",
+                    "const ErrorMessages: Record<ErrorTypes, ErrorMessageFn> = {",
+                    "    FooError: (v) => `Foo ${v}`,",
+                    "};",
+                    "",
+                    "export class AppError extends Error {",
+                    "    override name: ErrorTypes;",
+                    "    override message: string;",
+                    "    cause?: unknown;",
+                    "",
+                    "    constructor(",
+                    "        name: ErrorTypes,",
+                    "        vars?: unknown,",
+                    "        customMessage?: string,",
+                    "        cause?: unknown",
+                    "    ) {",
+                    "        const finalMessage = customMessage || ErrorMessages[name](vars);",
+                    "        super(finalMessage);",
+                    "",
+                    "        if (Error.captureStackTrace) {",
+                    "            Error.captureStackTrace(this, AppError);",
+                    "        }",
+                    "",
+                    "        this.name = name;",
+                    "        this.message = finalMessage;",
+                    "        this.cause = cause;",
+                    "    }",
+                    "",
+                    "    toJSON() {",
+                    "        const json: Record<string, unknown> = {",
+                    "            name: this.name,",
+                    "            message: this.message,",
+                    "        };",
+                    "",
+                    "        if (this.cause !== undefined) {",
+                    "            json.cause = this.cause;",
+                    "        }",
+                    "",
+                    "        return json;",
+                    "    }",
+                    "",
+                    "}"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "typescript",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "array vs tuple; usage of `as const` to convert an array to tuple, so the compiler knows the data structure at compile time"
+                ]
+            },
+            {
+                "lang": "typescript",
+                "code": [
+                    "// Type inference of `Foo` is just `string[]`",
+                    "const Foo = [\"Foo\", \"Bar\"];",
+                    "",
+                    "// TS will say `Type 'string | undefined' is not assignable to type 'string'. Type 'undefined' is not assignable to type 'string'.`",
+                    "var f: string = Foo[0]; ",
+                    "",
+                    "vs",
+                    "",
+                    "// Type inference now includes all static values",
+                    "const Foo = [\"Foo\", \"Bar\"] as const;"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "svelte",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "without adding `props` to a component (which enables `runes`), all variables are reactive by default"
+                ]
+            },
+            {
+                "lang": "svelte",
+                "code": [
+                    "<script lang=\"ts\">",
+                    "    // const { bar } = $props(); <- will break the update",
+                    "    let foo = false; // <- doesn't need $state to work",
+                    "    function foo_f() {",
+                    "        foo = !foo;",
+                    "    }",
+                    "</script>",
+                    "",
+                    "<main class:foo={foo}>",
+                    "    <button onclick={foo_f}>",
+                    "        {foo ? \"foo\" : \"bar\"}",
+                    "    </button>",
+                    "</main>"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "svelte",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "child components should always be `width: 100%; height: 100%`; let the parent component deal with sizing the component to the overall layout"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "rust",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "update `cargo` and `rust`"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "rustup update"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "ts",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "check all files"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "npx tsc --noEmit"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "ts",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "no `export` in a file make it a script, pushing all variable to the **global scope**. with `export` the file is a module."
+                ]
+            },
+            {
+                "lang": "typescript",
+                "code": [
+                    "// foo.ts",
+                    "const foo = \"foo\"",
+                    "",
+                    "// bar.ts",
+                    "const bar = \"bar\"",
+                    "export default bar;",
+                    "",
+                    "// foobar.ts",
+                    "const foo = \"foo\" // <- error - cannot redefine 'foo'",
+                    "const bar = \"bar\" // <- no error"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "css",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "in a row with 2 cells of different heights, clip the row to be the height of the **shortest** cell"
+                ]
+            },
+            {
+                "lang": "html",
+                "code": [
+                    "<main class=\"w-screen h-screen\">",
+                    "",
+                    "  <div class=\"flex flex-row w-full gap-1 relative\"> // 1. row is relative",
+                    "     ",
+                    "      <div class=\"w-10/12 border border-red-500\">",
+                    "        <div class=\"bg-red-200 h-[200px] w-[10px]\"></div>",
+                    "      </div>",
+                    "",
+                    "      <div class=\"w-2/12 shrink-0\" aria-hidden /> // (don't get exactly what this is for)",
+                    "",
+                    "      <div class=\"absolute top-0 bottom-0 overflow-scroll right-0 w-2/12 border border-blue-500\"> // 2. cell to clip (taller cell) is absolute, overflow is hidden and top + bottom are 0. this sizes the div to be the height of the parent container (specified by the red  cell)",
+                    "        <div class=\"bg-blue-200 h-[500px] w-[10px]\"></div>",
+                    "      </div>",
+                    "",
+                    "  </div>",
+                    "",
+                    "</main>",
+                    ""
+                ]
+            }
+        ],
+        "children": []
+    }
+]

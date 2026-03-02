@@ -82,7 +82,7 @@ class MarkdownJSONEditor(ttk.Window):
         self._load_files()
 
     def _build_ui(self):
-        self.main_pane = ttk.PanedWindow(self, orient="horizontal")
+        self.main_pane = ttk.Panedwindow(self, orient="horizontal")
         self.main_pane.pack(fill="both", expand=True, padx=10, pady=10)
 
         # LEFT side: markdown view
@@ -102,14 +102,14 @@ class MarkdownJSONEditor(ttk.Window):
         self.sections_container = ttk.Frame(self.sec_canvas)
         self.sec_canvas.create_window((0, 0), window=self.sections_container, anchor="nw")
 
-        # RIGHT side: JSON view + Treeview + Buttons in vertical PanedWindow
+        # RIGHT side: JSON view + Treeview + Buttons in vertical Panedwindow
         self.right_frame = ttk.Frame(self.main_pane)
         self.main_pane.add(self.right_frame, weight=2)
 
         ttk.Label(self.right_frame, text="JSON Data", font=("Segoe UI", 14, "bold")).pack(anchor="w", pady=(0, 5), padx=5)
 
-        # 🔥 NEW vertical panedwindow inside right_frame
-        self.right_pane = ttk.PanedWindow(self.right_frame, orient="vertical")
+        # 🔥 NEW vertical Panedwindow inside right_frame
+        self.right_pane = ttk.Panedwindow(self.right_frame, orient="vertical")
         self.right_pane.pack(fill="both", expand=True, padx=5, pady=5)
 
         # Pane 1: JSON display
@@ -129,8 +129,10 @@ class MarkdownJSONEditor(ttk.Window):
 
         # Pane 3: Buttons
         self.button_frame = ttk.Frame(self.right_pane)
+        ttk.Button(self.button_frame, text="Load Files", bootstyle=(PRIMARY, "outline"),
+                command=self._load_files).pack(pady=(10, 5), fill="x", padx=5)
         ttk.Button(self.button_frame, text="Insert into Selected Section", bootstyle=(INFO),
-                command=self._insert_json).pack(pady=(10, 5), fill="x", padx=5)
+                command=self._insert_json).pack(pady=5, fill="x", padx=5)
         ttk.Button(self.button_frame, text="Save Markdown", bootstyle=(SUCCESS, "outline"),
                 command=self._save_markdown).pack(pady=5, fill="x", padx=5)
         self.right_pane.add(self.button_frame, weight=0)
@@ -163,10 +165,13 @@ class MarkdownJSONEditor(ttk.Window):
             self._build_sections_ui()
             self._display_current_json()
 
+        except FileNotFoundError as e:
+            logger.info(f"Load cancelled or no file selected: {e}")
+            if messagebox.askretrycancel("Load Files", "No files selected.\nWould you like to try again?"):
+                self.after(100, self._load_files)
         except Exception as e:
             logger.error(f"Error loading files: {e}\n{traceback.format_exc()}")
-            messagebox.showerror("Load Error", f"Error loading files:\n{e}")
-            self.destroy()
+            messagebox.showerror("Load Error", f"Error loading files:\n{e}\n\nYou can click 'Load Files' to try again.")
 
     def _parse_contents_and_sections(self):
         lines = self.markdown_lines

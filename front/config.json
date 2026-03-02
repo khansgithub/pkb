@@ -1,0 +1,19 @@
+{
+    "transforms": [
+        {
+            "mode": "sql",
+            "include": "**/*.sql",
+            "emitTemplate": "{{dir}}/{{name}}.queries.ts"
+        }
+    ],
+    "srcDir": "./src/",
+    "failOnError": false,
+    "camelCaseColumnNames": false,
+    "db": {
+        "host": "127.0.0.1",
+        "user": "postgres",
+        "dbName": "template1",
+        "password": "postgres",
+        "ssl": false
+    }
+}

@@ -1,0 +1,116 @@
+[
+    {
+        "name": "foo",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "[F]"
+                ]
+            },
+            {
+                "text": [
+                    "entry under foo"
+                ]
+            },
+            {
+                "lang": "js",
+                "code": [
+                    "console.log('foo');"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "[A]code with lang",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "bash snippet for hello"
+                ]
+            },
+            {
+                "lang": "bash",
+                "code": [
+                    "echo hello"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "[B]code without lang",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "plain text block"
+                ]
+            },
+            {
+                "lang": "",
+                "code": [
+                    "plain text block"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "[C]text and code",
+        "level": 1,
+        "snippets": [
+            {
+                "lang": "python",
+                "code": [
+                    "print(\"hi\")"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "nested [D]level 3",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "go snippet"
+                ]
+            },
+            {
+                "lang": "go",
+                "code": [
+                    "fmt.Println(\"nested\")"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "[E]sibling",
+        "level": 1,
+        "snippets": [
+            {
+                "text": [
+                    "sql query"
+                ]
+            },
+            {
+                "lang": "sql",
+                "code": [
+                    "SELECT 1;"
+                ]
+            }
+        ],
+        "children": []
+    },
+    {
+        "name": "misc",
+        "level": 1,
+        "snippets": [],
+        "children": []
+    }
+]

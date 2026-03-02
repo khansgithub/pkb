@@ -1,0 +1,165 @@
+[
+    {
+        "name": "cue",
+        "level": 1,
+        "code": [],
+        "other": ["output cue file to json"],
+        "children": [
+            {
+                "name": "output cue file to json",
+                "level": 2,
+                "code": [
+                    {
+                        "lang": "bash",
+                        "lines": ["cue eval schema.cue --out json"]
+                    }
+                ],
+                "other": [],
+                "children": []
+            }
+        ],
+        "hashes": ["5113bffaa38542adb4b30c22d9f87bb6"]
+    },
+    {
+        "name": "python",
+        "level": 1,
+        "code": [
+            {
+                "lang": "python",
+                "lines": ["def foo():", "    pass"]
+            },
+            {
+                "lang": "bash",
+                "lines": ["poetry install"]
+            }
+        ],
+        "other": ["some note", "another note"],
+        "children": [
+            {
+                "name": "python",
+                "level": 1,
+                "code": [
+                    {
+                        "lang": "python",
+                        "lines": ["if __name__ == \"__main__\":", "    run()"]
+                    }
+                ],
+                "other": [],
+                "children": []
+            }
+        ],
+        "hashes": []
+    },
+    {
+        "name": "go",
+        "level": 1,
+        "code": [
+            {
+                "lang": "go",
+                "lines": ["func main() {", "    fmt.Println(\"hi\")", "}"]
+            }
+        ],
+        "other": ["embedded types"],
+        "children": [
+            {
+                "name": "go",
+                "level": 1,
+                "code": [
+                    {
+                        "lang": "golang",
+                        "lines": ["(func(args... interface{}){})(foo, bar)"]
+                    }
+                ],
+                "other": ["bypass unused function error"],
+                "children": []
+            }
+        ],
+        "hashes": []
+    },
+    {
+        "name": "k8",
+        "level": 1,
+        "code": [],
+        "other": [],
+        "children": [
+            {
+                "name": "k8",
+                "level": 1,
+                "code": [],
+                "other": ["set imagePullPolicy to Always to update pod image"],
+                "children": []
+            }
+        ],
+        "hashes": []
+    },
+    {
+        "name": "kotlin",
+        "level": 1,
+        "code": [],
+        "other": [],
+        "children": [
+            {
+                "name": "kotlin",
+                "level": 1,
+                "code": [
+                    {
+                        "lang": "kotlin",
+                        "lines": ["foo?.let { doFooStuff() }"]
+                    }
+                ],
+                "other": ["null safety expression"],
+                "children": []
+            }
+        ],
+        "hashes": []
+    },
+    {
+        "name": "web",
+        "level": 1,
+        "code": [],
+        "other": [],
+        "children": [
+            {
+                "name": "web",
+                "level": 1,
+                "code": [],
+                "other": [
+                    "using filter encapsulates position:fixed",
+                    "https://stackoverflow.com/a/52937920"
+                ],
+                "children": []
+            }
+        ],
+        "hashes": []
+    },
+    {
+        "name": "svelte",
+        "level": 1,
+        "code": [
+            {
+                "lang": "",
+                "lines": ["npx sv add vitest", "mv test src/"]
+            },
+            {
+                "lang": "svelte",
+                "lines": ["<script>", "  let foo = false;", "</script>"]
+            }
+        ],
+        "other": ["without props, variables are reactive by default"],
+        "children": [
+            {
+                "name": "svelte",
+                "level": 1,
+                "code": [
+                    {
+                        "lang": "svelte",
+                        "lines": ["{@const x = foo}", "<div>{x}</div>"]
+                    }
+                ],
+                "other": ["use {@const} for in-template variables"],
+                "children": []
+            }
+        ],
+        "hashes": []
+    }
+]
