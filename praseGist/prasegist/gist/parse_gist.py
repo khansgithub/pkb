@@ -3,7 +3,7 @@
 
 import json
 from prasegist.gist.get_gist import FILEPATH
-from prasegist.shared.shared import BlockEnum, CodeBlock, Section, Section1, SomeSection, TextBlock, code_block_hash, hashStr, text_block_hash
+from prasegist.shared.shared import BlockEnum, CodeBlock, Section, Section1, SomeSection, TextBlock, block_hash, hashStr, block_hash
 
 # FILEPATH = FILEPATH.parent / "test_gist.md"
 FILEPATH_PROCESSED = FILEPATH.with_suffix(".processed.json")
@@ -57,21 +57,21 @@ class Context:
     # CODE #
     ########
     def code_add(self, line: str):
-        codeblock = self.section.snippets[-1]
-        if codeblock.block_type != BlockEnum.CODE:
+        codeblock = self.section.blocks[-1]
+        if codeblock.type != BlockEnum.CODE:
             raise Exception("Expect codeblock")
         codeblock.lines.append(line.rstrip().rstrip("\n"))
 
     def start_codeblock(self, line: str):
         lang = line.replace("`", "").strip()
         codeblock = CodeBlock(lang=lang)
-        self.section.snippets.append(codeblock)
+        self.section.blocks.append(codeblock)
         
         self.is_codeblock = True
         self.codeblock = codeblock
 
     def end_codeblock(self):
-        self.stack[0].hashes.add(code_block_hash(self.codeblock))
+        self.stack[0].hashes.add(block_hash(self.codeblock))
         self.stack[0].hashes.add(hashStr(self.section.name))
         
         self.is_codeblock = False
@@ -86,9 +86,9 @@ class Context:
 
         textblock = TextBlock()
         textblock.lines.append(line)
-        self.section.snippets.append(textblock)
+        self.section.blocks.append(textblock)
         self.textblock = textblock
-        self.stack[0].hashes.add(text_block_hash(line))
+        self.stack[0].hashes.add(block_hash(textblock))
 
     #############
     # GENERATOR #

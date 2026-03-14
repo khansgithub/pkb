@@ -1,7 +1,8 @@
 import json
 
 from prasegist.comments.get_comments import FILEPATH
-from prasegist.gist.parse_gist import CodeBlock, Section, TextBlock
+from prasegist.shared.shared import CodeBlock, Section, TextBlock
+
 
 # FILEPATH = FILEPATH.parent / "test_comments.json"
 FILEPATH_PROCESSED = FILEPATH.with_suffix(".processed.json")
@@ -62,23 +63,23 @@ class Context:
 
     def _ensure_section(self, name: str = "misc"):
         if self.section is None:
-            self.section = Section(name=name, level=1, snippets=[], children=[])
+            self.section = Section(name=name, level=1, blocks=[], children=[])
 
     def section_add(self, name: str):
-        self.section = Section(name=name, level=1, snippets=[], children=[])
+        self.section = Section(name=name, level=1, blocks=[], children=[])
 
     def other_add(self, text: str):
         self._ensure_section()
         if self.section is not None:
             textblock = TextBlock(lines=[text])
-            self.section.snippets.append(textblock)
+            self.section.blocks.append(textblock)
 
     def start_codeblock(self, line: str):
         self._ensure_section()
         lang = parseFunctions.extract_codeblock_lang(line)
         self.codeblock = CodeBlock(lang=lang)
         if self.section is not None:
-            self.section.snippets.append(self.codeblock)
+            self.section.blocks.append(self.codeblock)
         self.is_codeblock = True
 
     def code_add(self, line: str):
@@ -117,7 +118,7 @@ def parse_comment_to_section(lines: list[str]) -> Section:
         parse_section(context)
 
     if context.section is None:
-        return Section(name="misc", level=1, snippets=[], children=[])
+        return Section(name="misc", level=1, blocks=[], children=[])
     return context.section
 
 

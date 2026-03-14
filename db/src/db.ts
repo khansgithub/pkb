@@ -1,71 +1,54 @@
-import { PGlite } from '@electric-sql/pglite'
+import { PGlite, type Results } from '@electric-sql/pglite'
 import { pg_trgm } from '@electric-sql/pglite/contrib/pg_trgm';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import rowData from "./data/rows.json";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const create_db_sql = loadSql("create_db.sql");
 
-type BlockEnum = "code" | "text";
 
 interface CodeBlock {
     lang: string;
-    code: string[]; // JSON serialization alias for lines
-    block_type?: BlockEnum;
+    lines: string[];
+    type: BlockEnum;
 }
 
 interface TextBlock {
-    text: string[]; // JSON serialization alias for lines
-    block_type?: BlockEnum;
+    lines: string[];
+    type: BlockEnum;
 }
 
-type SnippetBlock = CodeBlock | TextBlock;
-type Snippets = SnippetBlock[];
 
-interface Section {
-    name: string;
-    level: number;
-    snippets: SnippetBlock[];
-    children: Section[];
-}
-
-interface Section1 extends Section {
-    hashes: Set<string> | string[]; // JSON serializes set as array
-}
-
+type BlockEnum = "code" | "text";
+type Block = CodeBlock | TextBlock;
 type SomeSection = Section1 | Section;
 
-export type SnippetRow = {
+export type Row = {
     id?: number;
-    path: string;
     title: string;
-    // code: string[][] | null;
-    codeHashes: string[];
-    text: string[] | null;
+    tags: string[];
+    description: string;
+    blocks: Block[];
     created_at?: string; // iso/timestamp
 };
 
-export type CodeblocksRows = {
-    hash: string;
-    code: string[];
-};
 
 function loadSql(filename: string) {
     return fs.readFileSync(path.join(__dirname, "sql", filename), "utf8");
 }
 
-
 function buildPath(sectionName: string, path?: string) {
     return `${path ? path + "/" : "/"}${sectionName}`;
 }
 
-function isCodeBlock(block: SnippetBlock): block is CodeBlock {
+function isCodeBlock(block: Block): block is CodeBlock {
     return "lang" in block;
 }
 
-function getBlockLines(block: SnippetBlock): string[] {
-    return isCodeBlock(block) ? block.code : block.text
+function getBlockLines(block: Block): string[] {
+    return isCodeBlock(block) ? block.lines : block.lines
 }
 
 function isSection(node: unknown): node is Section {
@@ -82,7 +65,7 @@ function rowFromSection(
     section: Section,
     path?: string,
     sectionHashGen?: Generator<string, string, string>
-): [SnippetRow, CodeblocksRows[]] {
+): [Row, CodeblocksRows[]] {
     const code: string[][] = [];
     const codeHashes: string[] = [];
     const other: string[] = [];
@@ -119,15 +102,15 @@ function rowFromSection(
             }
         }) as CodeblocksRows[],
 
-    ] as [SnippetRow, CodeblocksRows[]];
+    ] as [Row, CodeblocksRows[]];
     return out;
 }
 
-function findSnippet(section: SomeSection, path?: string, sectionHashGen?: Generator<string>): [SnippetRow[], CodeblocksRows[]] {
+function findSnippet(section: SomeSection, path?: string, sectionHashGen?: Generator<string>): [Row[], CodeblocksRows[]] {
     const snippets = section.snippets;
     const hasSnippets = snippets.length > 0;
 
-    const snippetRows: SnippetRow[] = [];
+    const snippetRows: Row[] = [];
     const codeblocksRows: CodeblocksRows[] = [];
 
     if (hasSnippets) {
@@ -135,7 +118,7 @@ function findSnippet(section: SomeSection, path?: string, sectionHashGen?: Gener
         snippetRows.push(snippetRows_);
         codeblocksRows.push(...codeblockRows_)
     }
-    
+
     const children = section.children;
     for (const child of children) {
         if (isSection(child)) {
@@ -152,42 +135,35 @@ function findSnippet(section: SomeSection, path?: string, sectionHashGen?: Gener
     return [snippetRows, codeblocksRows];
 }
 
-function buildRows(gists: Section1[]): [SnippetRow[], CodeblocksRows[]] {
-    const snippetRows: SnippetRow[] = [];
-    const codeblocksRows: CodeblocksRows[] = [];
-    for (const section of gists) {
-        function* sectionHashGen() { for (const h of section.hashes) yield h; }
-        const [snippetRows_, codeblockRows_] = findSnippet(section, undefined, sectionHashGen());
-        snippetRows.push(...snippetRows_);
-        codeblocksRows.push(...codeblockRows_)
-    }
 
-    return [snippetRows, codeblocksRows];
-}
 
-export async function insertData(db: PGlite) {
-    const jsonPath = path.join(__dirname, "data", "merged_gists.json");
-    const json = JSON.parse(fs.readFileSync(jsonPath, "utf8"));
-    const [snippetRows, codeblocksRows] = buildRows(json);
+async function insertIntoBlocks(db: PGlite, row: Row): Promise<number[]> {
+    const valuesStatement = Array.from({ length: row.blocks.length }).map(
+        (_, i) => `$${i * row.blocks.length + 1}, $${i * row.blocks.length + 2}, $${i * row.blocks.length + 3}`
+    ).join(",");
 
-    for (const codeblock of codeblocksRows) {
+
+    for (const block of row.blocks) {
         try {
-            await db.query(
-                "insert into gist_codeblocks (hash, code, code_flat) values ($1, $2, $3);",
-                // [s.path, s.title, s.code ?? [[]], s.text ?? [], flat_code, flat_text]
-                [codeblock.hash, codeblock.code, codeblock.code.join("\n")]
+            const sql = /* sql*/ `insert into blocks (type, lang, lines) ${valuesStatement};`;
+            const result: Results<Row> = await db.query(sql,
+                [block.type, (block as CodeBlock).lang ?? null, block.lines]
             );
+            return Array.from(result.rows).map(row => row.id!);
         } catch (err) {
-            console.error(
-                `Failed to insert row for path [${codeblock.hash}]`,
-                "\nRow data:", [codeblock.code],
-                "\nError:", err
-            );
+            console.error(`Failed to insert block: [${block}]`);
             process.exit(1);
         }
     }
+}
 
-    for (const snippet of snippetRows) {
+export async function insertData(db: PGlite) {
+    // popular Blocks table
+    for (const row of rowData as Row[]) {
+        // all the block ids for this snippet
+        const blockIds = await insertIntoBlocks(db, row);
+
+
         const flat_text = (snippet.text ?? []).join("\n");
         try {
             const rowId = ((await db.query(
@@ -202,24 +178,24 @@ export async function insertData(db: PGlite) {
                     flat_text,
                     snippet.codeHashes,
                 ]
-            )).rows[0] as SnippetRow).id;
+            )).rows[0] as Row).id;
 
-            for (const hash of snippet.codeHashes){
+            for (const hash of snippet.codeHashes) {
                 await db.query(
                     "insert into snippet_codeblocks_hash_map (snippet_id, codeblock_hash) values ($1, $2);",
                     [rowId, hash]
                 );
-            }            
-            
+            }
+
         } catch (err) {
             console.error(
                 `Failed to insert row for path [${snippet.path}]`,
                 "\nRow data:", {
-                    path: snippet.path,
-                    title: snippet.title,
-                    text: snippet.text,
-                    codeHashes: snippet.codeHashes
-                },
+                path: snippet.path,
+                title: snippet.title,
+                text: snippet.text,
+                codeHashes: snippet.codeHashes
+            },
                 "\nError:", err
             );
             process.exit(1);

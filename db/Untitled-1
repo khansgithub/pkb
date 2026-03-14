@@ -1,0 +1,51 @@
+CREATE TABLE snippets (
+  id integer GENERATED ALWAYS AS IDENTITY NOT NULL UNIQUE PRIMARY KEY,
+  title text NOT NULL DEFAULT ''::text,
+  tags text[] NOT NULL,
+  description text NOT NULL DEFAULT ''::text
+);
+
+CREATE TABLE blocks (
+  id integer GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
+  type text NOT NULL DEFAULT ''::text,
+  lang text,
+  lines text[] NOT NULL,
+  snippetId integer NOT NULL,
+  pos smallint NOT NULL UNIQUE,
+  CONSTRAINT blocks_snippetId_fkey FOREIGN KEY (snippetId) REFERENCES public.snippets(id)
+);
+
+CREATE INDEX blocks_lines_lang_gin_idx ON blocks USING GIN (
+  to_tsvector('english', array_to_string(lines, ' ') || ' ' || coalesce(lang, ''))
+);
+
+CREATE INDEX snippets_tag_title_gin_idx ON snippets USING GIN (
+  to_tsvector('english', array_to_string(tags, ' ') || ' ' || coalesce(title, ''))
+);
+
+
+CREATE TYPE block_type AS ENUM ('code', 'text');
+
+DROP TABLE IF EXISTS blocks CASCADE;
+DROP TABLE IF EXISTS snippets CASCADE;
+DROP TYPE IF EXISTS block_type CASCADE;
+
+
+-- The error occurs because to_tsvector('english', ...) is not IMMUTABLE (it is STABLE),
+-- and Postgres requires all functions in an index expression to be IMMUTABLE.
+-- To fix this, use 'simple' as the config instead of 'english', or define a wrapper IMMUTABLE SQL function.
+
+-- Use 'simple' config (which is IMMUTABLE) in to_tsvector:
+CREATE INDEX blocks_lines_lang_gin_idx ON blocks USING GIN (
+  to_tsvector('simple', array_to_string(lines, ' ') || ' ' || coalesce(lang, ''))
+);
+
+CREATE TABLE blocks (
+  id integer GENERATED ALWAYS AS IDENTITY NOT NULL PRIMARY KEY,
+  type block_type NOT NULL,
+  lang text,
+  lines text[] NOT NULL,
+  snippetId integer NOT NULL,
+  pos smallint NOT NULL UNIQUE,
+  ts_vector tsvector GENERATED ALWAYS AS (to_tsvector('simple', array_to_string(lines, ' '))) STORED
+);

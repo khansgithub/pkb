@@ -1,8 +1,12 @@
 import Dexie, { type EntityTable } from 'dexie';
-import type { Query } from './lib/api.contract';
+import type { QueryResponse } from './lib/api.contract';
+
+type QueryCache = {
+    query: string;
+} & QueryResponse;
 
 var db = new Dexie("db") as Dexie & {
-    queries: EntityTable<Query, 'query'>;
+    queries: EntityTable<QueryCache, 'query'>;
 };
 
 db.version(1).stores({
@@ -16,5 +20,5 @@ db.version(1).stores({
 //         snippet_ids: []
 //     })
 // })()
-export type { Query };
+export type { QueryCache };
 export { db };

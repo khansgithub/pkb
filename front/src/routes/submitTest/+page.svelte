@@ -3,9 +3,9 @@
     -  fix ui issue with the sync button    
     */
     import {
-        cacheResponse,
+        cacheResponseSnippets,
         queryInDb,
-        send,
+        query,
         sync as db_sync,
         type Response,
     } from "$lib/api";
@@ -16,7 +16,6 @@
 
     const DEBOUNCE_T = 700;
     var show_button_spinner = $state(false);
-
 
     var text = $state("");
     var response: Response = $state({} as Response);
@@ -32,7 +31,7 @@
         if ((cached_query = await queryInDb(q))) return cached_query;
 
         logger.info("Send POST");
-        response = await send(q).then(cacheResponse);
+        response = await query(q).then(cacheResponseSnippets);
         logger.info(["response snapshot", $state.snapshot(response)]);
     }, DEBOUNCE_T);
 
@@ -52,9 +51,13 @@
     <div class="">
         <form bind:this={form}>
             <input
+                disabled
                 id=""
                 type="text"
                 oninput={async (_) => await d_send(text)}
+                onkeydown={(e) => {
+                    e.key == "Enter" ? e.currentTarget.click() : null;
+                }}
                 class="border-2"
                 bind:value={text}
             />
@@ -64,27 +67,16 @@
     </div>
 
     <div class="w-full place-self-center">
-        <button
-            onclick={sync}
-            class={cn(sync_button)}
-        >
-            <p class="{show_button_spinner ? 'hidden': ''}">Sync</p>
-            {@render spinner()}
+        <button class="btn btn-outline btn-wide" onclick={sync}>
+            {#if show_button_spinner}
+                <span class="loading loading-spinner"></span>
+                <p>Loading</p>
+            {:else}
+                <p>Sync</p>
+            {/if}
         </button>
     </div>
 </main>
-
-{#snippet spinner()}
-    <svg
-        class="size-5 animate-spin {!show_button_spinner ? 'hidden': ''}"
-        viewBox="0 0 24 24"
-    >
-        <path
-            d="M12 22c5.421 0 10-4.579 10-10h-2c0 4.337-3.663 8-8 8s-8-3.663-8-8c0-4.336 3.663-8 8-8V2C6.579 2 2 6.58 2 12c0 5.421 4.579 10 10 10z"
-            data-original="#000000"
-        />
-    </svg>
-{/snippet}
 
 <style>
 </style>

@@ -5,17 +5,24 @@ Comments are added under their tag (section) with description as subsection key.
 Code blocks and misc content are converted to gist format.
 """
 
-from dataclasses import dataclass
 import json
+from dataclasses import dataclass
 from pathlib import Path
 
 from prasegist.comments.parse_comments import FILEPATH as COMMENTS_FILEPATH
 from prasegist.gist.parse_gist import FILEPATH as GIST_FILEPATH
-from prasegist.gist.parse_gist import CodeBlock, Section, Section1, SomeSection, TextBlock, hashStr
-from prasegist.shared.shared import code_block_hash, text_block_hash
+from prasegist.gist.parse_gist import (
+    CodeBlock,
+    Section,
+    Section1,
+    SomeSection,
+    TextBlock,
+)
+from prasegist.shared.shared import BlockEnum, block_hash
 
 GIST_PROCESSED = GIST_FILEPATH.with_suffix(".processed.json")
 COMMENTS_PROCESSED = COMMENTS_FILEPATH.with_suffix(".processed.json")
+OUTPUT_FILE = Path(__file__).parent / "merged_gists.json"
 
 # Tag variations in comments -> canonical section name in gist
 TAG_TO_SECTION: dict[str, str] = {
@@ -68,9 +75,9 @@ def load_comments_processed(path: Path | None = None) -> list[dict]:
         return json.load(f)
 
 
-def save_gist_processed(data: dict, path: Path | None = None) -> None:
+def save_gist_processed(data: dict) -> None:
     """Save gist.processed.json."""
-    out_file = path or Path(__file__).parent / "merged_gists.json"
+    out_file = OUTPUT_FILE
     with open(out_file, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4)
 
@@ -79,15 +86,20 @@ def save_gist_processed(data: dict, path: Path | None = None) -> None:
 class GistMap:
     section: SomeSection
     parent: SomeSection | None
+
+
 def gist_map(gist: list[Section], parent: SomeSection = None) -> dict[str, GistMap]:
     r = {}
     for section in gist:
-        if(hasattr(section, "children")):
-            r.update(gist_map(section['children'], section))
-        r[section['name']] = DotDict({
-            "section": DotDict(section),
-            "parent": DotDict(parent) if parent else parent
-        })
+        if hasattr(section, "children"):
+            pass
+            # r.update(gist_map(section['children'], section))
+        r[section["name"]] = DotDict(
+            {
+                "section": DotDict(section),
+                "parent": DotDict(parent) if parent else parent,
+            }
+        )
     return r
 
 
@@ -100,15 +112,17 @@ def covert_hash_list_to_set(sections: list[Section1], revert=False):
             section.hashes = set(section.hashes)
 
 
-def merge_with_section(comment: Section1, section_map: GistMap, lookup: dict[str, GistMap]):
+def merge_with_section(
+    comment: Section1, section_map: GistMap, lookup: dict[str, GistMap]
+):
     comment_name = _normalize_tag(comment.name)
     section = section_map.section
-    for snippet in comment.snippets:
+    for snippet in comment.blocks:
         top_level_section = section_map
         snippet: CodeBlock | TextBlock = DotDict(snippet)
-        is_code = hasattr(snippet, "code")
-        snippet_hash = (code_block_hash if is_code else text_block_hash)(snippet)
-        
+        is_code = snippet.type == BlockEnum.CODE
+        snippet_hash = block_hash(snippet)
+
         while top_level_section.section.level > 1:
             top_level_section = lookup[top_level_section.parent.name]
 
@@ -116,13 +130,11 @@ def merge_with_section(comment: Section1, section_map: GistMap, lookup: dict[str
             continue
 
         snippet_block = (
-            CodeBlock(lang=snippet.lang, lines=snippet.code)
+            CodeBlock(lang=snippet.lang, lines=snippet.lines)
             if is_code
-            else TextBlock(lines=snippet.text)
+            else TextBlock(lines=snippet.lines)
         )
-        section.children.append(
-            snippet_block.model_dump(mode="json", by_alias=True)
-        )
+        section.blocks.append(snippet_block.model_dump(mode="json", by_alias=True))
         top_level_section.section.hashes.add(snippet_hash)
 
 
@@ -139,18 +151,24 @@ def merge2() -> dict:
         comment_name = _normalize_tag(comment.name)
         section: GistMap | None = gist_lookup.get(comment_name, None)
 
-        # new section # # # # # # # # # # # # # # # # # # # # # # # # # # # # # 
+        # new section # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if not section:
             # Build dict manually: comment is DotDict with comments schema, not gist
-            new_section = DotDict({
-                "name": comment_name,
-                "level": 1,
-                "snippets": [],
-                "children": [dict(comment)],
-                "hashes": set[str](),
-            })
+
+            new_section = DotDict(
+                Section1(
+                    name=comment_name,
+                    level=1,
+                    blocks=[],
+                    children=[dict(comment)],
+                    hashes=set(),
+                ).model_dump()
+            )
             gists.append(new_section)
-            gist_lookup[comment_name] = new_section
+            gist_lookup[comment_name] = GistMap(
+                section=new_section,
+                parent=None,
+            )
             continue
         # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
@@ -163,5 +181,5 @@ def merge2() -> dict:
 
 ####################################################
 
-
-merge2()
+if __name__ == "__main__":
+    merge2()

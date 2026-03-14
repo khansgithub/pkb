@@ -1,83 +1,38 @@
-"""
-Example usage of praseGist.
-"""
-import asyncio
-import sys
-from pathlib import Path
-
-from snippets import (
-    ParseMardownAsSnippets,
-    SnippetSourceFile,
-    SnippetSourceGist,
-    SnippetSourceRaw,
+from prasegist.comments.parse_comments import (
+    load_comments,
+    _extract_body,
+    parse_comments,
+    save_comments,
 )
+from prasegist.gist.parse_gist import load_gist, save_gist, parse_gist
+from prasegist.merge.merge import merge2
+from prasegist.rows.make_rows import build_rows, make_rows
 
 
-async def example_raw() -> None:
-    """Example: get snippets from the built-in raw source."""
-    source = SnippetSourceRaw()
-    snippets = await source.get_snippets()
-    print("SnippetSourceRaw:")
-    for s in snippets:
-        print(f"  - {s.title}: {s.language}")
+def gist_fucntions():
+    gist = load_gist()
+    tree = parse_gist(gist)
+    # x =json.dumps([asdict(s) for s in tree], indent=4)
+    # print(json.dumps(convert_tree(tree), indent=4))
+    # save_gist(convert_tree(tree))
+    save_gist(tree)
 
 
-async def example_from_markdown() -> None:
-    """Example: parse snippets from inline markdown."""
-    markdown = """
-# Python Snippets
-
-## Formatting
-
-```python
-def hello():
-    print("world")
-```
-
-## Linting
-
-```bash
-ruff check .
-```
-"""
-    parser = ParseMardownAsSnippets(markdown)
-    parser.parse_markdown()
-    print("\nParseMardownAsSnippets (inline):")
-    for s in parser._snippets:
-        print(f"  - {s.title}: {s.language}")
+def comments_functions():
+    comments = _extract_body(load_comments())
+    tree = parse_comments(comments)
+    save_comments(tree)
 
 
-async def example_from_file(filepath: Path) -> None:
-    """Example: parse snippets from a markdown file."""
-    source = SnippetSourceFile(filepath)
-    snippets = await source.get_snippets()
-    print(f"\nSnippetSourceFile ({filepath}):")
-    for s in snippets:
-        print(f"  - {s.title}: {s.language}")
+def merge_functions():
+    merge2()
 
 
-def example_from_gist(gist_id: str) -> None:
-    """Example: parse snippets from a GitHub gist."""
-    import requests
-
-    url = SnippetSourceGist.gist_url.format(gist_id=gist_id)
-    res = requests.get(url)
-    res.raise_for_status()
-    parser = ParseMardownAsSnippets(res.text)
-    parser.parse_markdown()
-    print(f"\nSnippetSourceGist ({gist_id}):")
-    for s in parser._snippets:
-        print(f"  - {s.title}: {s.language}")
-
-
-async def main() -> None:
-    await example_raw()
-    await example_from_markdown()
-
-    # Uncomment to try with a file or gist:
-    # await example_from_file(Path("path/to/snippets.md"))
-    # example_from_gist("your-gist-id")
-
+def row_functions():
+    make_rows()
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    # gist_fucntions()
+    # comments_functions()
+    # merge_functions()
+    row_functions()

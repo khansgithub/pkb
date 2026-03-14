@@ -1,36 +1,49 @@
 import { z } from 'zod';
+import { SnippetSchema } from './types';
 
-// ==================================================
-// Query endpoint
-// ==================================================
-
-export const QueryRequestSchema = z.object({
-    q: z.string(),
+// =======================
+// Schemas
+// =======================
+const QueryRequestSchema = z.object({
+    q: z.string()
 });
 
-export const QueryResponseSchema = z.object({
-    query: z.string(), // PK
-    snippet_ids: z.array(z.number()),
+const QueryResponseSchema = z.object({
+    snippets: z.array(SnippetSchema)
 });
 
+const ErrorResponseSchema = z.object({
+    error: z.object({
+        message: z.string(),
+        name: z.string(),
+        stack: z.string().optional(),
+    })
+});
+
+export const QueryEndpointResponseSchema = z.union([QueryResponseSchema, ErrorResponseSchema]);
+
+// =======================
+// Types
+// =======================
 export type QueryRequest = z.infer<typeof QueryRequestSchema>;
-export type Query = z.infer<typeof QueryResponseSchema>;
+export type QueryResponse = z.infer<typeof QueryResponseSchema>;
+export type ErrorResponse = z.infer<typeof ErrorResponseSchema>;
+export type QueryEndpointResponse = z.infer<typeof QueryEndpointResponseSchema>;
 
-// ==================================================
-// Endpoint metadata (for documentation)
-// ==================================================
-
+// =======================
+// Endpoint metadata
+// =======================
 export const ENDPOINTS_META = {
     query: {
-        description:
-            'A (partial?) search query sent to the database, for it to perform a FTS with, and return results.',
+        description: 'FTS query endpoint (search and return snippets).',
         request: QueryRequestSchema,
         response: QueryResponseSchema,
+        error: ErrorResponseSchema,
     },
     sync: {
-        description:
-            'Invokes the backend to recreate the snippets database, including reparsing the gist, and reindexing the database(?)',
+        description: 'Rebuild/reindex snippets database from gist.',
         request: z.void(),
         response: z.boolean(),
+        error: ErrorResponseSchema,
     },
 } as const;

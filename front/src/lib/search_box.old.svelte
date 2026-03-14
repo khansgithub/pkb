@@ -73,14 +73,14 @@
 </script>
 
 <svelte:window
-	onmousemove={(e: MouseEvent) => {
-		[x, y] = [e.x, e.y];
-	}}
-	onresize={(_) => {
-		// FIXME: on window resize the light doesnt follow the cursor properly
-		// hover_initial_x=0;
-		// console.log("resize");
-	}}
+    onmousemove={(e: MouseEvent) => {
+        [x, y] = [e.x, e.y];
+    }}
+    onresize={(_) => {
+        // FIXME: on window resize the light doesnt follow the cursor properly
+        // hover_initial_x=0;
+        // console.log("resize");
+    }}
 />
 
 <!--
@@ -181,6 +181,27 @@
         "base-layer",
         cn(c.id_middle.input.css, "!bg-black !shadow-none z-0"),
     )}
+    <!---------------------------------------------->
+    <!---------------------------------------------->
+    <!---------------------------------------------->
+    <!---------------------------------------------->
+    <input class="pill" />
+    <div class="pill pill-1" {@attach addToZ}>
+        <!-- Mask: clips the highlight so it doesn’t spill outside the input shape -->
+        {@render div("inner_light_mask", "pill pill-1-1")}
+
+        <!-- Draggable yellow spot that tracks cursor position -->
+        <div
+            id="inner_light_highlight"
+            {@attach addToZ}
+            {@attach draggableHover}
+            class={cn(
+                c.id_middle.clipper.hover.css,
+                "!bg-red-200 !shadow-none",
+            )}
+        ></div>
+    </div>
+    <div class="pill-bg pill"></div>
 </div>
 <!-- Shared helper: renders a single div with id, classes, and z-index from Tailwind (used for base-layer, back-glow, white-glow, inner_light_mask) -->
 {#snippet div(id: string, classes: string, style?: string)}
@@ -188,12 +209,86 @@
 {/snippet}
 
 <style>
+    .pill-bg {
+        background-blend-mode: multiply;
+        background-image:
+            linear-gradient(
+                rgb(0,0,0) 0%, 
+                rgb(0,0,0) 25%,
+                rgb(255,255,255) 50%,
+                rgb(0,0,0) 75%,
+                rgb(0,0,0) 100%
+            ),
+            linear-gradient(
+                90deg,
+                rgb(0,0,0) 0%, 
+                rgb(255,255,255) 50%,
+                rgb(0,0,0) 100%
+            );
+        
+    }
+
+    .pill-shadow {
+        box-shadow:
+            0 0 0 1px rgba(144, 224, 239, 0.6),
+            0 0 12px 1px rgba(144, 224, 239, 0.4),
+            0 12px 40px 0 rgba(144, 224, 239, 0.25),
+            0 20px 60px 0 rgba(144, 224, 239, 0.05);
+    }
+    .pill {
+        margin-top: -200px;
+        padding-right: clamp(12px, 4vw, 32px);
+        padding-left: clamp(12px, 4vw, 32px);
+        position: absolute;
+        color: #2c2c2c;
+        left: 50%;
+        top: 25%;
+        z-index: 100;
+        display: flex;
+        transform: translate(-50%, -50%);
+        align-items: center;
+        justify-content: center;
+        border-radius: 100px;
+        /* width: min(90%, 560px); */
+        /* height: clamp(40px, 6vw, 48px); */
+        width: 100%;
+        height: 5vw;
+        /* background: linear-gradient(
+            90deg,
+            #b8b8b8 0%,
+            #e8e8e8 20%,
+            #ffffff 50%,
+            #e8e8e8 80%,
+            #b8b8b8 100%
+        ); */
+    }
+
+    .pill-1 {
+        box-shadow: unset;
+        z-index: 50;
+        overflow: hidden;
+        padding: 0 !important;
+        background-color: rgba(255, 117, 24, 0) !important;
+        box-shadow: none !important;
+        filter: blur(2px);
+        top: 5px;
+    }
+
+    .pill-1-1 {
+        overflow: hidden;
+        margin-top: 0 !important;
+        padding: 0 !important;
+        background-color: rgba(0, 0, 0, 1) !important;
+        box-shadow: none !important;
+    }
+
     .test {
         /* background-image: var(--noise); */
         mask-image: var(--noise);
         mask-repeat: repeat;
         mask-size: 100px 100px;
     }
+
     .noise {
         background-image: var(--noise);
     }

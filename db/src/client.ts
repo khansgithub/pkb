@@ -16,6 +16,7 @@ async function main(){
     const sql = postgres({
         host: "127.0.0.1",
         port: 5432,
+        onnotice: () => {}, // disable PostgreSQL NOTICE/INFO logging
     }); // will use psql environment variables
     
     const x = await sql<SnippetCode[]>`SELECT * FROM snippetCode`;

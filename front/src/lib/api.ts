@@ -1,50 +1,45 @@
+import { logger } from "$lib/logger";
 import DOMPurify from 'dompurify';
-import { db } from '../db';
-import { type Query, QueryResponseSchema } from './api.contract';
-import { BACKEND, ENDPOINTS } from './const';
-import { observeObject } from './debug';
-import { logger as app_logger } from './logger';
+import z from "zod";
+import { db, type QueryCache } from '../db';
+import { QueryEndpointResponseSchema, type ErrorResponse, type QueryResponse } from './api.contract';
+import { ENDPOINTS } from './const';
+import type { Snippet } from './types';
 
-const logger = app_logger.child({service: "api"});
+const log = logger.child({ service: "api" });
 
 var sanitise = DOMPurify.sanitize;
-var base_url = (): URL => new URL(BACKEND)
+var base_url = (): URL => new URL(window.location.origin);
 
-// export interface Response extends Query { };
 
-export class Response implements Query {
-    query: string;
-    snippet_ids: number[];
-    constructor(query: string, snippet_ids: number[]) {
-        this.query = query;
-        this.snippet_ids = snippet_ids;
-        Object.freeze(this); // getting a strange error where dexie.put would change `this.query`
-    }
-}
+export async function query(query: string): Promise<QueryResponse | ErrorResponse> {
+    log.info({ query: query }, "Sending query");
 
-export async function send(query: string): Promise<Response> {
-    let q: string = sanitise(query);
-    logger.info("Sending POST with santisied query: " + q);
-    let url: URL = new URL(ENDPOINTS.query, base_url());
+    const q: string = sanitise(query);
+    const url: URL = new URL(ENDPOINTS.query, base_url());
     url.searchParams.append("q", query);
 
-    let res = await fetch(url, { method: "post" });
-    if (!(res.status >= 200 && res.status < 300)) {}
-    let response_json = QueryResponseSchema.parse(await res.json());
-    let response = new Response(response_json.query, response_json.snippet_ids);
-    logger.info(response || {}, "Response");
+    logger.info({url:url.toString()}, "Sending query");
+
+    const res = await fetch(url, { method: "get" });
+    if (!(res.status >= 200 && res.status < 300)) { }
+
+    const response_json = await res.json();
+    logger.info(response_json, "Response");
+
+    const response = QueryEndpointResponseSchema.parse(response_json);
     return response;
 }
 
-export async function cacheResponse(response: Response): Promise<Response> {
+export async function cacheResponseSnippets(queryCache: QueryCache): Promise<Snippet[]> {
     logger.info("Caching response");
     try {
-        let row_id = await db.queries.put(response);
-        logger.info(["Cached. Row id: ", row_id]);
+        const row_id = await db.queries.put(queryCache);
+        logger.info(["Cached. Row id: ", row_id, "Response: ", queryCache]);
     } catch (err) {
-        console.error("error with putting response into queries table")
+        console.error("error with putting response into queries table", err)
     }
-    return response;
+    return queryCache.snippets;
 }
 
 export async function sync(): Promise<boolean> {
@@ -78,6 +73,7 @@ async function clearTable(): Promise<boolean> {
     return clear_success
 }
 
-export async function queryInDb(query: string): Promise<Response | undefined> {
-    return await db.queries.get(query);
+export async function queryInDb(query: string): Promise<Snippet[] | undefined> {
+    const row = await db.queries.get({ query });
+    return row?.snippets;
 }

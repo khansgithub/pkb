@@ -1,0 +1,68 @@
+Inserted 232 snippets into gist_snippets
+{
+  "90": {
+    "hash": "4af93ffb0bdb92bbc4a4b478e6443612",
+    "code": [
+      "redis-cli"
+    ],
+    "code_flat": "redis-cli",
+    "id": 90,
+    "path": "/redis",
+    "title": "redis",
+    "text": [],
+    "text_flat": "",
+    "created_at": "2026-03-03T01:53:10.840Z",
+    "code_hash": [
+      "4af93ffb0bdb92bbc4a4b478e6443612"
+    ]
+  },
+  "91": {
+    "id": 91,
+    "path": "/redis",
+    "title": "list keys",
+    "text": [],
+    "text_flat": "",
+    "created_at": "2026-03-03T01:53:10.841Z",
+    "code_hash": [
+      "a0532106e785e4a7d7bab1e30f895fb2"
+    ],
+    "code_array": [
+      [
+        "keys *"
+      ]
+    ]
+  },
+  "92": {
+    "id": 92,
+    "path": "/redis",
+    "title": "read stream",
+    "text": [],
+    "text_flat": "",
+    "created_at": "2026-03-03T01:53:10.842Z",
+    "code_hash": [
+      "7d02c195e21b4d3ffe0f0468b482143a"
+    ],
+    "code_array": [
+      [
+        "xrange <key> - +"
+      ]
+    ]
+  },
+  "93": {
+    "hash": "e18d783ebb5e667930c55b679625db33",
+    "code": [
+      "#             < query >",
+      "redis-cli keys rq:res* | awk '{print $1}' | xargs redis-cli del"
+    ],
+    "code_flat": "#             < query >\nredis-cli keys rq:res* | awk '{print $1}' | xargs redis-cli del",
+    "id": 93,
+    "path": "/redis",
+    "title": "find keys and pipe to delete",
+    "text": [],
+    "text_flat": "",
+    "created_at": "2026-03-03T01:53:10.843Z",
+    "code_hash": [
+      "e18d783ebb5e667930c55b679625db33"
+    ]
+  }
+}

@@ -4,7 +4,7 @@
  * Or: node --loader ts-node/esm front/src/foo/seed.ts
  */
 import type { PGlite } from '@electric-sql/pglite';
-import { createDb, insertData } from './db';
+import { insertData } from './db';
 
 // async function main() {
 // 	const db = await createDb();

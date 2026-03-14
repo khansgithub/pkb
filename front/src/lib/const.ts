@@ -1,5 +1,6 @@
-export const BACKEND = "http://foobar.com";
+export const BACKEND = "https://127.0.0.1";
 export const ENDPOINTS = {
-    query: "query",
+    query: "/api/query",
     sync: "sync"
 };
+export const DEBOUNCE_T = 700;

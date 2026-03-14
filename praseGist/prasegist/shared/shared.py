@@ -1,5 +1,6 @@
 # ruff: noqa
 
+from abc import ABC
 from enum import Enum
 import hashlib
 import json
@@ -16,22 +17,22 @@ class BlockEnum(str, Enum):
 
 
 class CodeBlock(BaseModel):
+    type: BlockEnum = Field(default=BlockEnum.CODE)
     lang: str
-    lines: list[str] = Field(default_factory=list, serialization_alias="code")
-    code: list[str] = Field(default=[], repr=False, exclude=True, deprecated=True, frozen=True)
-    block_type: BlockEnum = Field(default=BlockEnum.CODE, exclude=True)
+    lines: list[str] = Field(default_factory=list)  # this really needs to go
+    # code: list[str] = Field(default=[], repr=False, exclude=True, deprecated=True, frozen=True)
 
 
 class TextBlock(BaseModel):
-    lines: list[str] = Field(default_factory=list, serialization_alias="text")
-    text: list[str] = Field(default=[], repr=False, exclude=True, deprecated=True, frozen=True)
+    type: BlockEnum = Field(default=BlockEnum.TEXT)
+    lines: list[str] = Field(default_factory=list)  # this really needs to go
     block_type: BlockEnum = Field(default=BlockEnum.TEXT, exclude=True)
 
 
 class Section(BaseModel):
     name: str
     level: int
-    snippets: list[CodeBlock | TextBlock] = Field(default_factory=list)
+    blocks: list[CodeBlock | TextBlock] = Field(default_factory=list)
     children: list["Section"] = Field(default_factory=list)
 
 
@@ -39,15 +40,17 @@ class Section1(Section):
     hashes: set[str] = Field(default_factory=set)
 
 
-def code_block_hash(block: CodeBlock) -> str:
-    # return hashStr("".join(filter(lambda l: len(l) > 0, block.code)))
-    lines = block.lines if hasattr(block, "lines") else block.code
-    return hashStr("".join([l.strip() for l in lines if len(l) > 1]))
+def block_hash(block: CodeBlock) -> str:
+    return hashStr("".join([l.strip() for l in block.lines if len(l) > 1]))
 
 
-def text_block_hash(block: TextBlock) -> str:
-    lines = block.lines if hasattr(block, "lines") else block.text
-    return hashStr("".join([l.strip() for l in lines if len(l) > 0]))
+# if (block.type == BlockEnum.CODE):
+#     return hashStr("".join([l.strip() for l in block.lines if len(l) > 1]))
+# else:
+#     return hashStr("".join(filter(lambda l: len(l) > 0, block.code)))
+
+# return hashStr("".join(filter(lambda l: len(l) > 0, block.code)))
+
 
 SomeSection = Section | Section1
 Snippets = list[CodeBlock | TextBlock]
