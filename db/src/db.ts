@@ -157,53 +157,53 @@ async function insertIntoBlocks(db: PGlite, row: Row): Promise<number[]> {
     }
 }
 
-export async function insertData(db: PGlite) {
-    // popular Blocks table
-    for (const row of rowData as Row[]) {
-        // all the block ids for this snippet
-        const blockIds = await insertIntoBlocks(db, row);
+// export async function insertData(db: PGlite) {
+//     // popular Blocks table
+//     for (const row of rowData as Row[]) {
+//         // all the block ids for this snippet
+//         const blockIds = await insertIntoBlocks(db, row);
 
 
-        const flat_text = (snippet.text ?? []).join("\n");
-        try {
-            const rowId = ((await db.query(
-                "insert into gist_snippets (path,title,text,text_flat,code_hash) values ($1, $2, $3, $4, $5)returning id;",
-                // [s.path, s.title, s.code ?? [[]], s.text ?? [], flat_code, flat_text]
-                [
-                    snippet.path,
-                    snippet.title,
-                    // null,
-                    snippet.text ?? [],
-                    // null,
-                    flat_text,
-                    snippet.codeHashes,
-                ]
-            )).rows[0] as Row).id;
+//         const flat_text = (snippet.text ?? []).join("\n");
+//         try {
+//             const rowId = ((await db.query(
+//                 "insert into gist_snippets (path,title,text,text_flat,code_hash) values ($1, $2, $3, $4, $5)returning id;",
+//                 // [s.path, s.title, s.code ?? [[]], s.text ?? [], flat_code, flat_text]
+//                 [
+//                     snippet.path,
+//                     snippet.title,
+//                     // null,
+//                     snippet.text ?? [],
+//                     // null,
+//                     flat_text,
+//                     snippet.codeHashes,
+//                 ]
+//             )).rows[0] as Row).id;
 
-            for (const hash of snippet.codeHashes) {
-                await db.query(
-                    "insert into snippet_codeblocks_hash_map (snippet_id, codeblock_hash) values ($1, $2);",
-                    [rowId, hash]
-                );
-            }
+//             for (const hash of snippet.codeHashes) {
+//                 await db.query(
+//                     "insert into snippet_codeblocks_hash_map (snippet_id, codeblock_hash) values ($1, $2);",
+//                     [rowId, hash]
+//                 );
+//             }
 
-        } catch (err) {
-            console.error(
-                `Failed to insert row for path [${snippet.path}]`,
-                "\nRow data:", {
-                path: snippet.path,
-                title: snippet.title,
-                text: snippet.text,
-                codeHashes: snippet.codeHashes
-            },
-                "\nError:", err
-            );
-            process.exit(1);
-        }
-    }
+//         } catch (err) {
+//             console.error(
+//                 `Failed to insert row for path [${snippet.path}]`,
+//                 "\nRow data:", {
+//                 path: snippet.path,
+//                 title: snippet.title,
+//                 text: snippet.text,
+//                 codeHashes: snippet.codeHashes
+//             },
+//                 "\nError:", err
+//             );
+//             process.exit(1);
+//         }
+//     }
 
-    return snippetRows.length + codeblocksRows.length;
-}
+//     return snippetRows.length + codeblocksRows.length;
+// }
 
 export async function createDb() {
     const db = await PGlite.create({

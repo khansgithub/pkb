@@ -22,20 +22,22 @@ await seed(db);
 //     await db.close
 // }
 
-const server = new PGLiteSocketServer({
-    db,
-    port: 5432,
-    host: '127.0.0.1',
-    debug: true,
-})
-await server.start()
-console.log('Server started on 127.0.0.1:5432')
-let r = await server.db.exec("SELECT current_database();");
-console.log(JSON.stringify(r));
+// ------------------------------------------------------------
 
-process.on('SIGINT', async () => {
-    await server.stop()
-    await db.close()
-    console.log('Server stopped and database closed')
-    process.exit(0)
-});
+// const server = new PGLiteSocketServer({
+//     db,
+//     port: 5432,
+//     host: '127.0.0.1',
+//     debug: true,
+// })
+// await server.start()
+// console.log('Server started on 127.0.0.1:5432')
+// let r = await server.db.exec("SELECT current_database();");
+// console.log(JSON.stringify(r));
+
+// process.on('SIGINT', async () => {
+//     await server.stop()
+//     await db.close()
+//     console.log('Server stopped and database closed')
+//     process.exit(0)
+// });
