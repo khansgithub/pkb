@@ -11,6 +11,8 @@
     "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "update:search-box-dom-comment": "node scripts/update-search-box-dom-comment.js",
+    "supabase:login": "npx supabase login",
+    "supabase:generate-types": "npx supabase gen types typescript --project-id bnalxlwujlytdsjbxluw > src/lib/server/sql/supabase.types.ts",
     "test:unit": "vitest",
     "test": "npm run test:unit -- --run",
     "seed": "npx tsx src/foo/seed.ts"
@@ -47,6 +49,7 @@
   },
   "dependencies": {
     "@pgtyped/runtime": "^2.4.2",
+    "@supabase/supabase-js": "^2.99.1",
     "dexie": "^4.2.0",
     "dompurify": "^3.2.6",
     "highlight.js": "^11.11.1",
@@ -54,6 +57,7 @@
     "marked": "^17.0.4",
     "marked-highlight": "^2.2.3",
     "pino": "^9.9.0",
+    "supabase-js": "^0.0.1-security",
     "zod": "^3.24.0"
   },
   "msw": {

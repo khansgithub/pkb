@@ -3,7 +3,7 @@
 
 import json
 from prasegist.gist.get_gist import FILEPATH
-from prasegist.shared.shared import BlockEnum, CodeBlock, Section, Section1, SomeSection, TextBlock, block_hash, hashStr, block_hash
+from prasegist.shared.shared import BlockEnum, CodeBlock, Section, Section1, SomeSection, TextBlock, block_hash, hashStr
 
 # FILEPATH = FILEPATH.parent / "test_gist.md"
 FILEPATH_PROCESSED = FILEPATH.with_suffix(".processed.json")
@@ -71,7 +71,9 @@ class Context:
         self.codeblock = codeblock
 
     def end_codeblock(self):
-        self.stack[0].hashes.add(block_hash(self.codeblock))
+        h = block_hash(self.codeblock)
+        self.codeblock.hashes.append(h)
+        self.stack[0].hashes.add(h)
         self.stack[0].hashes.add(hashStr(self.section.name))
         
         self.is_codeblock = False
@@ -86,9 +88,11 @@ class Context:
 
         textblock = TextBlock()
         textblock.lines.append(line)
+        h = block_hash(textblock)
         self.section.blocks.append(textblock)
         self.textblock = textblock
-        self.stack[0].hashes.add(block_hash(textblock))
+        self.textblock.hashes.append(h)
+        self.stack[0].hashes.add(h)
 
     #############
     # GENERATOR #
@@ -259,3 +263,9 @@ if __name__ == "__main__":
     # print(json.dumps(convert_tree(tree), indent=4))
     # save_gist(convert_tree(tree))
     save_gist(tree)
+
+    # all_hash = []
+    # for section in tree:
+    #     all_hash.extend(list(section.hashes))
+    
+    # print(all_hash)

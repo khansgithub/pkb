@@ -14,18 +14,6 @@ const noQueryResponse = () => new Response(
     } as ErrorResponse), {
     status: 400,
     headers: headers
-}
-);
-const dbErrorResponse = (error: Error) => new Response(
-    JSON.stringify({
-        error: {
-            message: error.message,
-            name: error.name,
-            stack: error.stack
-        }
-    } as ErrorResponse), {
-    status: 500,
-    headers: headers
 });
 
 const successResponse = (snippets: Snippet[]) => new Response(
@@ -43,8 +31,11 @@ export const GET: RequestHandler = async ({ request }) => {
     if (!query) return noQueryResponse();
     
     const res = await runQuery(query);
-    console.log(res, "res");
-    if (!res.ok) return dbErrorResponse(res.error);
-
+    if ('error' in res) {
+        return new Response(JSON.stringify(res), {
+            status: 500,
+            headers
+        });
+    }
     return successResponse(res.snippets);
 };

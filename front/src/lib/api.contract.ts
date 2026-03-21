@@ -30,6 +30,14 @@ export type QueryResponse = z.infer<typeof QueryResponseSchema>;
 export type ErrorResponse = z.infer<typeof ErrorResponseSchema>;
 export type QueryEndpointResponse = z.infer<typeof QueryEndpointResponseSchema>;
 
+export function isQueryResponse(r: QueryEndpointResponse): r is QueryResponse {
+    return 'snippets' in r;
+}
+
+export function isErrorResponse(r: QueryEndpointResponse): r is ErrorResponse {
+    return 'error' in r;
+}
+
 // =======================
 // Endpoint metadata
 // =======================

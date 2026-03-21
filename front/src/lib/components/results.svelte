@@ -1,9 +1,9 @@
 <script lang="ts">
     import type { Snippet } from "$lib/types";
-    import { blur, fly, fade } from "svelte/transition";
+    import { fly, fade, scale } from "svelte/transition";
     import ResultsCard from "./ResultsCard.svelte";
 
-    let { cards = [] }: { cards?: Snippet[] } = $props();
+    let { cards = null }: { cards: Snippet[] | null } = $props();
 
     let placeholderCards: Snippet[] = $state(
         Array.from({ length: 6 }, (_, i) => ({
@@ -11,7 +11,17 @@
             tags: ["Tag 1", "Tag 2", "Tag 3"],
             description: "This is a **description** with _markdown_ support.",
             snippets: [
-                "```js\nfunction helloWorld() {\n  console.log('Hello, world!');\n}\n```",
+                {
+                    type: "code" as const,
+                    lang: "js",
+                    lines: [
+                        "function helloWorld() {",
+                        "  console.log('Hello, world!');",
+                        "}",
+                    ],
+                    snippet_id: 0,
+                    pos: 0,
+                },
             ],
         })),
     );
@@ -24,11 +34,36 @@
     class="bot h-full w-full md:w-4/5 lg:w-3/5 absolute top-0 bottom-0 self-start justify-self-center z-10"
 >
     <div class="flex flex-col gap-5 items-stretch w-full mx-auto">
-        {#each displayCards as card, i (card.title + "-" + i)}
+        {#if displayCards && displayCards.length === 0}
+            <div
+                class="text-center text-lg font-semibold mt-10 opacity-25 flex items-center justify-center gap-2"
+                in:fly={{ x: 0, duration: 1000 }}
+                out:fly={{ x: 0, duration: 350 }}
+            >
+                <p>No results found</p>
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="size-6"
+                >
+                    <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                    />
+                </svg>
+            </div>
+        {/if}
+        {#each displayCards as card, i}
             <div
                 class="[all:inherit]"
-                transition:fly={{ x: 100, duration: 1000 }}
+                in:fly={{ x: 100, duration: 1000 + i * 100 }}
+                out:fly={{ x: -40, duration: 350 + i * 100 }}
             >
+                <!-- <p>{card.title}</p> -->
                 <ResultsCard {card} index={i} />
             </div>
         {/each}

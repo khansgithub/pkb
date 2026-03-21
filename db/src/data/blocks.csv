@@ -1,0 +1,1127 @@
+type,lang,lines,pos,snippet_idx
+code,bash,keytool -list -v -keystore C:\Users\%USERNAME%\.android\debug.keystore -alias androiddebugkey -storepass android -keypass android,,0
+code,kotlin,"import androidx.compose.runtime.getValue
+// ...
+val navTarget by navVM.navTarget.collectAsState(initial = ""home"")
+// without getValue import:
+// Type 'androidx. compose. runtime. State<kotlin. Any?>' has no method 'getValue(Nothing?, KProperty0<*>)', so it cannot serve as a delegate.",,1
+code,bash,su -s /bin/bash <user>,,2
+code,bash,sudo -E foobar,,3
+code,bash,if test -d cisco_bindings; then echo exists; else echo does not; fi,,4
+text,,"in a row with 2 cells of different heights, clip the row to be the height of the **shortest** cell",,5
+code,html,"<main class=""w-screen h-screen"">
+
+  <div class=""flex flex-row w-full gap-1 relative""> // 1. row is relative
+     
+      <div class=""w-10/12 border border-red-500"">
+        <div class=""bg-red-200 h-[200px] w-[10px]""></div>
+      </div>
+
+      <div class=""w-2/12 shrink-0"" aria-hidden /> // (don't get exactly what this is for)
+
+      <div class=""absolute top-0 bottom-0 overflow-scroll right-0 w-2/12 border border-blue-500""> // 2. cell to clip (taller cell) is absolute, overflow is hidden and top + bottom are 0. this sizes the div to be the height of the parent container (specified by the red  cell)
+        <div class=""bg-blue-200 h-[500px] w-[10px]""></div>
+      </div>
+
+  </div>
+
+</main>
+",,5
+code,,".foo
+  .bar
+  .bar2
+  .bar3",,6
+code,,"body{
+  background: black;
+}
+div{ width: 100px; height: 100px; border: 1px solid white;}
+.foo{
+  width: 80%;
+  display: flex;
+  position: relative; /* this is crucial! default is `static` _not_ `relative` */
+}
+.bar{
+  background: lightgrey;
+  position: absolute;
+  right: 0;
+}",,6
+code,css,"body{
+    max-height: 99vh;
+}",,7
+code,html,"<div id=""foo"">
+  <p>foo</p>
+</div>
+<div id=""bar"">
+  <p>bar</p>
+</div>",,8
+code,css,"#foo{
+  position: absolute;
+  background: red;
+  width: 100px;
+  height: 100px;
+  left: 50px;
+  top: 50px;
+  color: black;
+  text-align: right;
+}
+#bar{
+  position: absolute;
+  background: blue;
+  width: 100px;
+  height: 100px;
+  color: white;
+  text-align: right;
+  pointer-events: none; /* click + hover are disabled for this */
+}",,8
+code,typescript,"let foo = document.getElementById(""foo"") as HTMLElement;
+let bar = document.getElementById(""bar"") as HTMLElement;
+foo.addEventListener(""mouseover"", e => console.log(""foo hover"")});
+foo.addEventListener(""click"", e => console.log(""foo click"")});
+bar.addEventListener(""mouseover"", e => console.log(""bar hover"")});
+bar.addEventListener(""click"", e => console.log(""bar click"")});",,8
+code,css,"background:
+	var(--noise), /* url(""noise svg here"") */
+	radial-gradient(circle at center, rgb(255,255,255) 0%, rgba(0,0,0,1) 50%);
+background-size: cover;
+background-blend-mode: multiply;
+mix-blend-mode: screen;",,9
+code,bash,cue eval schema.cue --out json,,10
+code,bash,"curl localhost:3000/workflow -X POST  -H 'Content-Type: application/json' --data-binary ""@data.json""",,11
+code,bash,docker builder prune,,12
+code,bash,"curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh
+sudo usermod -aG docker $USER
+newgrp docker",,13
+code,shell,"docker ps -a --format ""{{.Names}}""",,14
+code,shell,"docker run \
+    ...
+    --health-cmd ""set -e;  nc -zv localhost 22; if [ $? -eq 0 ]; then exit 0; else exit 1; fi"" \
+    --health-interval=10s
+    ...",,15
+code,bash,"# set to working version
+DOCKER_API_VERSION=1.41",,17
+code,bash,"docker ps --format ""{{printf \""%-30s %-20s\"" .Names .Status}}""",,19
+code,bash,"watch 'docker ps --format ""{{printf \""%-30s %-20s\"" .Names .Status}}""'",,19
+code,bash,"git config --global user.email ""you@example.com""
+git config --global user.name ""Your Name""",,20
+code,bash,"git config --global credential.helper cache
+git config --local credential.helper cache
+git config --global --unset credential.helper",,21
+code,bash,git clone https://bitbucket.org/<repo>.git --config credential.helper=,,22
+text,,go fmt on current directory go files and all subdirectories,,23
+text,,mutex classes,,23
+text,,sync.RWLock(),,23
+text,,sync.Once,,23
+text,,`struct`s cannot be `const` because they're inherently composite types,,23
+code,golang,"(func(args... interface{}){})(scrape_cpu, scrape_hostname)",,24
+code,golang,go fmt ./...,,24
+code,go,"type Person struct {
+  Name string
+}
+func (p *Person) Talk() {
+  fmt.Println(""Hi, my name is"", p.Name)
+}
+type Android struct {
+  Person // Android is also type Person!
+  Model string
+}
+a := new(Android)
+a.Person.Talk()
+a.Talk() // polymorphism!",,25
+text,,"  - sync.RWLock()
+",,26
+text,,"  - sync.Once
+",,26
+code,go,"var Foo string
+// runs like package constructor
+func init(){
+    Foo = ""foobar""
+}",,27
+code,go,"func getLastLetterRecursivley(word string) {
+    type rFunc func(string, rFunc) // <- allows recursive function to be defined
+    var f rFunc = func(word string, f rFunc) {
+        if len(word) == 1 {
+            fmt.Println(""Last character is:"", word)
+            return
+        }
+        f(word[len(word) - 1: ], f)
+        return
+    }
+    go f(x, f)
+    for {} // keep function running to we can still print
+}",,28
+code,go,"type StringOrInt interface{
+	string | int
+}
+func main() {
+	{
+		var x = foo[int]()
+		fmt.Println(x)
+	}
+	{
+		var x = foo[string]()
+		fmt.Println(x)
+	}
+	{
+		var x = foo[bool]() // err
+		fmt.Println(x)
+	}
+}
+func foo[T StringOrInt]() []T {
+	var x T
+	return []T{x}
+}",,29
+code,golang,"value, exists := foo[""bar""]
+if (!exists) {}",,31
+code,bash,"# https://go.dev/doc/install
+wget <tar_from_https://go.dev/doc/install>
+rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz
+sudo ln -s /usr/local/go/bin/go /usr/bin/go
+#sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz",,32
+text,,"set `imagePullPolicy` to `Always`, then delete the pod, to easily update the pod with a newer image",,33
+code,bash,kubectl rollout restart deployment/core-service  -n osna,,35
+code,kotlin,"// typescript -> if (isTypeFoo()) doFooStuf()
+// kotlin:
+foo?.let { doFooStuff() }",,36
+code,json,"{
+    ""version"": ""2.0.0"",
+    ""tasks"": [
+        {
+            ""label"": ""Build Kotlin File with Kotlinc"",
+            ""type"": ""shell"",
+            ""command"": ""kotlinc ${file} -include-runtime -d ${fileBasenameNoExtension}.jar"",
+            ""group"": {
+                ""kind"": ""build"",
+                ""isDefault"":  ""**/*.kt""
+            },
+            ""problemMatcher"": [],
+            ""windows"": {
+                ""command"": ""kotlinc ${file} -include-runtime -d ${fileBasenameNoExtension}.jar""
+            },
+            ""presentation"": {
+                ""echo"": true,
+                ""reveal"": ""always"",
+                ""focus"": false,
+                ""panel"": ""shared""
+            }
+        },
+        {
+            ""label"": ""Build Kotiln Gradle project"",
+            ""type"": ""shell"",
+            ""command"": ""IF EXIST gradlew.bat (gradlew build -x test) ELSE (echo 'gradlew.bat not found in the project root' && exit /b 1)"",
+            ""options"": {
+                ""cwd"": ""${workspaceFolder}""
+            },
+            ""problemMatcher"": [],
+            ""group"": {
+                ""kind"": ""build"",
+                ""isDefault"": false
+            }
+        },
+        {
+            ""label"": ""Run Kotiln Gradle project"",
+            ""type"": ""shell"",
+            ""command"": ""IF EXIST gradlew.bat (gradlew  run) ELSE (echo 'gradlew.bat not found in the project root' && exit /b 1)"",
+            ""options"": {
+                ""cwd"": ""${workspaceFolder}""
+            },
+            ""problemMatcher"": [],
+            ""group"":{
+                ""kind"": ""run""
+            }
+        }
+    ]
+}",,37
+code,,"https://superuser.com/a/156215
+x - extract files
+c - create archive
+t - list files
+v - verbose (list files as it processes them)
+j - use bz2 compression
+z - use gz compression
+f - read or write files to disk
+Examples
+Uncompress a tar.gz file: tar zxf tarball.tar.gz
+Uncompress a tar.bz2 file: tar jxf tarball.tar.bz2
+Create a tar.gz file: tar zcvf tarvall.tar.gz mydir/*",,38
+code,bash,"jobs
+> [1]+  Running                 poetry run main &
+kill -9 %1
+> [1]+  Killed                  poetry run main",,39
+code,bash,"# view jobs
+jobs
+# send job to background and stop
+ctrl  + z
+# resume background job
+bg [job id]
+# switch to job
+fg [job id]
+# run command as background job
+tail -f log.txt &",,40
+code,bash,cd -P ./sym-link-dir,,41
+code,bash,sudo netstat -tunlp,,42
+code,bash,stat -c %a foo.txt,,43
+code,python,"if __name__ == ""__main__"":
+    clean_up_loop = False
+    loop = asyncio.get_event_loop()
+    try:
+        loop.run_until_complete(run())
+    except Exception:
+        clean_up_loop = True
+        pass
+    finally:
+        async def close_sessions_and_consumers():
+            for k in kafka.CONSUMERS:
+                await k.stop()
+            await kafka.SESSION.close()
+        loop.run_until_complete(close_sessions_and_consumers())
+
+        if clean_up_loop:
+            pending = asyncio.all_tasks()
+            for task in pending:
+                task.cancel()
+            loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
+            loop.stop()
+            loop.close()",,44
+code,,"# get current deployment config
+kubectl get deployment osnal2 n osna -o yaml > deployment.yaml
+
+# patch deployment
+kubectl apply -f  deployment.yaml 
+
+# push to pod
+kubectl cp ""/home/ubuntu/osna/osna-l2-main/osna-l2/producer.py"" ""osna/osnal2-f458bd694-hl4tj:/app""
+kubectl cp ""/home/ubuntu/osna/osna-l2-main/osna-l2"" ""osna/$(kubectl get pods | grep l2 | awk '{print $1}'):/app""
+
+# kill all BASH processes except current
+ps -C bash -o pid= | grep -v ""^ *$$"" | xargs kill -9 
+
+# poetry image
+## Dockerfile
+from python:3.11-slim
+
+env PATH=""/root/.local/bin:${PATH}""
+run bash -c ""pip install --user pipx && \
+    pipx ensurepath && \
+    pipx completions && \
+    pipx install poetry""
+
+## docker-compose.yaml
+services:
+  python-poetry:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: python-poetry:latest",,44
+code,,"npm create vite@latest
+npm i --save-dev @tsconfig/svelte
+./tsconfig.node.json: $.compilerOptions.noEmit > $.compilerOptions.emitDeclarationOnly // https://stackoverflow.com/a/77369498",,44
+text,,"hide error in dev tools window
+",,45
+code,,-net::ERR_BLOCKED_BY_CLIENT,,45
+code,typescript,"x&1 ^ y&1 ? true : false
+/***
+x&1 -> odd or even row/column
+y&1 -> odd of even square
+x&1 0 0 1 1
+y&1 0 1 0 1
+XOR 0 1 1 0
+the first cell of an odd row, must be the same as the first cell of an even row, for a chequered pattern.
+0 1 0 1
+1 0 1 0
+***/",,46
+code,bash,"sudo apt-get update
+sudo apt-get install -y ca-certificates curl gnupg
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+sudo chmod 644 /etc/apt/keyrings/nodesource.gpg
+sudo apt-get update
+sudo apt-get install nodejs -y
+sudo npm install -g typescript
+sudo chwon ubuntu -R /usr/lib/node_modules/typescript
+sudo chwon ubuntu /usr/lib/node_modules/typescript",,47
+code,bash,"wget -O vscode_cli.tar.gz 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' && tar -xzf vscode_cli.tar.gz -C /opt
+chmod +x /opt/code
+cd opt
+./code tunnel
+# install Microsoft: Tunnels
+# Remote-Tunnels: Connect to Tunnel",,49
+text,,"- `fs.readdir` is NOT blocking; use `fs.readdirSync` instead
+",,50
+text,,`fs.readdir` is NOT blocking; use `fs.readdirSync` instead,,50
+code,,npx tsc,,51
+text,,"- sometimes when using Node interactive, it might not be able to find global packages. hence it's necessary to set NODE_PATH
+",,52
+code,bash,export NODE_PATH=$(npm root --quiet -g),,52
+code,,/home/node/app/node_modules/.bin,,53
+code,bash,"# get current deployment config
+kubectl get deployment osnal2 n osna -o yaml > deployment.yaml
+# patch deployment
+kubectl apply -f  deployment.yaml
+# push to pod
+kubectl cp ""/home/ubuntu/osna/osna-l2-main/osna-l2/producer.py"" ""osna/osnal2-f458bd694-hl4tj:/app""
+kubectl cp ""/home/ubuntu/osna/osna-l2-main/osna-l2"" ""osna/$(kubectl get pods | grep l2 | awk '{print $1}'):/app""
+# kill all BASH processes except current
+ps -C bash -o pid= | grep -v ""^ *$$"" | xargs kill -9
+# poetry image
+## Dockerfile
+from python:3.11-slim
+env PATH=""/root/.local/bin:${PATH}""
+run bash -c ""pip install --user pipx && \
+    pipx ensurepath && \
+    pipx completions && \
+    pipx install poetry""
+## docker-compose.yaml
+services:
+  python-poetry:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: python-poetry:latest",,54
+text,,`__post_init__` for dataclasses,,55
+text,,function overload. `functools.singledispatch` only dispatches on the type of the first argument.,,55
+text,,"preserve type inference of wrapped functions (i don't get how this works, need to read it later, but it works)",,55
+text,,https://stackoverflow.com/a/74080156,,55
+text,,poetry,,55
+text,,protocol vs abc,,55
+text,,https://medium.com/@pouyahallaj/introduction-1616b3a4a637,,55
+text,,"error handling in decorators can be difficult. is there is a try block inside the decorator, and the calling function was passed with incorrect parameters, the traceback only show the try block inside the decorator. the calling function, which called the decorated function with wrong parameters, will not be shown.",,55
+text,,"all try/catch blocks of code, should have a unit test associated with it",,55
+text,,"correct way to error handle an **async** Task, scheduled with `asyncio.create_task`. don't use `asyncio.add_done_callback(cb)` because it will not  properly capture the traceback when getting the error with `def cb(task): ... task.exception()`(for some reason idk)",,55
+code,python,"def loading_dots2(end_event: Event, sleep_duration: float = 1 / 4):
+    animation = cycle([""|"", ""/"", ""-"", ""\\""])
+    hide_cursor = ""\033[?25l""
+    show_cursor = ""\033[?25h""
+    clear_line = ""\r\033[K""
+    cursor_to_start_of_line = ""\r""
+    sys.stdout.write(hide_cursor)
+    sys.stdout.flush()
+    try:
+        while not end_event.is_set():
+            sys.stdout.write(hide_cursor)
+            sys.stdout.write(clear_line)
+            sys.stdout.write(next(animation))
+            sys.stdout.write(cursor_to_start_of_line)
+            sys.stdout.flush()
+            time.sleep(sleep_duration)
+    except KeyboardInterrupt:
+        pass
+    finally:
+        sys.stdout.write(clear_line)
+        # sys.stdout.write(show_cursor)
+        sys.stdout.flush()",,57
+text,,"- https://medium.com/@pouyahallaj/introduction-1616b3a4a637
+",,58
+code,python,"from typing import cast
+a: str | None = ""foo""
+b: str = cast(str, a)",,59
+code,python,"f""{[f'{(s:=sleep_duration)} second', f'{(m:=sleep_duration//60)} minute'][s>=60] + 's'[:m>1 or (s> 1 and m < 1)]}""",,60
+code,python,"def foo() -> ""SomeClass"":
+    ...",,62
+code,python,"mock_workflow_mocker.proxy_configure_mock = types.MethodType(proxy_configure_mock, mock_workflow_mocker)",,63
+code,python,"from typing import Self
+def foo(self) -> Self:
+    return self",,64
+text,,"1. ***never*** define top level variables, which at any point require connectivity (ssh, http, etc...). keep them dumb.
+",,65
+text,,"2. try consolidate all networking functionality into a class which deals with its lifecycle. make a getter that returns connection objects
+",,65
+code,python,"def get_netbox() -> api:
+  global nb
+  return nb if nb else setup_nb()",,65
+code,python,"with stdout_lock or nullcontext():
+    logger.info(f""Polled {hostname} successfully"")",,66
+code,python,"class A:
+    def __init__(self):
+        print(""A.__init__"")
+class B:
+    def __init__(self):
+        print(""B.__init__"")
+class AB(A, B): ...
+ab = AB()
+# > A.__init__",,67
+code,python,"    children_list = [
+        *list(mock_netbox._mock_children.items())
+    ]
+    all_children_mocks = []
+    # import ipdb; ipdb.set_trace()
+    while children_list:
+        children = children_list.pop()
+        print(children)
+        all_children_mocks.append(children)
+        if (c:=list(children)[1]._mock_children.items()):
+            for child in c:
+                children_list.append(list(child))",,68
+code,python,"# foo.py
+import foo.bar
+foo.bar.foobar()",,69
+code,bash,"monkeytype run foo.py
+...
+monkeytype apply foo.bar",,69
+code,python,"import ipdb
+ipdb.set_trace()",,70
+code,python,"import sys
+from unittest.mock import MagicMock
+mod = None
+missing_mod = False
+while missing_mod:
+    if mod:
+        print(""Adding: "" + mod)
+        sys.modules[mod] = MagicMock()
+        mod = False
+    try:
+        # import lines go here
+    except ModuleNotFoundError as e:
+        mod = e.msg.split("" "")[3].translate(str.maketrans('','','"";\''))
+        print(""Missing: "" + mod)
+        missing_mod = True
+        # input(""> "")
+# sys.exit(0)
+# resume rest of the code",,71
+code,python,"if __name__ == ""__main__"":
+    clean_up_loop = False
+    loop = asyncio.get_event_loop()
+    try:
+        loop.run_until_complete(run())
+    except Exception:
+        clean_up_loop = True
+        pass
+    finally:
+        async def close_sessions_and_consumers():
+            for k in kafka.CONSUMERS:
+                await k.stop()
+            await kafka.SESSION.close()
+        loop.run_until_complete(close_sessions_and_consumers())
+        if clean_up_loop:
+            pending = asyncio.all_tasks()
+            for task in pending:
+                task.cancel()
+            loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))
+            loop.stop()
+            loop.close()",,72
+code,python,"from typing import List
+class Foo()
+    static_field: List[int] = []
+    def __init__(self, i: int):
+        self.static_field.append(i)
+    def getList(self) -> List[int]:
+        return self.static_field
+a = Foo(1)
+b = Foo(999)
+print (a.getList())
+print (b.getList())
+'''
+[1, 999]
+[1, 999]
+'''",,73
+text,,"- https://testdriven.io/tips/94ca0d2c-4c0d-4b8f-9762-6daa11d504f7/
+",,74
+text,,"- `functools.singledispatch` only dispatches on the type of the first argument.
+",,75
+code,python,"from functools import singledispatch
+@singledispatch
+def func(arg):
+    print(f""Default: {arg}"")
+@func.register(int)
+def _(arg):
+    print(f""Integer: {arg}"")
+@func.register(str)
+def _(arg):
+    print(f""String: {arg}"")
+func(1)        # Output: Integer: 1
+func('hello')  # Output: String: hello",,75
+code,python,"interface[""name""].startswith((""ge"", ""xe"", ""ae"", ""et""))",,76
+code,python,"def b():
+    print(""Running function: b"")
+def a():
+    print(""Running function: a"")
+def main():
+    return_a = a()
+    return_b = b()
+    print(f""{return_a=}, {return_b=}"")
+@patch(""__main__.b"")  # <- Second parameter to `mock`
+@patch(""__main__.a"")  # <- First parameter to `mock`
+def mock(a: MagicMock, b: MagicMock,):
+    a.return_value = ""mocked a""
+    b.return_value = ""mocked b""
+    main()
+mock()
+'''
+ > return_a='mocked a', return_b='mocked b'
+'''
+################
+@patch(""__main__.a"")
+@patch(""__main__.b"")  # <- First parameter, mismatched with naming it parameter 'a;MagicMock'
+def mock(a: MagicMock, b: MagicMock,):
+    a.return_value = ""mocked a""
+    b.return_value = ""mocked b""
+    main()
+'''
+> return_a='mocked b', return_b='mocked a'
+         ^         ^
+    mocked with wrong value
+'''",,77
+code,python,"logger = logging.getLogger(""foo"")
+rh = RichHandler(show_level=True, show_path=True,
+                        markup=True, rich_tracebacks=True)
+logger.handlers = [rh]
+logger.propagate = False",,78
+text,,"- https://stackoverflow.com/a/74080156
+",,79
+code,bash,"poetry new <project name>
+cd <project name>
+poetry lock
+poetry add [list of packages to add]
+poetry add --editable <path to editable another python repo>
+poetry install # this actually installs the packages into site_packages in a new venv
+poetry shell # activate python venv
+python3 main.py
+exit",,81
+code,bash,"# poetry.toml
+[virtualenvs]
+in-project = true
+# OR
+# locally
+poetry config virtualenvs.in-project true --local
+# OR
+# globally
+poetry config virtualenvs.in-project true",,82
+code,python,"# test.py
+@pytest.mark.solo
+def test_solo(mocker):
+    pass",,84
+code,,"# pytest.ini
+[pytest]
+markers =
+    solo: mark a test as a solo test",,84
+code,bash,pytest -m solo,,84
+code,bash,pytest -s ./tests/test_exception_handlers.py::test_exception_handler,,85
+code,bash,"mypy foo.py > mypy.txt; sed -i -e note:/d' -e '/of ""Logger""/d' -e '/\[import-untyped\]/d' mypy.txt; less mypy.txt",,87
+code,python,"import logging
+fooLogger = logging.getLogget(""foo"")
+def foo():
+    try:
+        raise Exception(""foo error"")
+    except Exception as e:
+        fooLogger.exception(e)",,89
+code,python,"try:
+    foo()
+except (Exception, KeyboardInterrupt) as e:
+    if isinstance(e, KeyboardInterrupt):
+        print('KeyboardInterrupt')
+    else:
+        pass",,90
+text,,"- error handling in decorators can be difficult. is there is a try block inside the decorator, and the calling function was passed with incorrect parameters, the traceback only show the try block inside the decorator. the calling function, which called the decorated function with wrong parameters, will not be shown.
+",,91
+code,python,"1	import logging
+2	from abc import ABC
+3	import functools
+4	from typing import Callable, TypeVar, ParamSpec, Any
+5	P = ParamSpec(""P"")
+6	T = TypeVar(""T"")
+7	logging.basicConfig(level=logging.DEBUG)
+8	def calling_function():
+9	    decorator(a=2) # decorator will call `foo`` with wrong parameters, but the main invoker is this function
+10
+11	def decorator(*args, **kwargs):
+12	    try:
+13	        foo(*args, **kwargs)
+14	    except Exception:
+15	        # the traceback will be printed here, but it will not show that `calling_function` passed the values to `decorator`
+16	        logging.exception(""An error occurred"")
+17	def foo():
+18	    pass
+19	calling_function()",,92
+text,,"- correct way to error handle an **async** Task, scheduled with `asyncio.create_task`. don't use `asyncio.add_done_callback(cb)` because it will not  properly capture the traceback when getting the error with `def cb(task): ... task.exception()`(for some reason idk)
+",,93
+code,python,"t: Task = asyncio.create_task(foo())
+# for async tasks only because non-async tasks just crash the whole event loop
+async def foo():
+  # use try/except here to error handle
+  try:
+    function_that_errors()
+  except Exception as e:
+    logging.exception(e)",,93
+code,bash,"sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git libgdbm-dev libnss3-dev
+pyenv install 3.11",,95
+code,bash,"> pyenv versions
+  system
+* 3.11.9 (set by /root/.pyenv/version)
+> pyenv global 3.11.9",,96
+code,bash,"apt-get install locales
+localedef -i en_US -f UTF-8 en_US.UTF-8
+apt install curl
+curl https://pyenv.run |
+for file in .bash_profile .profile .bashrc; do
+    echo 'export PYENV_ROOT=""$HOME/.pyenv""' >> ~/$file
+    echo '[[ -d $PYENV_ROOT/bin ]] && export PATH=""$PYENV_ROOT/bin:$PATH""' >> ~/$file
+    echo 'eval ""$(pyenv init -)""' >> ~/$file
+done
+echo 'eval ""$(pyenv virtualenv-init -)""' >> ~/.bashrc
+apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git libgdbm-dev libnss3-dev
+pyenv install 3.11
+# restart shell
+bash
+pyenv global 3.11.9
+python -m pip install --user pipx
+python -m pipx ensurepath
+python -m pipx completions
+eval ""$(register-python-argcomplete pipx)""
+# restart shell
+bash
+pipx install poetry",,97
+code,python,"async def SSEStream(request: HttpRequest):
+    async def stream():
+        _cached_count = None
+        while True:
+            _cached_count = count
+            yield (
+                'event: event name'
+                '\n'
+                f'data: data'
+                '\n\n' # <- must be 2 new lines to end a message
+            )
+        await sleep(1.0)
+    return StreamingHttpResponse(stream(), content_type='text/event-stream')
+# usage: urls.py
+urlpatterns =  [path('stream', SSEStream, name='stream')]",,99
+code,python,"# channels example
+$ python3 manage.py shell
+import channels.layers
+channel_layer = channels.layers.get_channel_layer()
+from asgiref.sync import async_to_sync
+async_to_sync(channel_layer.send)('test_channel', {'type': 'hello'})
+async_to_sync(channel_layer.receive)('test_channel')
+{'type': 'hello'}",,100
+code,bash,"poetry add -D black ruff pylint isort
+set FILE=config.py && isort %FILE%  && black %FILE% && ruff check %FILE% --fix  && mypy %FILE%",,101
+code,python,"import logging
+from rich.logging import RichHandler
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(""app"")
+logger.handlers = [RichHandler(rich_tracebacks=True)]
+logger.level = logging.DEBUG
+logger.propagate = False",,102
+text,,"- https://ianhopkinson.org.uk/2022/02/understanding-setup-py-setup-cfg-and-pyproject-toml-in-python/
+",,103
+code,,"├── README
+├── pyproject.toml
+├── setup.py
+└── src
+    └── foobar
+        └── __init__.py",,103
+code,,"[build-system]
+requires = [""setuptools>=61.0""]
+build-backend = ""setuptools.build_meta""",,104
+code,python,"#! /usr/bin/env python
+from setuptools import setup
+if __name__ == ""__main__"":
+    setup()",,105
+code,bash,"pip install --editable .
+pip install -e .",,106
+code,bash,redis-cli,,107
+code,bash,keys *,,108
+code,bash,xrange <key> - +,,109
+code,bash,"#             < query >
+redis-cli keys rq:res* | awk '{print $1}' | xargs redis-cli del",,110
+text,,update `cargo` and `rust`,,111
+code,bash,rustup update,,111
+code,rust,"// https://ntietz.com/blog/rust-references-vs-pointers/
+fn main() {
+    let x: u32 = 10;
+    let ref_x: &u32 = &x;
+    let pointer_x: *const u32 = &x;
+    println!(""x: {x}"");
+    println!(""ref_x: {}"", ref_x);
+    println!(""pointer_x: {:?}"", pointer_x);
+}",,112
+code,bash,ls /run/service/,,113
+code,bash,s6-svc -r /run/service/svc-openssh-server,,114
+code,bash,"# apt install pipx
+# pipx install sqlfluff
+sqlfluff lint --dialect postgres schema.ql",,115
+code,js,"var html_to_insert = ""<p>New paragraph</p>"";
+// with .innerHTML, destroys event listeners
+document.getElementById('mydiv').innerHTML += html_to_insert;
+// with .insertAdjacentHTML, preserves event listeners
+document.getElementById('mydiv').insertAdjacentHTML('beforeend', html_to_insert);",,116
+text,,"- using `filter` encapsulates a `position:fixed` object in a block, making its position **relative** to that invisible block, and **not relative to the window**"",
+",,117
+text,,"- https://stackoverflow.com/a/52937920
+",,117
+text,,"without adding `props` to a component (which enables `runes`), all variables are reactive by default",,118
+code,svelte,"<script lang=""ts"">
+    // const { bar } = $props(); <- will break the update
+    let foo = false; // <- doesn't need $state to work
+    function foo_f() {
+        foo = !foo;
+    }
+</script>
+
+<main class:foo={foo}>
+    <button onclick={foo_f}>
+        {foo ? ""foo"" : ""bar""}
+    </button>
+</main>",,118
+text,,child components should always be `width: 100%; height: 100%`; let the parent component deal with sizing the component to the overall layout,,118
+code,bash,"npm create vite@latest
+npm i --save-dev @tsconfig/svelte
+./tsconfig.node.json: $.compilerOptions.noEmit > $.compilerOptions.emitDeclarationOnly // https://stackoverflow.com/a/77369498",,119
+code,svelte,"{@const square: Piece | Empty = g.get(...}
+{@const marked = !isPiece(square) ? square.is_marked() : null}
+<div class=""{marked ? 'marked' : null}""></div>",,120
+code,bash,"# run in project
+npx sv add vitest
+mv test src/",,121
+code,,"        new window - CTRL + b + c
+     switch window - CTRL + b + [0-9]+
+  vertical split | - CTRL + b + %
+ horizonal split _ - CTRL + b + ""
+   navigate panels - CTRL + b + ↑ / ↓ / ← / →",,122
+code,,"CTRL + B + ,",,124
+code,,"CTRL + B + :
+select-pane -T <PANE NAME>",,125
+code,,CTRL + b + d,,127
+code,bash,tmux a,,128
+text,,custom error boilerplate,,129
+code,typescript,"type ErrorTypes = 
+    | 'FooError'; // Add more as needed
+
+type ErrorMessageFn = (vars?: unknown) => string;
+
+const ErrorMessages: Record<ErrorTypes, ErrorMessageFn> = {
+    FooError: (v) => `Foo ${v}`,
+};
+
+export class AppError extends Error {
+    override name: ErrorTypes;
+    override message: string;
+    cause?: unknown;
+
+    constructor(
+        name: ErrorTypes,
+        vars?: unknown,
+        customMessage?: string,
+        cause?: unknown
+    ) {
+        const finalMessage = customMessage || ErrorMessages[name](vars);
+        super(finalMessage);
+
+        if (Error.captureStackTrace) {
+            Error.captureStackTrace(this, AppError);
+        }
+
+        this.name = name;
+        this.message = finalMessage;
+        this.cause = cause;
+    }
+
+    toJSON() {
+        const json: Record<string, unknown> = {
+            name: this.name,
+            message: this.message,
+        };
+
+        if (this.cause !== undefined) {
+            json.cause = this.cause;
+        }
+
+        return json;
+    }
+
+}",,129
+text,,"array vs tuple; usage of `as const` to convert an array to tuple, so the compiler knows the data structure at compile time",,129
+code,typescript,"// Type inference of `Foo` is just `string[]`
+const Foo = [""Foo"", ""Bar""];
+
+// TS will say `Type 'string | undefined' is not assignable to type 'string'. Type 'undefined' is not assignable to type 'string'.`
+var f: string = Foo[0]; 
+
+vs
+
+// Type inference now includes all static values
+const Foo = [""Foo"", ""Bar""] as const;",,129
+text,,check all files,,129
+code,bash,npx tsc --noEmit,,129
+text,,"no `export` in a file make it a script, pushing all variable to the **global scope**. with `export` the file is a module.",,129
+code,typescript,"// foo.ts
+const foo = ""foo""
+
+// bar.ts
+const bar = ""bar""
+export default bar;
+
+// foobar.ts
+const foo = ""foo"" // <- error - cannot redefine 'foo'
+const bar = ""bar"" // <- no error",,129
+code,json,"{
+    ""compilerOptions"": {
+        ""target"": ""ES2017"",
+        ""module"": ""ES6"",
+        ""outDir"": ""."", // <- creates JS for all TS in the pwd
+        ""rootDir"": ""."",
+        ""sourceMap"": false,
+        ""noEmit"": false
+    }
+}",,130
+code,ts,"// order.ts
+import { create_toast, show_toast } from ""./utils.js""  // <- use "".js"" instead of no extension like normal ts modules
+...
+// util.ts
+document.addEventListener(""DOMContentLoaded"", function (e) {  // <- this works just fine!
+    // blah blah
+});",,130
+text,,"- https://gist.github.com/khansgithub/c7a6bfca57631a4c45e2c75b7b5f881e#transpile-multile-ts-files
+",,130
+code,typescript,"/***
+app/
+    - tsconfig.json
+    src/
+        - index.ts
+        - front/
+            - tsconfig.json
+            - foo.ts
+***/
+// app/src/tsconfig.json
+{
+    ""compilerOptions"": {
+        ""noEmit"": true
+    },
+    ""include"": [""./src/**/*.ts""],
+    ""exclude"": [""**/node_modules/*"", ""./src/front/**/*""]
+}
+// app/src/front/tsconfig.json
+{
+    ""compilerOptions"": {
+        ""noEmit"": false
+    },
+    ""include"": [""*.ts""],
+    ""exclude"": [] // <- this was important!
+}
+// tsc with build option from /app/
+tsc -b . ./src/front",,131
+code,javascript,"// /package.json
+{
+    ""scripts"": {
+        ""start"": ""nodemon ./src/index.ts""
+    },
+    ""nodemonConfig"": {
+        ""exec"": ""tsc && ts-node ."",
+        ""ext"": ""ts""
+    }
+}
+// /src/tsconfig.json
+{
+    ...
+    ""include"": [""./src/frontend/foobar.ts""]
+}
+// /src/frontend/tsconfig.json
+{
+    ""compilerOptions"": {
+        ""module"": ""ES6"",
+        ""target"": ""ES2017"",
+        ""outFile"": ""./foobar.js"",
+        ""rootDir"": ""."",
+        ""sourceMap"": true,
+        ""noEmit"": false
+    }
+}",,131
+code,typescript,"function identify<Type>(arg: unknown, field: string): arg is Type {
+    return (arg as any)[field] !== undefined;
+}
+identify<Piece>(square, ""piece_type"")",,132
+code,typescript,"class Foo{
+    public foobar = function(this: Bar){
+        this.print_bar() // ts understands `this` is typeof Bar
+    }.bind(new Bar())
+}
+const foo = new Foo()
+foo.foobar()
+// -> ""bar""",,133
+code,typescript,"// launch.json
+{
+    ""type"": ""node"",
+    ""request"": ""launch"",
+    ""name"": ""ts debug"",
+    ""skipFiles"": [""<node_internals>/**""],
+    ""program"": ""${workspaceFolder}/src/index.ts"",
+    ""runtimeArgs"": [""-r"", ""ts-node/register"", ""-r"", ""tsconfig-paths/register""],
+    ""console"": ""internalConsole""
+}
+// tsconfig.json
+{
+    ""sourceMap"": true
+}",,134
+code,json,"// example file
+// .vscode/tasks.json
+{
+	""version"": ""2.0.0"",
+	""inputs"": [
+		{
+			""id"": ""imageName"",
+			""type"": ""promptString"",
+			""description"": ""Enter the image name"",
+			""default"": ""my-container-image""
+		},
+	],
+	""tasks"": [
+		{
+			""type"": ""typescript"",
+			""tsconfig"": ""portal/client/tsconfig.json"",
+			""problemMatcher"": [
+				""$tsc""
+			],
+			""group"": ""build"",
+			""label"": ""tsc: build - portal/client/tsconfig.json""
+		},
+		{
+			""label"": ""Build Image"",
+			""type"": ""shell"",
+			""command"": ""podman"",
+			""args"": [
+				""build"",
+				""-f"",
+				""${file}"",
+				""-t"",
+				""${input:imageName}:${input:imageTag}""
+			],
+			""group"": {
+				""kind"": ""build""
+			}
+		}
+	]
+}",,135
+code,vue,"<script setup>
+  const classes = ref({
+    fadeIn: false,
+    fadeOut: false,
+  });
+  const elem = ref(null);
+  const opacityValue = ref(0.0);
+  function enter() {
+    classes.value.animationPause = true;
+    classes.value.fadeOut = false
+    opacityValue.value = getCurrentOpacity();;
+    classes.value.fadeIn = false;
+    classes.value.fadeIn = true;
+    classes.value.animationPause = false;
+  }
+  function leave() {
+    classes.value.animationPause = true;
+    classes.value.fadeIn = false;
+    opacityValue.value = getCurrentOpacity();
+    classes.value.fadeOut = false;
+    classes.value.fadeOut = true;
+    classes.value.animationPause = false;
+  }
+  function getCurrentOpacity() {
+    let elem = elem.value as unknown as HTMLElement;
+    let elem_styles = window.getComputedStyle(elem);
+    return parseFloat(elem_styles.opacity)
+  }
+</script>
+<template>
+  <div
+    @mouseenter=""e => enter()}""
+    @mouseleave=""e => leave()""
+    :class=""classes""
+    :ref=""elem""
+  >
+  </div>
+</template>
+<style>
+div {
+  opacity: 0;
+}
+.fadeIn {
+  animation: fade-in 0.5s;
+  animation-fill-mode: forwards;
+}
+.fadeOut {
+  animation: fade-out 0.5s;
+  animation-fill-mode: forwards;
+}
+.animationPause{
+  animation-play-state: paused;
+}
+@keyframes fade-in {
+  from {
+    opacity: v-bind(""opacityValue"")
+  }
+  to {
+    opacity:1;
+  }
+}
+@keyframes fade-out {
+  from {
+    opacity: v-bind(""opacityValue"");
+  }
+  to {
+    opacity: 0;
+  }
+}
+</style>",,136
+text,,"label a test, and run all tests with that label",,137
+code,python,"# test.py
+@pytest.mark.solo
+def test_solo(mocker):
+    pass",,137
+code,,"# pytest.ini
+[pytest]
+markers =
+    solo: mark a test as a solo test",,137
+code,bash,pytest -m solo,,137
+text,,set global python version,,138
+code,bash,"> pyenv versions
+  system
+* 3.11.9 (set by /root/.pyenv/version)
+> pyenv global 3.11.9",,138
+text,,script to install `pyenv` to install `python` to install `pipx` to install `poetry` ...,,138
+code,bash,"apt-get install locales
+localedef -i en_US -f UTF-8 en_US.UTF-8
+
+apt install curl
+
+curl https://pyenv.run | 
+
+for file in .bash_profile .profile .bashrc; do
+    echo 'export PYENV_ROOT=""$HOME/.pyenv""' >> ~/$file
+    echo '[[ -d $PYENV_ROOT/bin ]] && export PATH=""$PYENV_ROOT/bin:$PATH""' >> ~/$file
+    echo 'eval ""$(pyenv init -)""' >> ~/$file
+done
+
+echo 'eval ""$(pyenv virtualenv-init -)""' >> ~/.bashrc
+
+apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git libgdbm-dev libnss3-dev
+pyenv install 3.11
+
+# restart shell
+bash
+
+pyenv global 3.11.9
+
+python -m pip install --user pipx
+
+python -m pipx ensurepath
+
+python -m pipx completions
+
+eval ""$(register-python-argcomplete pipx)""
+
+# restart shell
+bash
+
+pipx install poetry",,138
+text,,some libraries required,,139
+code,bash,"sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git libgdbm-dev libnss3-dev
+pyenv install 3.11",,139
+text,,steps to install tunnels,,140
+code,,"wget -O vscode_cli.tar.gz 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' && tar -xzf vscode_cli.tar.gz -C /opt
+
+chmod +x /opt/code
+cd opt
+./code tunnel
+
+# install Microsoft: Tunnels
+# Remote-Tunnels: Connect to Tunnel",,140
+text,,"using `filter` encapsulates a `position:fixed` object in a block, making its position **relative** to that invisible block, and **not relative to the window**",,141

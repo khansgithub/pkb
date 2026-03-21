@@ -7,6 +7,7 @@ from prasegist.comments.parse_comments import (
 from prasegist.gist.parse_gist import load_gist, save_gist, parse_gist
 from prasegist.merge.merge import merge2
 from prasegist.rows.make_rows import build_rows, make_rows
+from prasegist.rows.rows_to_csv import build_csv
 
 
 def gist_fucntions():
@@ -30,9 +31,11 @@ def merge_functions():
 
 def row_functions():
     make_rows()
+    build_csv()
 
 if __name__ == "__main__":
-    # gist_fucntions()
-    # comments_functions()
-    # merge_functions()
+    gist_fucntions()
+    comments_functions()
+    merge_functions()
     row_functions()
+    pass

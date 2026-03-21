@@ -9,7 +9,7 @@
     const descriptionHtml = $derived(renderMarkdown(card.description ?? ""));
 
     onDestroy(() => {
-        console.log("[ResultsCard] the component is being destroyed");
+        // console.log("[ResultsCard] the component is being destroyed");
     });
 </script>
 
@@ -55,9 +55,19 @@
                         <div
                             class="prose prose-invert prose-sm max-w-none prose-pre:bg-transparent prose-pre:p-0 prose-pre:my-0 prose-pre:border-0 prose-pre:font-mono prose-code:font-mono prose-code:before:content-none prose-code:after:content-none"
                         >
-                            {#each card.snippets as snippet, idx (idx)}
+                            {#each card.snippets as block (block.pos + "-" + block.snippet_id)}
                                 <div class="snippet hljs-wrapper">
-                                    {@html renderMarkdown(snippet)}
+                                    {#if block.type === "code"}
+                                        {@html renderMarkdown(
+                                            "```" +
+                                                (block.lang ?? "") +
+                                                "\n" +
+                                                block.lines.join("\n") +
+                                                "\n```",
+                                        )}
+                                    {:else}
+                                        {@html renderMarkdown(block.lines.join("\n"))}
+                                    {/if}
                                 </div>
                             {/each}
                         </div>

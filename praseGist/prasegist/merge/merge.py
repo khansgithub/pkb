@@ -19,6 +19,7 @@ from prasegist.gist.parse_gist import (
     TextBlock,
 )
 from prasegist.shared.shared import BlockEnum, block_hash
+from prasegist.shared.util import find_duplicates_with_counts
 
 GIST_PROCESSED = GIST_FILEPATH.with_suffix(".processed.json")
 COMMENTS_PROCESSED = COMMENTS_FILEPATH.with_suffix(".processed.json")
@@ -111,38 +112,59 @@ def covert_hash_list_to_set(sections: list[Section1], revert=False):
         for section in sections:
             section.hashes = set(section.hashes)
 
+def collect_all_hashes(sections: list[Section1]) -> set:
+    """
+    Collect all hashes from all sections (recursively including children)
+    and return as one large set.
+    """
+    all_hashes = set()
+    def _collect(sections):
+        for section in sections:
+            all_hashes.update(section.hashes)
+    _collect(sections)
+    return all_hashes
 
 def merge_with_section(
     comment: Section1, section_map: GistMap, lookup: dict[str, GistMap]
 ):
-    comment_name = _normalize_tag(comment.name)
+    global all_hashes
+    # comment_name = _normalize_tag(comment.name)
     section = section_map.section
     for snippet in comment.blocks:
         top_level_section = section_map
         snippet: CodeBlock | TextBlock = DotDict(snippet)
         is_code = snippet.type == BlockEnum.CODE
-        snippet_hash = block_hash(snippet)
 
         while top_level_section.section.level > 1:
             top_level_section = lookup[top_level_section.parent.name]
 
-        if snippet_hash in top_level_section.section.hashes:
+        hash_present = any([h in top_level_section.section.hashes or h in all_hashes for h in section.hashes])
+        if hash_present:
             continue
 
+        # if snippet.hash in top_level_section.section.hashes:
+        #     continue
+        
+        # if snippet.hash in all_hashes:
+        #     continue
+
         snippet_block = (
-            CodeBlock(lang=snippet.lang, lines=snippet.lines)
+            CodeBlock(lang=snippet.lang, lines=snippet.lines, hashes=snippet.hashes)
             if is_code
-            else TextBlock(lines=snippet.lines)
+            else TextBlock(lines=snippet.lines, hashes=snippet.hashes)
         )
-        section.blocks.append(snippet_block.model_dump(mode="json", by_alias=True))
-        top_level_section.section.hashes.add(snippet_hash)
+        section.blocks.append(snippet_block.model_dump(mode="json"))
+        top_level_section.section.hashes.update(snippet.hashes)
+        all_hashes.update(snippet.hashes)
 
 
 def merge2() -> dict:
+    global all_hashes
     gists: list[SomeSection] = [DotDict(d) for d in load_gist_processed()]
     comments: list[Section] = [DotDict(d) for d in load_comments_processed()]
 
     covert_hash_list_to_set(gists)
+    all_hashes = collect_all_hashes(gists)
 
     # merged = merge_comments_into_gist(gist_data, comments)
     ####################################################
@@ -153,6 +175,15 @@ def merge2() -> dict:
 
         # new section # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
         if not section:
+
+            # Filter out all codeblocks and textblocks whose hash is present in all_hashes, in comment.
+            filtered_blocks = []
+            for snippet in comment.blocks:
+                snippet_hash = block_hash(DotDict(snippet))
+                if snippet_hash not in all_hashes:
+                    all_hashes.add(snippet_hash)
+                    filtered_blocks.append(snippet)
+            comment.blocks = filtered_blocks
             # Build dict manually: comment is DotDict with comments schema, not gist
 
             new_section = DotDict(
@@ -176,6 +207,12 @@ def merge2() -> dict:
 
     covert_hash_list_to_set(gists, revert=True)
     save_gist_processed(gists)
+
+    all_hashes2 = []
+    for gist in gists:
+        all_hashes2.extend(gist.hashes)
+    x = find_duplicates_with_counts(all_hashes2)
+    print(x)
     return gists
 
 

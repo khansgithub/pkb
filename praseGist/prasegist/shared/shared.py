@@ -19,15 +19,16 @@ class BlockEnum(str, Enum):
 class CodeBlock(BaseModel):
     type: BlockEnum = Field(default=BlockEnum.CODE)
     lang: str
-    lines: list[str] = Field(default_factory=list)  # this really needs to go
-    # code: list[str] = Field(default=[], repr=False, exclude=True, deprecated=True, frozen=True)
+    lines: list[str] = Field(default_factory=list)
+    hashes: list[str] = Field(default_factory=list)
 
 
 class TextBlock(BaseModel):
     type: BlockEnum = Field(default=BlockEnum.TEXT)
-    lines: list[str] = Field(default_factory=list)  # this really needs to go
+    lines: list[str] = Field(default_factory=list)
     block_type: BlockEnum = Field(default=BlockEnum.TEXT, exclude=True)
-
+    hashes: list[str] = Field(default_factory=list)
+    
 
 class Section(BaseModel):
     name: str
@@ -40,8 +41,14 @@ class Section1(Section):
     hashes: set[str] = Field(default_factory=set)
 
 
-def block_hash(block: CodeBlock) -> str:
-    return hashStr("".join([l.strip() for l in block.lines if len(l) > 1]))
+def block_hash(block: CodeBlock | TextBlock) -> str:
+    # Using "".join([l.strip() for l in block.lines if len(l.strip()) > 0]) removes leading and trailing whitespace (including \t)
+    # from each line, and skips empty (whitespace-only) lines. However, it does NOT remove whitespace inside lines.
+    # If you want to remove ALL whitespace (spaces, tabs, newlines) from all lines and concatenate everything, use:
+    # return hashStr("".join(l for l in block.lines).replace(" ", "").replace("\t", "").replace("\n", ""))
+    # Alternatively, to remove all kinds of whitespace in a more general way:
+    import re
+    return hashStr(re.sub(r"\s+", "", "".join(block.lines)).lower())
 
 
 # if (block.type == BlockEnum.CODE):

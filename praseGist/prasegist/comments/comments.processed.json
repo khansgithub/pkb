@@ -29,6 +29,9 @@
                     "            loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))",
                     "            loop.stop()",
                     "            loop.close()"
+                ],
+                "hashes": [
+                    "89bfa7230aab04b1c84b98e8850f8cd3"
                 ]
             }
         ],
@@ -42,6 +45,9 @@
                 "type": "text",
                 "lines": [
                     "bypass unused function error"
+                ],
+                "hashes": [
+                    "bded3c35d2fb1cad3ab09e228fee4de5"
                 ]
             },
             {
@@ -49,6 +55,9 @@
                 "lang": "golang",
                 "lines": [
                     "(func(args... interface{}){})(scrape_cpu, scrape_hostname)"
+                ],
+                "hashes": [
+                    "91f733ddf162d40589844f8376a1b6d9"
                 ]
             }
         ],
@@ -62,6 +71,9 @@
                 "type": "text",
                 "lines": [
                     "go fmt on current directory go files and all subdirectories"
+                ],
+                "hashes": [
+                    "d89782253800e758145c60c472a0bfb3"
                 ]
             },
             {
@@ -69,6 +81,9 @@
                 "lang": "golang",
                 "lines": [
                     "go fmt ./..."
+                ],
+                "hashes": [
+                    "e55558c04fd2a2e9a47f4387963efa66"
                 ]
             }
         ],
@@ -82,6 +97,9 @@
                 "type": "text",
                 "lines": [
                     "embedded types"
+                ],
+                "hashes": [
+                    "08bc2cabf5b9eb96216a31e77fe080af"
                 ]
             },
             {
@@ -104,6 +122,9 @@
                     "a.Person.Talk()",
                     "",
                     "a.Talk() // polymorphism!"
+                ],
+                "hashes": [
+                    "baa053929eea0a2562fcb54897a28b65"
                 ]
             }
         ],
@@ -117,18 +138,27 @@
                 "type": "text",
                 "lines": [
                     "mutex classes"
+                ],
+                "hashes": [
+                    "25ddb2d5fc27fd7969e673f1750232aa"
                 ]
             },
             {
                 "type": "text",
                 "lines": [
                     "sync.RWLock()"
+                ],
+                "hashes": [
+                    "228a50c23b8dcb3809d4f3348ae5299e"
                 ]
             },
             {
                 "type": "text",
                 "lines": [
                     "sync.Once"
+                ],
+                "hashes": [
+                    "42ed1f127da66b554e69fc1cb8afe9cb"
                 ]
             }
         ],
@@ -142,6 +172,9 @@
                 "type": "text",
                 "lines": [
                     "init function in packages"
+                ],
+                "hashes": [
+                    "14e0c02c4b6945b13f6e2df0f5b1fe2b"
                 ]
             },
             {
@@ -153,6 +186,9 @@
                     "func init(){",
                     "    Foo = \"foobar\"",
                     "}"
+                ],
+                "hashes": [
+                    "b33bf46e2711f6184d54962840b329df"
                 ]
             }
         ],
@@ -166,6 +202,9 @@
                 "type": "text",
                 "lines": [
                     "type signature for parameters of self containing recursive functions"
+                ],
+                "hashes": [
+                    "599d0757d3794e0818ffc2396c1f2543"
                 ]
             },
             {
@@ -185,6 +224,9 @@
                     "    go f(x, f)",
                     "    for {} // keep function running to we can still print",
                     "}"
+                ],
+                "hashes": [
+                    "44e7d70e220d020cbc9664edf7a027ce"
                 ]
             }
         ],
@@ -198,6 +240,9 @@
                 "type": "text",
                 "lines": [
                     "generics + type constraint"
+                ],
+                "hashes": [
+                    "68f3b81c055649c64c180cf9d26a93ba"
                 ]
             },
             {
@@ -230,6 +275,9 @@
                     "\tvar x T",
                     "\treturn []T{x}",
                     "}"
+                ],
+                "hashes": [
+                    "c7d87894b40b10964c3280ecca5a22fa"
                 ]
             }
         ],
@@ -243,6 +291,9 @@
                 "type": "text",
                 "lines": [
                     "log an exception with traceback"
+                ],
+                "hashes": [
+                    "789be0472d9b9a8fd6f4da9c5d9ec08b"
                 ]
             },
             {
@@ -258,6 +309,9 @@
                     "        raise Exception(\"foo error\")",
                     "    except Exception as e:",
                     "        fooLogger.exception(e)"
+                ],
+                "hashes": [
+                    "5f4591417b75c30daa98cafe3d852d8b"
                 ]
             }
         ],
@@ -271,6 +325,9 @@
                 "type": "text",
                 "lines": [
                     "catch multiple class of exceptions in one block"
+                ],
+                "hashes": [
+                    "fc0f3d8671f53607cbd26341ec05c2cc"
                 ]
             },
             {
@@ -284,6 +341,9 @@
                     "        print('KeyboardInterrupt')",
                     "    else:",
                     "        pass"
+                ],
+                "hashes": [
+                    "f051f87a0b3c094eb6a3c029a0192ba6"
                 ]
             }
         ],
@@ -297,6 +357,9 @@
                 "type": "text",
                 "lines": [
                     "set `imagePullPolicy` to `Always`, then delete the pod, to easily update the pod with a newer image"
+                ],
+                "hashes": [
+                    "517c1cf3959810a23d3c80a7e29c8ce1"
                 ]
             }
         ],
@@ -310,6 +373,9 @@
                 "type": "text",
                 "lines": [
                     "better tsc config options for writing ts files to be used as js for the browser"
+                ],
+                "hashes": [
+                    "6a90197b10c498e35d9ad2a2bc9cef35"
                 ]
             },
             {
@@ -326,6 +392,9 @@
                     "        \"noEmit\": false",
                     "    }",
                     "}"
+                ],
+                "hashes": [
+                    "d7e64b833348c0ee723811346ff3eada"
                 ]
             },
             {
@@ -341,6 +410,9 @@
                     "    // blah blah",
                     "});",
                     ""
+                ],
+                "hashes": [
+                    "3aa7f8ad9efba5e8a908ac493264936e"
                 ]
             }
         ],
@@ -354,6 +426,9 @@
                 "type": "text",
                 "lines": [
                     "shared class field across all object instances"
+                ],
+                "hashes": [
+                    "f3fc3dbdf9c8fd9abbf6f06251fccd25"
                 ]
             },
             {
@@ -381,6 +456,9 @@
                     "[1, 999]",
                     "[1, 999]",
                     "'''"
+                ],
+                "hashes": [
+                    "e4c8c6bb6a8bc67265536b3d78c45c6b"
                 ]
             }
         ],
@@ -394,6 +472,9 @@
                 "type": "text",
                 "lines": [
                     "transpile multile ts files"
+                ],
+                "hashes": [
+                    "0b25adef15d4ccd4bb3e692cf6f50024"
                 ]
             },
             {
@@ -430,6 +511,9 @@
                     "",
                     "// tsc with build option from /app/",
                     "tsc -b . ./src/front"
+                ],
+                "hashes": [
+                    "ca5da480c958ed0be3c24f77ccbfd1e9"
                 ]
             }
         ],
@@ -443,6 +527,9 @@
                 "type": "text",
                 "lines": [
                     "`fs.readdir` is NOT blocking; use `fs.readdirSync` instead"
+                ],
+                "hashes": [
+                    "4003a7ec1753953a93af116fe2405603"
                 ]
             }
         ],
@@ -456,6 +543,9 @@
                 "type": "text",
                 "lines": [
                     "`__post_init__` for dataclasses"
+                ],
+                "hashes": [
+                    "2d4385cbfa7f017e75bab8d8c27c1de0"
                 ]
             }
         ],
@@ -469,6 +559,9 @@
                 "type": "text",
                 "lines": [
                     "function overload. `functools.singledispatch` only dispatches on the type of the first argument."
+                ],
+                "hashes": [
+                    "7bfa9ba97c667276e4896e9f7bcd976d"
                 ]
             },
             {
@@ -491,6 +584,9 @@
                     "",
                     "func(1)        # Output: Integer: 1",
                     "func('hello')  # Output: String: hello"
+                ],
+                "hashes": [
+                    "9294a5772923a441378c970826b5d4c0"
                 ]
             }
         ],
@@ -504,6 +600,9 @@
                 "type": "text",
                 "lines": [
                     "`str.startswith` and `str.endswith` can take a `Tuple` as a parameter (https://docs.python.org/3/library/stdtypes.html#str.startswith)"
+                ],
+                "hashes": [
+                    "96a0f0537c2b61f78d30b6a8dc0ba686"
                 ]
             },
             {
@@ -511,6 +610,9 @@
                 "lang": "python",
                 "lines": [
                     "interface[\"name\"].startswith((\"ge\", \"xe\", \"ae\", \"et\"))"
+                ],
+                "hashes": [
+                    "0bd715f46d4f2868eaaffee015f3d1c9"
                 ]
             }
         ],
@@ -524,6 +626,9 @@
                 "type": "text",
                 "lines": [
                     "decorators are applied from **bottom up**"
+                ],
+                "hashes": [
+                    "bfd0281715343e9e19c4ccda69645a4f"
                 ]
             },
             {
@@ -566,6 +671,9 @@
                     "         ^         ^ ",
                     "    mocked with wrong value",
                     "'''"
+                ],
+                "hashes": [
+                    "8314c198cba3c848137c60cce28b7a53"
                 ]
             }
         ],
@@ -579,6 +687,9 @@
                 "type": "text",
                 "lines": [
                     "disable default console logger after adding more handlers by disabling `propagate`"
+                ],
+                "hashes": [
+                    "4ebf85478ca5dd1f1db7b1f0e212a881"
                 ]
             },
             {
@@ -591,6 +702,9 @@
                     "",
                     "logger.handlers = [rh]",
                     "logger.propagate = False"
+                ],
+                "hashes": [
+                    "da50948474c9894eb988afb39a920b58"
                 ]
             }
         ],
@@ -604,12 +718,18 @@
                 "type": "text",
                 "lines": [
                     "preserve type inference of wrapped functions (i don't get how this works, need to read it later, but it works)"
+                ],
+                "hashes": [
+                    "4c9a1fcda7edf5b72043c3799c2f2119"
                 ]
             },
             {
                 "type": "text",
                 "lines": [
                     "https://stackoverflow.com/a/74080156"
+                ],
+                "hashes": [
+                    "807402806c258f818589b19a783cc5b6"
                 ]
             }
         ],
@@ -623,6 +743,9 @@
                 "type": "text",
                 "lines": [
                     "poetry"
+                ],
+                "hashes": [
+                    "0a9db264dffd68c8f8b6e591835c526b"
                 ]
             },
             {
@@ -639,6 +762,9 @@
                     "poetry shell # activate python venv",
                     "python3 main.py",
                     "exit"
+                ],
+                "hashes": [
+                    "4d6bdd28e9c001c3ecc18cc970067400"
                 ]
             }
         ],
@@ -652,6 +778,9 @@
                 "type": "text",
                 "lines": [
                     "a `reference` and `pointer` are not the same thing (i think)"
+                ],
+                "hashes": [
+                    "20bd37633c06a3994b65b6fecadb30d2"
                 ]
             },
             {
@@ -668,6 +797,9 @@
                     "    println!(\"ref_x: {}\", ref_x);",
                     "    println!(\"pointer_x: {:?}\", pointer_x);",
                     "}"
+                ],
+                "hashes": [
+                    "4fb662e886db31540ea360f7cd963273"
                 ]
             }
         ],
@@ -681,6 +813,9 @@
                 "type": "text",
                 "lines": [
                     "label a test, and run all tests with that label"
+                ],
+                "hashes": [
+                    "c09359c7b78b3958594b38c9350fd7bd"
                 ]
             },
             {
@@ -691,6 +826,9 @@
                     "@pytest.mark.solo",
                     "def test_solo(mocker):",
                     "    pass"
+                ],
+                "hashes": [
+                    "9f6e96dc67fb6ded189a9d320d71ba39"
                 ]
             },
             {
@@ -701,6 +839,9 @@
                     "[pytest]",
                     "markers =",
                     "    solo: mark a test as a solo test"
+                ],
+                "hashes": [
+                    "bc2d9378cb62cb9e1d7da5b7c9329ea1"
                 ]
             },
             {
@@ -708,6 +849,9 @@
                 "lang": "bash",
                 "lines": [
                     "pytest -m solo"
+                ],
+                "hashes": [
+                    "f0f9d60664df26c9ed95d5bed3676a8d"
                 ]
             }
         ],
@@ -721,6 +865,9 @@
                 "type": "text",
                 "lines": [
                     "retain environment variables when using sudo"
+                ],
+                "hashes": [
+                    "57236e388a3dd8ad674e57de43e3b99c"
                 ]
             },
             {
@@ -728,6 +875,9 @@
                 "lang": "bash",
                 "lines": [
                     "sudo -E foobar"
+                ],
+                "hashes": [
+                    "0cea82cc3e7f898cd3e53c94c5c4d312"
                 ]
             }
         ],
@@ -741,6 +891,9 @@
                 "type": "text",
                 "lines": [
                     "learnings for making programs easier to test"
+                ],
+                "hashes": [
+                    "8ef6cb7346951b38abde9181a715b961"
                 ]
             },
             {
@@ -750,6 +903,9 @@
                     "def get_netbox() -> api:",
                     "  global nb",
                     "  return nb if nb else setup_nb()"
+                ],
+                "hashes": [
+                    "bb6c65dfc42fafeb138c438a7db87084"
                 ]
             }
         ],
@@ -763,6 +919,9 @@
                 "type": "text",
                 "lines": [
                     "some libraries required"
+                ],
+                "hashes": [
+                    "98bc5b6ee4dee7dbf64359457b75822f"
                 ]
             },
             {
@@ -771,6 +930,9 @@
                 "lines": [
                     "sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git libgdbm-dev libnss3-dev",
                     "pyenv install 3.11"
+                ],
+                "hashes": [
+                    "0c5c5822336b34c81db9bb0be2d889b6"
                 ]
             }
         ],
@@ -784,6 +946,9 @@
                 "type": "text",
                 "lines": [
                     "function which might be passed an RLock or None"
+                ],
+                "hashes": [
+                    "48d63b0c7cb59df48b7faa9814f6788c"
                 ]
             },
             {
@@ -792,6 +957,9 @@
                 "lines": [
                     "    with stdout_lock or nullcontext():",
                     "        logger.info(f\"Polled {hostname} successfully\")"
+                ],
+                "hashes": [
+                    "6a61085c120812c57ad8878f5e691fb6"
                 ]
             }
         ],
@@ -805,6 +973,9 @@
                 "type": "text",
                 "lines": [
                     "docker build creates cache, which can add up"
+                ],
+                "hashes": [
+                    "a218f431d9e25af5b8151d4891e4ebe9"
                 ]
             },
             {
@@ -812,6 +983,9 @@
                 "lang": "bash",
                 "lines": [
                     "docker builder prune"
+                ],
+                "hashes": [
+                    "af900383b418a17c61dc48c7fccb5a6a"
                 ]
             }
         ],
@@ -825,6 +999,9 @@
                 "type": "text",
                 "lines": [
                     "when extending multiple classes, the functions of the first class takes precedence"
+                ],
+                "hashes": [
+                    "7222aef74257f1328b1bb8ef46e9f258"
                 ]
             },
             {
@@ -843,6 +1020,9 @@
                     "    ",
                     "ab = AB()",
                     "# > A.__init__"
+                ],
+                "hashes": [
+                    "45d3c695f6a4ce0857f249a08c484a4a"
                 ]
             }
         ],
@@ -856,6 +1036,9 @@
                 "type": "text",
                 "lines": [
                     "go through all child mocks created (properties of mocks)"
+                ],
+                "hashes": [
+                    "dcec32ab96afeb3c134551d48c8872c7"
                 ]
             },
             {
@@ -874,6 +1057,9 @@
                     "        if (c:=list(children)[1]._mock_children.items()):",
                     "            for child in c:",
                     "                children_list.append(list(child))"
+                ],
+                "hashes": [
+                    "5d8c312220622f5c825271918aad764b"
                 ]
             }
         ],
@@ -887,6 +1073,9 @@
                 "type": "text",
                 "lines": [
                     "mypy to text with certain logs removed"
+                ],
+                "hashes": [
+                    "56249a97add56b4fb2458c5036dc686d"
                 ]
             },
             {
@@ -894,6 +1083,9 @@
                 "lang": "bash",
                 "lines": [
                     "mypy foo.py > mypy.txt; sed -i -e note:/d' -e '/of \"Logger\"/d' -e '/\\[import-untyped\\]/d' mypy.txt; less mypy.txt "
+                ],
+                "hashes": [
+                    "ee2dbf69af448794f743df1046aa4d8f"
                 ]
             }
         ],
@@ -907,6 +1099,9 @@
                 "type": "text",
                 "lines": [
                     "1px loading icon with the cursor set to the start of the line. this makes it so when another thread prints to stdout, it will overwrite the loading logo."
+                ],
+                "hashes": [
+                    "c47d2c934403d7aa7c76028a347ba0db"
                 ]
             },
             {
@@ -936,6 +1131,9 @@
                     "        sys.stdout.write(clear_line)",
                     "        # sys.stdout.write(show_cursor)",
                     "        sys.stdout.flush()"
+                ],
+                "hashes": [
+                    "91fcc98212b35baca734d9331b5064bf"
                 ]
             }
         ],
@@ -949,12 +1147,18 @@
                 "type": "text",
                 "lines": [
                     "protocol vs abc"
+                ],
+                "hashes": [
+                    "30a32d771a37abe2f39605e55893ed13"
                 ]
             },
             {
                 "type": "text",
                 "lines": [
                     "https://medium.com/@pouyahallaj/introduction-1616b3a4a637"
+                ],
+                "hashes": [
+                    "08f7393293d2b3d60616a28816ef4883"
                 ]
             }
         ],
@@ -968,6 +1172,9 @@
                 "type": "text",
                 "lines": [
                     "to force typecast use `cast`"
+                ],
+                "hashes": [
+                    "ebcbf809392267b97bf851585648aed0"
                 ]
             },
             {
@@ -977,6 +1184,9 @@
                     "from typing import cast",
                     "a: str | None = \"foo\"",
                     "b: str = cast(str, a)"
+                ],
+                "hashes": [
+                    "acb45a1e7f90dad207532431a7082cca"
                 ]
             }
         ],
@@ -990,12 +1200,18 @@
                 "type": "text",
                 "lines": [
                     "error handling in decorators can be difficult. is there is a try block inside the decorator, and the calling function was passed with incorrect parameters, the traceback only show the try block inside the decorator. the calling function, which called the decorated function with wrong parameters, will not be shown."
+                ],
+                "hashes": [
+                    "f434cb08c1ca981de92c3ca17ef9fbaa"
                 ]
             },
             {
                 "type": "text",
                 "lines": [
                     "the takeaway might be to always raise exceptions in a decorator"
+                ],
+                "hashes": [
+                    "a786a50dbc28df214d797d0e6e9de10e"
                 ]
             },
             {
@@ -1021,6 +1237,9 @@
                     "17\tdef foo():",
                     "18\t    pass",
                     "19\tcalling_function()"
+                ],
+                "hashes": [
+                    "76901de2d2596bf8b8ea56e97ccec1b6"
                 ]
             }
         ],
@@ -1034,6 +1253,9 @@
                 "type": "text",
                 "lines": [
                     "use seconds if it's >60 or minutes, and add 's' . uses the fact that `string=\"a\"[:-1]` gives the empty string"
+                ],
+                "hashes": [
+                    "ffc67b0348cca65428dd1be46dffd436"
                 ]
             },
             {
@@ -1041,6 +1263,9 @@
                 "lang": "python",
                 "lines": [
                     "f\"{[f'{(s:=sleep_duration)} second', f'{(m:=sleep_duration//60)} minute'][s>=60] + 's'[:m>1 or (s> 1 and m < 1)]}\""
+                ],
+                "hashes": [
+                    "695cffee36a9de4eae0c2d9206738344"
                 ]
             }
         ],
@@ -1054,6 +1279,9 @@
                 "type": "text",
                 "lines": [
                     "all try/catch blocks of code, should have a unit test associated with it"
+                ],
+                "hashes": [
+                    "37f731a4f3909486a92bf51ff351c68e"
                 ]
             }
         ],
@@ -1067,6 +1295,9 @@
                 "type": "text",
                 "lines": [
                     "forward declare"
+                ],
+                "hashes": [
+                    "7baf3bd051d34eec24e93a244f176456"
                 ]
             },
             {
@@ -1075,6 +1306,9 @@
                 "lines": [
                     "def foo() -> \"SomeClass\":",
                     "    ..."
+                ],
+                "hashes": [
+                    "bdb18c2b67a5244306ee3e65cab4fd45"
                 ]
             }
         ],
@@ -1088,6 +1322,9 @@
                 "type": "text",
                 "lines": [
                     "add a function to an object instance and have it take self"
+                ],
+                "hashes": [
+                    "08fafc58b22cadb3c6e2ac8a662ec779"
                 ]
             },
             {
@@ -1095,6 +1332,9 @@
                 "lang": "python",
                 "lines": [
                     "mock_workflow_mocker.proxy_configure_mock = types.MethodType(proxy_configure_mock, mock_workflow_mocker)"
+                ],
+                "hashes": [
+                    "ce4fc8f62b856cc5e77e740494f7e7f1"
                 ]
             }
         ],
@@ -1108,6 +1348,9 @@
                 "type": "text",
                 "lines": [
                     "typing a function that returns `self`"
+                ],
+                "hashes": [
+                    "a2645e6e2a05a4bb1b019b43550ba1a5"
                 ]
             },
             {
@@ -1117,6 +1360,9 @@
                     "from typing import Self",
                     "def foo(self) -> Self:",
                     "    return self"
+                ],
+                "hashes": [
+                    "b8d874fa83bc2f31cc1f6fc7143a3f44"
                 ]
             }
         ],
@@ -1130,6 +1376,9 @@
                 "type": "text",
                 "lines": [
                     "position a `position: absolute` element inside a `relative`"
+                ],
+                "hashes": [
+                    "ea61a068cd196d69b834034a9c14d64c"
                 ]
             },
             {
@@ -1140,6 +1389,9 @@
                     "  .bar",
                     "  .bar2",
                     "  .bar3"
+                ],
+                "hashes": [
+                    "a35f7b3b349ac20bf8dca7ad9af5dc35"
                 ]
             },
             {
@@ -1163,6 +1415,9 @@
                     "  position: absolute;",
                     "  right: 0;",
                     "}"
+                ],
+                "hashes": [
+                    "1bc62a378ee21850eac1df48a5eacd58"
                 ]
             }
         ],
@@ -1176,6 +1431,9 @@
                 "type": "text",
                 "lines": [
                     "smooth fade animation that doesn't snap between transitions"
+                ],
+                "hashes": [
+                    "b8fd18cc5ed1a217c4b902aa930657c1"
                 ]
             },
             {
@@ -1269,6 +1527,9 @@
                     "  }",
                     "}",
                     "</style>"
+                ],
+                "hashes": [
+                    "1c4a864f19e5dabb9548087471965156"
                 ]
             }
         ],
@@ -1282,6 +1543,9 @@
                 "type": "text",
                 "lines": [
                     "tar switches"
+                ],
+                "hashes": [
+                    "d697fb262a66be9b4c3bd0af1fef4797"
                 ]
             },
             {
@@ -1303,6 +1567,9 @@
                     "Uncompress a tar.bz2 file: tar jxf tarball.tar.bz2",
                     "",
                     "Create a tar.gz file: tar zcvf tarvall.tar.gz mydir/*"
+                ],
+                "hashes": [
+                    "e9e25e73eba5ba5948ed167e7dab0d29"
                 ]
             }
         ],
@@ -1316,6 +1583,9 @@
                 "type": "text",
                 "lines": [
                     "output cue file to json"
+                ],
+                "hashes": [
+                    "3b0e0a0af06f195c932e2438d99755bc"
                 ]
             },
             {
@@ -1323,6 +1593,9 @@
                 "lang": "bash",
                 "lines": [
                     "cue eval schema.cue --out json"
+                ],
+                "hashes": [
+                    "7a5fe182dd55d424863e277ccda0ad50"
                 ]
             }
         ],
@@ -1336,6 +1609,9 @@
                 "type": "text",
                 "lines": [
                     "lint sql"
+                ],
+                "hashes": [
+                    "8b4a3ba0245b5037b042c74b2a429e14"
                 ]
             },
             {
@@ -1345,6 +1621,9 @@
                     "# apt install pipx",
                     "# pipx install sqlfluff",
                     "sqlfluff lint --dialect postgres schema.ql"
+                ],
+                "hashes": [
+                    "3eee657e31dfe2b7ecc794df44213671"
                 ]
             }
         ],
@@ -1358,6 +1637,9 @@
                 "type": "text",
                 "lines": [
                     "`struct`s cannot be `const` because they're inherently composite types"
+                ],
+                "hashes": [
+                    "0fdcaa7a59e63e03a2142126425c181d"
                 ]
             }
         ],
@@ -1371,6 +1653,9 @@
                 "type": "text",
                 "lines": [
                     "correct way to error handle an **async** Task, scheduled with `asyncio.create_task`. don't use `asyncio.add_done_callback(cb)` because it will not  properly capture the traceback when getting the error with `def cb(task): ... task.exception()`(for some reason idk)"
+                ],
+                "hashes": [
+                    "ed743f9f18556e2754b540c6318a5d74"
                 ]
             },
             {
@@ -1386,6 +1671,9 @@
                     "    function_that_errors()",
                     "  except Exception as e:",
                     "    logging.exception(e)"
+                ],
+                "hashes": [
+                    "839b86a8b94ab7dbd62f8ab3d2cd0a46"
                 ]
             }
         ],
@@ -1399,6 +1687,9 @@
                 "type": "text",
                 "lines": [
                     "steps to install tunnels"
+                ],
+                "hashes": [
+                    "33014f026b937035490d3db84fe1e6d5"
                 ]
             },
             {
@@ -1413,6 +1704,9 @@
                     "",
                     "# install Microsoft: Tunnels",
                     "# Remote-Tunnels: Connect to Tunnel"
+                ],
+                "hashes": [
+                    "17146921b01139ba659fe594c20a2c9f"
                 ]
             }
         ],
@@ -1426,6 +1720,9 @@
                 "type": "text",
                 "lines": [
                     "check if a folder exists using the `test` commands"
+                ],
+                "hashes": [
+                    "54a49a5f1d63b0233fb3f09d4a91c883"
                 ]
             },
             {
@@ -1433,6 +1730,9 @@
                 "lang": "bash",
                 "lines": [
                     "if test -d cisco_bindings; then echo exists; else echo does not; fi"
+                ],
+                "hashes": [
+                    "0c4c8e6a876ce81cb4ac5639fb85cdec"
                 ]
             }
         ],
@@ -1446,6 +1746,9 @@
                 "type": "text",
                 "lines": [
                     "set global python version"
+                ],
+                "hashes": [
+                    "201fda924604951382c74d5d96ec9ad6"
                 ]
             },
             {
@@ -1456,6 +1759,9 @@
                     "  system",
                     "* 3.11.9 (set by /root/.pyenv/version)",
                     "> pyenv global 3.11.9"
+                ],
+                "hashes": [
+                    "1261bb5e2ee7ab6c9dcc0222cce5df6b"
                 ]
             }
         ],
@@ -1469,6 +1775,9 @@
                 "type": "text",
                 "lines": [
                     "script to install `pyenv` to install `python` to install `pipx` to install `poetry` ..."
+                ],
+                "hashes": [
+                    "aa2c034428cfd7b2222ec92c3d84880c"
                 ]
             },
             {
@@ -1510,6 +1819,9 @@
                     "bash",
                     "",
                     "pipx install poetry"
+                ],
+                "hashes": [
+                    "210112ee90ab35d08050e94ff15c16d3"
                 ]
             }
         ],
@@ -1523,6 +1835,9 @@
                 "type": "text",
                 "lines": [
                     "run a specific `pytest` (with stdout collection)"
+                ],
+                "hashes": [
+                    "f06270ce637911c8ed8f600b6fbdfe4c"
                 ]
             },
             {
@@ -1530,6 +1845,9 @@
                 "lang": "bash",
                 "lines": [
                     "pytest -s ./tests/test_exception_handlers.py::test_exception_handler"
+                ],
+                "hashes": [
+                    "38cb377e748f8a4c63182bb6a9390370"
                 ]
             }
         ],
@@ -1543,6 +1861,9 @@
                 "type": "text",
                 "lines": [
                     "poetry make venv locally"
+                ],
+                "hashes": [
+                    "827905758e66024490491a8144ca0498"
                 ]
             },
             {
@@ -1562,6 +1883,9 @@
                     "",
                     "# globally",
                     "poetry config virtualenvs.in-project true"
+                ],
+                "hashes": [
+                    "cbaa6b8d350e8fe30991970bf6c5efdf"
                 ]
             }
         ],
@@ -1605,6 +1929,9 @@
                     "      context: .",
                     "      dockerfile: Dockerfile",
                     "    image: python-poetry:latest"
+                ],
+                "hashes": [
+                    "54af0bd8439d6a8b09869015c92fba9d"
                 ]
             }
         ],
@@ -1619,6 +1946,9 @@
                 "lang": "",
                 "lines": [
                     "-net::ERR_BLOCKED_BY_CLIENT"
+                ],
+                "hashes": [
+                    "3fc8461f312aeb3f12bb22dc7c88bc31"
                 ]
             }
         ],
@@ -1635,6 +1965,9 @@
                     "npm create vite@latest",
                     "npm i --save-dev @tsconfig/svelte",
                     "./tsconfig.node.json: $.compilerOptions.noEmit > $.compilerOptions.emitDeclarationOnly // https://stackoverflow.com/a/77369498"
+                ],
+                "hashes": [
+                    "295e3ac609aa17b7d2d7d4cb795c9853"
                 ]
             }
         ],
@@ -1648,6 +1981,9 @@
                 "type": "text",
                 "lines": [
                     "kill a proc in `jobs` using `%` syntax"
+                ],
+                "hashes": [
+                    "340c4c8d741686ceb1899ff062cd9cff"
                 ]
             },
             {
@@ -1658,6 +1994,9 @@
                     "> [1]+  Running                 poetry run main &",
                     "kill -9 %1",
                     "> [1]+  Killed                  poetry run main"
+                ],
+                "hashes": [
+                    "a61748430a2aca155a52e72ba0997e10"
                 ]
             }
         ],
@@ -1671,6 +2010,9 @@
                 "type": "text",
                 "lines": [
                     "run node tools from cli"
+                ],
+                "hashes": [
+                    "c62a7fae19f63767a6f5b0e3618c9c85"
                 ]
             },
             {
@@ -1678,6 +2020,9 @@
                 "lang": "",
                 "lines": [
                     "npx tsc"
+                ],
+                "hashes": [
+                    "9d481a3b48eb81b1991a23e6669c3829"
                 ]
             }
         ],
@@ -1691,6 +2036,9 @@
                 "type": "text",
                 "lines": [
                     "alternate values like the squares on a chess board, if you have indices for x + y (row and column)"
+                ],
+                "hashes": [
+                    "584514d7248cd2ed8a80369571560a90"
                 ]
             },
             {
@@ -1712,6 +2060,9 @@
                     "0 1 0 1",
                     "1 0 1 0",
                     "***/"
+                ],
+                "hashes": [
+                    "d38e28e1096b6b0c137b81571f904fdd"
                 ]
             }
         ],
@@ -1725,6 +2076,9 @@
                 "type": "text",
                 "lines": [
                     "dynamic (hacky??) type guard"
+                ],
+                "hashes": [
+                    "64b60406dd18a00c58a6068ae6423e97"
                 ]
             },
             {
@@ -1736,6 +2090,9 @@
                     "}",
                     "",
                     "identify<Piece>(square, \"piece_type\")"
+                ],
+                "hashes": [
+                    "f6603a1112778c2af78c3f6f0ae0f65e"
                 ]
             }
         ],
@@ -1749,6 +2106,9 @@
                 "type": "text",
                 "lines": [
                     "prevent an element from exceeding the screen and ever overflowing"
+                ],
+                "hashes": [
+                    "e0032e45313cea4b59989c1164ba81aa"
                 ]
             },
             {
@@ -1758,6 +2118,9 @@
                     "body{",
                     "    max-height: 99vh;",
                     "}"
+                ],
+                "hashes": [
+                    "e032bc30b146c3d514327d5ff5e33bc5"
                 ]
             }
         ],
@@ -1771,6 +2134,9 @@
                 "type": "text",
                 "lines": [
                     "use `{@const}` to create in-template variables, also works with reactive states (but you cannot create reactive states i.e. $state rune, in the directive"
+                ],
+                "hashes": [
+                    "6f9b1653cc82020f9654608455bc27ad"
                 ]
             },
             {
@@ -1780,6 +2146,9 @@
                     "{@const square: Piece | Empty = g.get(...}",
                     "{@const marked = !isPiece(square) ? square.is_marked() : null}",
                     "<div class=\"{marked ? 'marked' : null}\"></div>"
+                ],
+                "hashes": [
+                    "aaf21a73ef97410265214c7af61c3418"
                 ]
             }
         ],
@@ -1793,6 +2162,9 @@
                 "type": "text",
                 "lines": [
                     "use `pointer-events: none` to disable mouse events of an element. can be useful when two elements are stacked on top of each other, and you want to allow the events of the element beneath through"
+                ],
+                "hashes": [
+                    "8b66e6a834a304b0b8b8a9dcde76f102"
                 ]
             },
             {
@@ -1805,6 +2177,9 @@
                     "<div id=\"bar\">",
                     "  <p>bar</p>",
                     "</div>"
+                ],
+                "hashes": [
+                    "619493394e1791453289dab63eacbe49"
                 ]
             },
             {
@@ -1831,6 +2206,9 @@
                     "  text-align: right;",
                     "  pointer-events: none; /* click + hover are disabled for this */",
                     "}"
+                ],
+                "hashes": [
+                    "fafa9f1dd69a68807f92f618abb409ef"
                 ]
             },
             {
@@ -1845,6 +2223,9 @@
                     "",
                     "bar.addEventListener(\"mouseover\", e => console.log(\"bar hover\")});",
                     "bar.addEventListener(\"click\", e => console.log(\"bar click\")});"
+                ],
+                "hashes": [
+                    "c1b68d9a0da3ae21343d152ca7b898b3"
                 ]
             }
         ],
@@ -1858,6 +2239,9 @@
                 "type": "text",
                 "lines": [
                     "get the SHA1 signature"
+                ],
+                "hashes": [
+                    "62963e14e0ced06bbdf62db63c2e8583"
                 ]
             },
             {
@@ -1865,6 +2249,9 @@
                 "lang": "batch",
                 "lines": [
                     "keytool -list -v -keystore C:\\Users\\%USERNAME%\\.android\\debug.keystore -alias androiddebugkey -storepass android -keypass android"
+                ],
+                "hashes": [
+                    "a047735829a7692ff1f83904512f0b38"
                 ]
             }
         ],
@@ -1878,6 +2265,9 @@
                 "type": "text",
                 "lines": [
                     "when using `by` for property delegation with `collectAsState`, there will be an error unless you import `import androidx.compose.runtime.getValue`"
+                ],
+                "hashes": [
+                    "68a9b1e699b62d096f7cce26eac21937"
                 ]
             },
             {
@@ -1891,6 +2281,9 @@
                     "val navTarget by navVM.navTarget.collectAsState(initial = \"home\")",
                     "// without getValue import: ",
                     "// Type 'androidx. compose. runtime. State<kotlin. Any?>' has no method 'getValue(Nothing?, KProperty0<*>)', so it cannot serve as a delegate."
+                ],
+                "hashes": [
+                    "5747a5d4fe2102818ff7b891b434598f"
                 ]
             }
         ],
@@ -1904,6 +2297,9 @@
                 "type": "text",
                 "lines": [
                     "null saftey expression"
+                ],
+                "hashes": [
+                    "88383844ef84941a21e817cf9843b55c"
                 ]
             },
             {
@@ -1913,6 +2309,9 @@
                     "// typescript -> if (isTypeFoo()) doFooStuf()",
                     "// kotlin:",
                     "foo?.let { doFooStuff() }"
+                ],
+                "hashes": [
+                    "22862c8a0420b7edd7d9c11715bbef00"
                 ]
             }
         ],
@@ -1926,6 +2325,9 @@
                 "type": "text",
                 "lines": [
                     "`this` can be typehinted in the function signature, useful when using with `bind`"
+                ],
+                "hashes": [
+                    "3b39bf84bcbb83266577685dfc666b43"
                 ]
             },
             {
@@ -1940,6 +2342,9 @@
                     "const foo = new Foo()",
                     "foo.foobar()",
                     "// -> \"bar\""
+                ],
+                "hashes": [
+                    "cf1ef6b451278504a667755811ba902a"
                 ]
             }
         ],
@@ -1953,6 +2358,9 @@
                 "type": "text",
                 "lines": [
                     "getting vitest set up (fucking pita)"
+                ],
+                "hashes": [
+                    "819fed59dd883d3cde1329f09bf05bf0"
                 ]
             },
             {
@@ -1963,6 +2371,9 @@
                     "npx sv add vitest",
                     "",
                     "mv test src/"
+                ],
+                "hashes": [
+                    "9a40e3bb3e1508ab7fe4d79da399da40"
                 ]
             }
         ],
@@ -1976,6 +2387,9 @@
                 "type": "text",
                 "lines": [
                     "server event stream in django"
+                ],
+                "hashes": [
+                    "3fbea7bc7ed23447b574fb294b14ab30"
                 ]
             },
             {
@@ -1998,6 +2412,9 @@
                     "",
                     "# usage: urls.py",
                     "urlpatterns =  [path('stream', SSEStream, name='stream')]"
+                ],
+                "hashes": [
+                    "941715049b0fa0ac8af8c610030f41aa"
                 ]
             }
         ],
@@ -2011,6 +2428,9 @@
                 "type": "text",
                 "lines": [
                     "django interactive shell"
+                ],
+                "hashes": [
+                    "966da2ba32b2bdb688c09fe462c59c92"
                 ]
             },
             {
@@ -2025,6 +2445,9 @@
                     "async_to_sync(channel_layer.send)('test_channel', {'type': 'hello'})",
                     "async_to_sync(channel_layer.receive)('test_channel')",
                     "{'type': 'hello'}"
+                ],
+                "hashes": [
+                    "ca2af9b5f9f3d2bba45d8e1c4923a01c"
                 ]
             }
         ],
@@ -2038,6 +2461,9 @@
                 "type": "text",
                 "lines": [
                     "mock all missing imports dynamically"
+                ],
+                "hashes": [
+                    "7e78d40087789f39d0bc64c33838aad5"
                 ]
             },
             {
@@ -2064,6 +2490,9 @@
                     "        # input(\"> \")",
                     "# sys.exit(0)",
                     "# resume rest of the code"
+                ],
+                "hashes": [
+                    "c64302fc6fd3269dc8f1f97141712c76"
                 ]
             }
         ],
@@ -2077,6 +2506,9 @@
                 "type": "text",
                 "lines": [
                     "lint + formatting"
+                ],
+                "hashes": [
+                    "b4449c70bfeb230c3a813af759548bf3"
                 ]
             },
             {
@@ -2085,6 +2517,9 @@
                 "lines": [
                     "poetry add -D black ruff pylint isort",
                     "set FILE=config.py && isort %FILE%  && black %FILE% && ruff check %FILE% --fix  && mypy %FILE%"
+                ],
+                "hashes": [
+                    "55091fa5a9f62e978a824f002586ae14"
                 ]
             }
         ],
@@ -2098,6 +2533,9 @@
                 "type": "text",
                 "lines": [
                     "feathered clipping mask"
+                ],
+                "hashes": [
+                    "6d5d6a827b03324c080ad25a50337ec8"
                 ]
             },
             {
@@ -2110,6 +2548,9 @@
                     "background-size: cover;\t",
                     "background-blend-mode: multiply;",
                     "mix-blend-mode: screen;"
+                ],
+                "hashes": [
+                    "0327d585301b87c753fca60efdae9b87"
                 ]
             }
         ],
@@ -2123,6 +2564,9 @@
                 "type": "text",
                 "lines": [
                     "rich logger"
+                ],
+                "hashes": [
+                    "0f97759e11671de80886429a689fca78"
                 ]
             },
             {
@@ -2139,6 +2583,9 @@
                     "logger.handlers = [RichHandler(rich_tracebacks=True)]",
                     "logger.level = logging.DEBUG",
                     "logger.propagate = False"
+                ],
+                "hashes": [
+                    "29c4e1723106422818d599000d58f91b"
                 ]
             }
         ],
@@ -2152,6 +2599,9 @@
                 "type": "text",
                 "lines": [
                     "using `filter` encapsulates a `position:fixed` object in a block, making its position **relative** to that invisible block, and **not relative to the window**"
+                ],
+                "hashes": [
+                    "3fae49823caeedd62311b88a8b414b45"
                 ]
             }
         ],
@@ -2165,6 +2615,9 @@
                 "type": "text",
                 "lines": [
                     "custom error boilerplate"
+                ],
+                "hashes": [
+                    "7d338ffc96ee77c9a1dad294638e93e7"
                 ]
             },
             {
@@ -2217,6 +2670,9 @@
                     "    }",
                     "",
                     "}"
+                ],
+                "hashes": [
+                    "5e1df33f2081ed658a685e01b3650112"
                 ]
             }
         ],
@@ -2230,6 +2686,9 @@
                 "type": "text",
                 "lines": [
                     "array vs tuple; usage of `as const` to convert an array to tuple, so the compiler knows the data structure at compile time"
+                ],
+                "hashes": [
+                    "7a4a5c8bd22cd0d78728ad081548c9f0"
                 ]
             },
             {
@@ -2246,6 +2705,9 @@
                     "",
                     "// Type inference now includes all static values",
                     "const Foo = [\"Foo\", \"Bar\"] as const;"
+                ],
+                "hashes": [
+                    "39f1ae204aaae0c56b80c95c1844d6cb"
                 ]
             }
         ],
@@ -2259,6 +2721,9 @@
                 "type": "text",
                 "lines": [
                     "without adding `props` to a component (which enables `runes`), all variables are reactive by default"
+                ],
+                "hashes": [
+                    "f4efb55358d6ae6eda6b77cce541efb7"
                 ]
             },
             {
@@ -2278,6 +2743,9 @@
                     "        {foo ? \"foo\" : \"bar\"}",
                     "    </button>",
                     "</main>"
+                ],
+                "hashes": [
+                    "49813c6f438bc34ffc7017c6fd2b5846"
                 ]
             }
         ],
@@ -2291,6 +2759,9 @@
                 "type": "text",
                 "lines": [
                     "child components should always be `width: 100%; height: 100%`; let the parent component deal with sizing the component to the overall layout"
+                ],
+                "hashes": [
+                    "842588db029d8295ae05b8302a563a8b"
                 ]
             }
         ],
@@ -2304,6 +2775,9 @@
                 "type": "text",
                 "lines": [
                     "update `cargo` and `rust`"
+                ],
+                "hashes": [
+                    "868b5768ce176ea9161a266f5d100c4b"
                 ]
             },
             {
@@ -2311,6 +2785,9 @@
                 "lang": "bash",
                 "lines": [
                     "rustup update"
+                ],
+                "hashes": [
+                    "fc4de7d72d2b82dc47678f764a79aedd"
                 ]
             }
         ],
@@ -2324,6 +2801,9 @@
                 "type": "text",
                 "lines": [
                     "check all files"
+                ],
+                "hashes": [
+                    "267ec517763c8c8ddf755f0c619409b6"
                 ]
             },
             {
@@ -2331,6 +2811,9 @@
                 "lang": "bash",
                 "lines": [
                     "npx tsc --noEmit"
+                ],
+                "hashes": [
+                    "92bd4318ec6d11e1754ae400d8770eb2"
                 ]
             }
         ],
@@ -2344,6 +2827,9 @@
                 "type": "text",
                 "lines": [
                     "no `export` in a file make it a script, pushing all variable to the **global scope**. with `export` the file is a module."
+                ],
+                "hashes": [
+                    "c938f1756f90d3f507d3ec823d2559f5"
                 ]
             },
             {
@@ -2360,6 +2846,9 @@
                     "// foobar.ts",
                     "const foo = \"foo\" // <- error - cannot redefine 'foo'",
                     "const bar = \"bar\" // <- no error"
+                ],
+                "hashes": [
+                    "ded76c474d48ddb0597ec487cf0b8099"
                 ]
             }
         ],
@@ -2373,6 +2862,9 @@
                 "type": "text",
                 "lines": [
                     "in a row with 2 cells of different heights, clip the row to be the height of the **shortest** cell"
+                ],
+                "hashes": [
+                    "74be722a25e16af9897593dcdb4e731c"
                 ]
             },
             {
@@ -2397,6 +2889,9 @@
                     "",
                     "</main>",
                     ""
+                ],
+                "hashes": [
+                    "01be2833b5ad3e037029e97f608f7bc7"
                 ]
             }
         ],

@@ -1,7 +1,7 @@
 import json
 
 from prasegist.comments.get_comments import FILEPATH
-from prasegist.shared.shared import CodeBlock, Section, TextBlock
+from prasegist.shared.shared import CodeBlock, Section, TextBlock, block_hash
 
 
 # FILEPATH = FILEPATH.parent / "test_comments.json"
@@ -73,6 +73,7 @@ class Context:
         if self.section is not None:
             textblock = TextBlock(lines=[text])
             self.section.blocks.append(textblock)
+            textblock.hashes.append(block_hash(textblock))
 
     def start_codeblock(self, line: str):
         self._ensure_section()
@@ -87,6 +88,7 @@ class Context:
             self.codeblock.lines.append(line.rstrip("\n"))
 
     def end_codeblock(self):
+        self.codeblock.hashes.append(block_hash(self.codeblock))
         self.is_codeblock = False
         self.codeblock = None
 
@@ -180,3 +182,10 @@ if __name__ == "__main__":
     comments = _extract_body(load_comments())
     tree = parse_comments(comments)
     save_comments(tree)
+
+    # all_hash = []
+    # for section in tree:
+    #     for b in section.blocks:
+    #         all_hash.extend(b.hashes)
+    
+    # print(util.find_duplicates_with_counts(all_hash))

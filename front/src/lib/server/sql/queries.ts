@@ -4,16 +4,43 @@
  * snippet_search_result_row.
  */
 
-import type { Snippet } from "$lib/types";
+import { legacyStringsToBlocks, type Snippet } from "$lib/types";
 import type { Sql } from "postgres";
+
+type LegacySearchRow = {
+	id: number;
+	title: string;
+	tags: string[];
+	description: string | null;
+	snippets: string[];
+};
+
+function snippetFromLegacyRow(row: LegacySearchRow): Snippet {
+	return {
+		id: row.id,
+		title: row.title,
+		tags: row.tags,
+		description: row.description ?? undefined,
+		snippets: legacyStringsToBlocks(row.id, row.snippets ?? []),
+	};
+}
+
+// supabase test ---------------------------------------------------------------
+import { query } from "./supabaseClient";
+export async function load(searchQuery: string = "") {
+    const { data, error } = await query(searchQuery);
+    if (error) throw error;
+    return data;
+}
+// -----------------------------------------------------------------------------
 
 /**
  * Full-text search over snippet text and path (simple config).
  * @param query - Full-text search query for plainto_tsquery
- * @returns id: number, title: string, tags: string[], description: string | null, snippets: string[]
+ * @returns Snippet rows with snippets as Block[]
  */
 export async function codeblocksFtsQuery(query: string, sql: Sql): Promise<Snippet[]> {
-    return await sql`
+    const rows = await sql`
         WITH
         matched AS (
             SELECT *
@@ -30,15 +57,16 @@ export async function codeblocksFtsQuery(query: string, sql: Sql): Promise<Snipp
         CROSS JOIN LATERAL snippet_search_result_row(c.id, c.title, c.path, c.text, c.code_array) AS sr
         LIMIT 10;
     `;
+    return (rows as unknown as LegacySearchRow[]).map(snippetFromLegacyRow);
 }
 
 /**
  * Trigram similarity search over snippet text and path.
  * @param query - Search string for trigram similarity matching
- * @returns id: number, title: string, tags: string[], description: string | null, snippets: string[]
+ * @returns Snippet rows with snippets as Block[]
  */
 export async function codeblocksTrigramQuery(query: string, sql: Sql): Promise<Snippet[]> {
-    return await sql`
+    const rows = await sql`
         WITH trigram_snippets AS (
             SELECT
                 *,
@@ -60,15 +88,16 @@ export async function codeblocksTrigramQuery(query: string, sql: Sql): Promise<S
         ORDER BY o.rn
         LIMIT 10;
     `;
+    return (rows as unknown as LegacySearchRow[]).map(snippetFromLegacyRow);
 }
 
 /**
  * Full-text search over codeblock content (english config).
  * @param query - Full-text search query for plainto_tsquery
- * @returns id: number, title: string, tags: string[], description: string | null, snippets: string[]
+ * @returns Snippet rows with snippets as Block[]
  */
 export async function snippetsTrigramQuery(query: string, sql: Sql): Promise<Snippet[]> {
-    return await sql`
+    const rows = await sql`
         WITH results AS (
             SELECT *
             FROM gist_codeblocks
@@ -91,15 +120,16 @@ export async function snippetsTrigramQuery(query: string, sql: Sql): Promise<Sni
         CROSS JOIN LATERAL snippet_search_result_row(c.id, c.title, c.path, c.text, c.code_array) AS sr
         LIMIT 10;
     `;
+    return (rows as unknown as LegacySearchRow[]).map(snippetFromLegacyRow);
 }
 
 /**
  * Trigram similarity search over codeblock content.
  * @param query - Search string for trigram similarity on code_flat
- * @returns id: number, title: string, tags: string[], description: string | null, snippets: string[]
+ * @returns Snippet rows with snippets as Block[]
  */
 export async function snippetsFtsQuery(query: string, sql: Sql): Promise<Snippet[]> {
-    return await sql`
+    const rows = await sql`
         WITH results AS (
             SELECT *
             FROM gist_codeblocks
@@ -122,6 +152,7 @@ export async function snippetsFtsQuery(query: string, sql: Sql): Promise<Snippet
         CROSS JOIN LATERAL snippet_search_result_row(c.id, c.title, c.path, c.text, c.code_array) AS sr
         LIMIT 10;
     `;
+    return (rows as unknown as LegacySearchRow[]).map(snippetFromLegacyRow);
 }
 
 export async function runQuery<T>(query: string, sql: Sql): Promise<T> {

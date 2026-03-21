@@ -11,6 +11,9 @@
         "lang": "bash",
         "lines": [
           "keytool -list -v -keystore C:\\Users\\%USERNAME%\\.android\\debug.keystore -alias androiddebugkey -storepass android -keypass android"
+        ],
+        "hashes": [
+          "a047735829a7692ff1f83904512f0b38"
         ]
       }
     ]
@@ -31,6 +34,9 @@
           "val navTarget by navVM.navTarget.collectAsState(initial = \"home\")",
           "// without getValue import:",
           "// Type 'androidx. compose. runtime. State<kotlin. Any?>' has no method 'getValue(Nothing?, KProperty0<*>)', so it cannot serve as a delegate."
+        ],
+        "hashes": [
+          "5747a5d4fe2102818ff7b891b434598f"
         ]
       }
     ]
@@ -47,6 +53,9 @@
         "lang": "bash",
         "lines": [
           "su -s /bin/bash <user>"
+        ],
+        "hashes": [
+          "0abacd9d894bc8aa4e4369894a0f812e"
         ]
       }
     ]
@@ -63,6 +72,9 @@
         "lang": "bash",
         "lines": [
           "sudo -E foobar"
+        ],
+        "hashes": [
+          "0cea82cc3e7f898cd3e53c94c5c4d312"
         ]
       }
     ]
@@ -79,45 +91,9 @@
         "lang": "bash",
         "lines": [
           "if test -d cisco_bindings; then echo exists; else echo does not; fi"
-        ]
-      }
-    ]
-  },
-  {
-    "title": "css",
-    "tags": [
-      "css"
-    ],
-    "description": "",
-    "blocks": [
-      {
-        "type": "text",
-        "lines": [
-          "in a row with 2 cells of different heights, clip the row to be the height of the **shortest** cell"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "html",
-        "lines": [
-          "<main class=\"w-screen h-screen\">",
-          "",
-          "  <div class=\"flex flex-row w-full gap-1 relative\"> // 1. row is relative",
-          "     ",
-          "      <div class=\"w-10/12 border border-red-500\">",
-          "        <div class=\"bg-red-200 h-[200px] w-[10px]\"></div>",
-          "      </div>",
-          "",
-          "      <div class=\"w-2/12 shrink-0\" aria-hidden /> // (don't get exactly what this is for)",
-          "",
-          "      <div class=\"absolute top-0 bottom-0 overflow-scroll right-0 w-2/12 border border-blue-500\"> // 2. cell to clip (taller cell) is absolute, overflow is hidden and top + bottom are 0. this sizes the div to be the height of the parent container (specified by the red  cell)",
-          "        <div class=\"bg-blue-200 h-[500px] w-[10px]\"></div>",
-          "      </div>",
-          "",
-          "  </div>",
-          "",
-          "</main>",
-          ""
+        ],
+        "hashes": [
+          "0c4c8e6a876ce81cb4ac5639fb85cdec"
         ]
       }
     ]
@@ -137,6 +113,9 @@
           "  .bar",
           "  .bar2",
           "  .bar3"
+        ],
+        "hashes": [
+          "a35f7b3b349ac20bf8dca7ad9af5dc35"
         ]
       },
       {
@@ -157,6 +136,9 @@
           "  position: absolute;",
           "  right: 0;",
           "}"
+        ],
+        "hashes": [
+          "1bc62a378ee21850eac1df48a5eacd58"
         ]
       }
     ]
@@ -175,6 +157,9 @@
           "body{",
           "    max-height: 99vh;",
           "}"
+        ],
+        "hashes": [
+          "e032bc30b146c3d514327d5ff5e33bc5"
         ]
       }
     ]
@@ -196,6 +181,9 @@
           "<div id=\"bar\">",
           "  <p>bar</p>",
           "</div>"
+        ],
+        "hashes": [
+          "619493394e1791453289dab63eacbe49"
         ]
       },
       {
@@ -221,6 +209,9 @@
           "  text-align: right;",
           "  pointer-events: none; /* click + hover are disabled for this */",
           "}"
+        ],
+        "hashes": [
+          "fafa9f1dd69a68807f92f618abb409ef"
         ]
       },
       {
@@ -233,6 +224,9 @@
           "foo.addEventListener(\"click\", e => console.log(\"foo click\")});",
           "bar.addEventListener(\"mouseover\", e => console.log(\"bar hover\")});",
           "bar.addEventListener(\"click\", e => console.log(\"bar click\")});"
+        ],
+        "hashes": [
+          "c1b68d9a0da3ae21343d152ca7b898b3"
         ]
       }
     ]
@@ -254,6 +248,9 @@
           "background-size: cover;",
           "background-blend-mode: multiply;",
           "mix-blend-mode: screen;"
+        ],
+        "hashes": [
+          "0327d585301b87c753fca60efdae9b87"
         ]
       }
     ]
@@ -270,6 +267,9 @@
         "lang": "bash",
         "lines": [
           "cue eval schema.cue --out json"
+        ],
+        "hashes": [
+          "7a5fe182dd55d424863e277ccda0ad50"
         ]
       }
     ]
@@ -286,6 +286,9 @@
         "lang": "bash",
         "lines": [
           "curl localhost:3000/workflow -X POST  -H 'Content-Type: application/json' --data-binary \"@data.json\""
+        ],
+        "hashes": [
+          "f876953810a2eb1a65a4f9af38d2e1a8"
         ]
       }
     ]
@@ -302,6 +305,9 @@
         "lang": "bash",
         "lines": [
           "docker builder prune"
+        ],
+        "hashes": [
+          "af900383b418a17c61dc48c7fccb5a6a"
         ]
       }
     ]
@@ -321,6 +327,9 @@
           "sh get-docker.sh",
           "sudo usermod -aG docker $USER",
           "newgrp docker"
+        ],
+        "hashes": [
+          "278a29522893593a687fedca580b477d"
         ]
       }
     ]
@@ -337,6 +346,9 @@
         "lang": "shell",
         "lines": [
           "docker ps -a --format \"{{.Names}}\""
+        ],
+        "hashes": [
+          "5c082f5183af58219f1ee461081eb1c2"
         ]
       }
     ]
@@ -357,6 +369,9 @@
           "    --health-cmd \"set -e;  nc -zv localhost 22; if [ $? -eq 0 ]; then exit 0; else exit 1; fi\" \\",
           "    --health-interval=10s",
           "    ..."
+        ],
+        "hashes": [
+          "538f9562777f78f9633a51e052478827"
         ]
       }
     ]
@@ -383,6 +398,9 @@
         "lines": [
           "# set to working version",
           "DOCKER_API_VERSION=1.41"
+        ],
+        "hashes": [
+          "dc26999c35979087f5e5e6e7795b551f"
         ]
       }
     ]
@@ -408,6 +426,9 @@
         "lang": "bash",
         "lines": [
           "docker ps --format \"{{printf \\\"%-30s %-20s\\\" .Names .Status}}\""
+        ],
+        "hashes": [
+          "68b3a5363a9ad186246e708b42cd8b65"
         ]
       },
       {
@@ -415,6 +436,9 @@
         "lang": "bash",
         "lines": [
           "watch 'docker ps --format \"{{printf \\\"%-30s %-20s\\\" .Names .Status}}\"'"
+        ],
+        "hashes": [
+          "47c0da83bad97da334055dec22bba3d6"
         ]
       }
     ]
@@ -432,6 +456,9 @@
         "lines": [
           "git config --global user.email \"you@example.com\"",
           "git config --global user.name \"Your Name\""
+        ],
+        "hashes": [
+          "06f8f2aca18a7eaab6480f7110c3072e"
         ]
       }
     ]
@@ -450,6 +477,9 @@
           "git config --global credential.helper cache",
           "git config --local credential.helper cache",
           "git config --global --unset credential.helper"
+        ],
+        "hashes": [
+          "f2e88b236cad20190560977f17f9ccec"
         ]
       }
     ]
@@ -466,45 +496,9 @@
         "lang": "bash",
         "lines": [
           "git clone https://bitbucket.org/<repo>.git --config credential.helper="
-        ]
-      }
-    ]
-  },
-  {
-    "title": "go",
-    "tags": [
-      "go"
-    ],
-    "description": "",
-    "blocks": [
-      {
-        "type": "text",
-        "lines": [
-          "go fmt on current directory go files and all subdirectories"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "mutex classes"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "sync.RWLock()"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "sync.Once"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "`struct`s cannot be `const` because they're inherently composite types"
+        ],
+        "hashes": [
+          "e3aa1450fd0fad7289dd95c215e371a9"
         ]
       }
     ]
@@ -521,6 +515,9 @@
         "lang": "golang",
         "lines": [
           "(func(args... interface{}){})(scrape_cpu, scrape_hostname)"
+        ],
+        "hashes": [
+          "91f733ddf162d40589844f8376a1b6d9"
         ]
       },
       {
@@ -528,6 +525,9 @@
         "lang": "golang",
         "lines": [
           "go fmt ./..."
+        ],
+        "hashes": [
+          "e55558c04fd2a2e9a47f4387963efa66"
         ]
       }
     ]
@@ -556,6 +556,9 @@
           "a := new(Android)",
           "a.Person.Talk()",
           "a.Talk() // polymorphism!"
+        ],
+        "hashes": [
+          "baa053929eea0a2562fcb54897a28b65"
         ]
       }
     ]
@@ -571,12 +574,18 @@
         "type": "text",
         "lines": [
           "  - sync.RWLock()\n"
+        ],
+        "hashes": [
+          "4e4d6bb0b650822e956c6f7b112e46c0"
         ]
       },
       {
         "type": "text",
         "lines": [
           "  - sync.Once\n"
+        ],
+        "hashes": [
+          "081d035067fcdb8f21ce599335c2f1f2"
         ]
       }
     ]
@@ -597,6 +606,9 @@
           "func init(){",
           "    Foo = \"foobar\"",
           "}"
+        ],
+        "hashes": [
+          "b33bf46e2711f6184d54962840b329df"
         ]
       }
     ]
@@ -625,6 +637,9 @@
           "    go f(x, f)",
           "    for {} // keep function running to we can still print",
           "}"
+        ],
+        "hashes": [
+          "44e7d70e220d020cbc9664edf7a027ce"
         ]
       }
     ]
@@ -661,6 +676,9 @@
           "\tvar x T",
           "\treturn []T{x}",
           "}"
+        ],
+        "hashes": [
+          "c7d87894b40b10964c3280ecca5a22fa"
         ]
       }
     ]
@@ -686,6 +704,9 @@
         "lines": [
           "value, exists := foo[\"bar\"]",
           "if (!exists) {}"
+        ],
+        "hashes": [
+          "80596955c3c4f71c536fdfbe6a3a6927"
         ]
       }
     ]
@@ -706,21 +727,9 @@
           "rm -rf /usr/local/go && tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz",
           "sudo ln -s /usr/local/go/bin/go /usr/bin/go",
           "#sudo rm -rf /usr/local/go && sudo tar -C /usr/local -xzf go1.20.3.linux-amd64.tar.gz"
-        ]
-      }
-    ]
-  },
-  {
-    "title": "k8",
-    "tags": [
-      "k8"
-    ],
-    "description": "",
-    "blocks": [
-      {
-        "type": "text",
-        "lines": [
-          "set `imagePullPolicy` to `Always`, then delete the pod, to easily update the pod with a newer image"
+        ],
+        "hashes": [
+          "054686ba9be618549657f2471c171c23"
         ]
       }
     ]
@@ -745,6 +754,9 @@
         "lang": "bash",
         "lines": [
           "kubectl rollout restart deployment/core-service  -n osna"
+        ],
+        "hashes": [
+          "49063fda8eda32c785cd1f9e114fa5ed"
         ]
       }
     ]
@@ -763,6 +775,9 @@
           "// typescript -> if (isTypeFoo()) doFooStuf()",
           "// kotlin:",
           "foo?.let { doFooStuff() }"
+        ],
+        "hashes": [
+          "22862c8a0420b7edd7d9c11715bbef00"
         ]
       }
     ]
@@ -827,6 +842,9 @@
           "        }",
           "    ]",
           "}"
+        ],
+        "hashes": [
+          "6643c547990a71aafa07dea3dd07239e"
         ]
       }
     ]
@@ -854,6 +872,9 @@
           "Uncompress a tar.gz file: tar zxf tarball.tar.gz",
           "Uncompress a tar.bz2 file: tar jxf tarball.tar.bz2",
           "Create a tar.gz file: tar zcvf tarvall.tar.gz mydir/*"
+        ],
+        "hashes": [
+          "e9e25e73eba5ba5948ed167e7dab0d29"
         ]
       }
     ]
@@ -873,6 +894,9 @@
           "> [1]+  Running                 poetry run main &",
           "kill -9 %1",
           "> [1]+  Killed                  poetry run main"
+        ],
+        "hashes": [
+          "a61748430a2aca155a52e72ba0997e10"
         ]
       }
     ]
@@ -898,6 +922,9 @@
           "fg [job id]",
           "# run command as background job",
           "tail -f log.txt &"
+        ],
+        "hashes": [
+          "09fc0a90b505ce76cf387b7f9520e20b"
         ]
       }
     ]
@@ -914,6 +941,9 @@
         "lang": "bash",
         "lines": [
           "cd -P ./sym-link-dir"
+        ],
+        "hashes": [
+          "17dd38baaef977400da6eaeb5888ea43"
         ]
       }
     ]
@@ -930,6 +960,9 @@
         "lang": "bash",
         "lines": [
           "sudo netstat -tunlp"
+        ],
+        "hashes": [
+          "466cbceb41b52b8ead22b67a8445339d"
         ]
       }
     ]
@@ -946,88 +979,9 @@
         "lang": "bash",
         "lines": [
           "stat -c %a foo.txt"
-        ]
-      }
-    ]
-  },
-  {
-    "title": "misc",
-    "tags": [
-      "misc"
-    ],
-    "description": "",
-    "blocks": [
-      {
-        "type": "code",
-        "lang": "python",
-        "lines": [
-          "if __name__ == \"__main__\":",
-          "    clean_up_loop = False",
-          "    loop = asyncio.get_event_loop()",
-          "    try:",
-          "        loop.run_until_complete(run())",
-          "    except Exception:",
-          "        clean_up_loop = True",
-          "        pass",
-          "    finally:",
-          "        async def close_sessions_and_consumers():",
-          "            for k in kafka.CONSUMERS:",
-          "                await k.stop()",
-          "            await kafka.SESSION.close()",
-          "        loop.run_until_complete(close_sessions_and_consumers())",
-          "",
-          "        if clean_up_loop:",
-          "            pending = asyncio.all_tasks()",
-          "            for task in pending:",
-          "                task.cancel()",
-          "            loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))",
-          "            loop.stop()",
-          "            loop.close()"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "",
-        "lines": [
-          "# get current deployment config",
-          "kubectl get deployment osnal2 n osna -o yaml > deployment.yaml",
-          "",
-          "# patch deployment",
-          "kubectl apply -f  deployment.yaml ",
-          "",
-          "# push to pod",
-          "kubectl cp \"/home/ubuntu/osna/osna-l2-main/osna-l2/producer.py\" \"osna/osnal2-f458bd694-hl4tj:/app\"",
-          "kubectl cp \"/home/ubuntu/osna/osna-l2-main/osna-l2\" \"osna/$(kubectl get pods | grep l2 | awk '{print $1}'):/app\"",
-          "",
-          "# kill all BASH processes except current",
-          "ps -C bash -o pid= | grep -v \"^ *$$\" | xargs kill -9 ",
-          "",
-          "# poetry image",
-          "## Dockerfile",
-          "from python:3.11-slim",
-          "",
-          "env PATH=\"/root/.local/bin:${PATH}\"",
-          "run bash -c \"pip install --user pipx && \\",
-          "    pipx ensurepath && \\",
-          "    pipx completions && \\",
-          "    pipx install poetry\"",
-          "",
-          "## docker-compose.yaml",
-          "services:",
-          "  python-poetry:",
-          "    build:",
-          "      context: .",
-          "      dockerfile: Dockerfile",
-          "    image: python-poetry:latest"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "",
-        "lines": [
-          "npm create vite@latest",
-          "npm i --save-dev @tsconfig/svelte",
-          "./tsconfig.node.json: $.compilerOptions.noEmit > $.compilerOptions.emitDeclarationOnly // https://stackoverflow.com/a/77369498"
+        ],
+        "hashes": [
+          "5d1ca870899aa8a51514920f0d3e1856"
         ]
       }
     ]
@@ -1043,6 +997,9 @@
         "type": "text",
         "lines": [
           "hide error in dev tools window\n"
+        ],
+        "hashes": [
+          "6d920750f04c3ab26f9cb9a0239bd14b"
         ]
       },
       {
@@ -1050,6 +1007,9 @@
         "lang": "",
         "lines": [
           "-net::ERR_BLOCKED_BY_CLIENT"
+        ],
+        "hashes": [
+          "3fc8461f312aeb3f12bb22dc7c88bc31"
         ]
       }
     ]
@@ -1076,6 +1036,9 @@
           "0 1 0 1",
           "1 0 1 0",
           "***/"
+        ],
+        "hashes": [
+          "d38e28e1096b6b0c137b81571f904fdd"
         ]
       }
     ]
@@ -1101,6 +1064,9 @@
           "sudo npm install -g typescript",
           "sudo chwon ubuntu -R /usr/lib/node_modules/typescript",
           "sudo chwon ubuntu /usr/lib/node_modules/typescript"
+        ],
+        "hashes": [
+          "9577ebd9317bdb2857c6b52c5ed9649f"
         ]
       }
     ]
@@ -1131,6 +1097,9 @@
           "./code tunnel",
           "# install Microsoft: Tunnels",
           "# Remote-Tunnels: Connect to Tunnel"
+        ],
+        "hashes": [
+          "17146921b01139ba659fe594c20a2c9f"
         ]
       }
     ]
@@ -1146,12 +1115,9 @@
         "type": "text",
         "lines": [
           "- `fs.readdir` is NOT blocking; use `fs.readdirSync` instead\n"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "`fs.readdir` is NOT blocking; use `fs.readdirSync` instead"
+        ],
+        "hashes": [
+          "1c9049d9100484b8ced27b0020e3070c"
         ]
       }
     ]
@@ -1168,6 +1134,9 @@
         "lang": "",
         "lines": [
           "npx tsc"
+        ],
+        "hashes": [
+          "9d481a3b48eb81b1991a23e6669c3829"
         ]
       }
     ]
@@ -1183,6 +1152,9 @@
         "type": "text",
         "lines": [
           "- sometimes when using Node interactive, it might not be able to find global packages. hence it's necessary to set NODE_PATH\n"
+        ],
+        "hashes": [
+          "dce4ff74563751ef86e1d8a50e944265"
         ]
       },
       {
@@ -1190,6 +1162,9 @@
         "lang": "bash",
         "lines": [
           "export NODE_PATH=$(npm root --quiet -g)"
+        ],
+        "hashes": [
+          "3ce5ae13e1feeedcf96857a585166999"
         ]
       }
     ]
@@ -1206,6 +1181,9 @@
         "lang": "",
         "lines": [
           "/home/node/app/node_modules/.bin"
+        ],
+        "hashes": [
+          "4079b48b4fccaa4b166913fc77402503"
         ]
       }
     ]
@@ -1245,75 +1223,9 @@
           "      context: .",
           "      dockerfile: Dockerfile",
           "    image: python-poetry:latest"
-        ]
-      }
-    ]
-  },
-  {
-    "title": "python",
-    "tags": [
-      "python"
-    ],
-    "description": "",
-    "blocks": [
-      {
-        "type": "text",
-        "lines": [
-          "`__post_init__` for dataclasses"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "function overload. `functools.singledispatch` only dispatches on the type of the first argument."
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "preserve type inference of wrapped functions (i don't get how this works, need to read it later, but it works)"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "https://stackoverflow.com/a/74080156"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "poetry"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "protocol vs abc"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "https://medium.com/@pouyahallaj/introduction-1616b3a4a637"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "error handling in decorators can be difficult. is there is a try block inside the decorator, and the calling function was passed with incorrect parameters, the traceback only show the try block inside the decorator. the calling function, which called the decorated function with wrong parameters, will not be shown."
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "all try/catch blocks of code, should have a unit test associated with it"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "correct way to error handle an **async** Task, scheduled with `asyncio.create_task`. don't use `asyncio.add_done_callback(cb)` because it will not  properly capture the traceback when getting the error with `def cb(task): ... task.exception()`(for some reason idk)"
+        ],
+        "hashes": [
+          "54af0bd8439d6a8b09869015c92fba9d"
         ]
       }
     ]
@@ -1360,6 +1272,9 @@
           "        sys.stdout.write(clear_line)",
           "        # sys.stdout.write(show_cursor)",
           "        sys.stdout.flush()"
+        ],
+        "hashes": [
+          "91fcc98212b35baca734d9331b5064bf"
         ]
       }
     ]
@@ -1376,6 +1291,9 @@
         "type": "text",
         "lines": [
           "- https://medium.com/@pouyahallaj/introduction-1616b3a4a637\n"
+        ],
+        "hashes": [
+          "1768f4bb8b059a717c2eda66c34d881e"
         ]
       }
     ]
@@ -1395,6 +1313,9 @@
           "from typing import cast",
           "a: str | None = \"foo\"",
           "b: str = cast(str, a)"
+        ],
+        "hashes": [
+          "acb45a1e7f90dad207532431a7082cca"
         ]
       }
     ]
@@ -1412,6 +1333,9 @@
         "lang": "python",
         "lines": [
           "f\"{[f'{(s:=sleep_duration)} second', f'{(m:=sleep_duration//60)} minute'][s>=60] + 's'[:m>1 or (s> 1 and m < 1)]}\""
+        ],
+        "hashes": [
+          "695cffee36a9de4eae0c2d9206738344"
         ]
       }
     ]
@@ -1439,6 +1363,9 @@
         "lines": [
           "def foo() -> \"SomeClass\":",
           "    ..."
+        ],
+        "hashes": [
+          "bdb18c2b67a5244306ee3e65cab4fd45"
         ]
       }
     ]
@@ -1456,6 +1383,9 @@
         "lang": "python",
         "lines": [
           "mock_workflow_mocker.proxy_configure_mock = types.MethodType(proxy_configure_mock, mock_workflow_mocker)"
+        ],
+        "hashes": [
+          "ce4fc8f62b856cc5e77e740494f7e7f1"
         ]
       }
     ]
@@ -1475,6 +1405,9 @@
           "from typing import Self",
           "def foo(self) -> Self:",
           "    return self"
+        ],
+        "hashes": [
+          "b8d874fa83bc2f31cc1f6fc7143a3f44"
         ]
       }
     ]
@@ -1491,12 +1424,18 @@
         "type": "text",
         "lines": [
           "1. ***never*** define top level variables, which at any point require connectivity (ssh, http, etc...). keep them dumb.\n"
+        ],
+        "hashes": [
+          "3e9789fdc85724b21b77de7a707583a2"
         ]
       },
       {
         "type": "text",
         "lines": [
           "2. try consolidate all networking functionality into a class which deals with its lifecycle. make a getter that returns connection objects\n"
+        ],
+        "hashes": [
+          "32bd688f91cebd9093ccba8184a2852c"
         ]
       },
       {
@@ -1506,6 +1445,9 @@
           "def get_netbox() -> api:",
           "  global nb",
           "  return nb if nb else setup_nb()"
+        ],
+        "hashes": [
+          "bb6c65dfc42fafeb138c438a7db87084"
         ]
       }
     ]
@@ -1524,6 +1466,9 @@
         "lines": [
           "with stdout_lock or nullcontext():",
           "    logger.info(f\"Polled {hostname} successfully\")"
+        ],
+        "hashes": [
+          "6a61085c120812c57ad8878f5e691fb6"
         ]
       }
     ]
@@ -1549,6 +1494,9 @@
           "class AB(A, B): ...",
           "ab = AB()",
           "# > A.__init__"
+        ],
+        "hashes": [
+          "45d3c695f6a4ce0857f249a08c484a4a"
         ]
       }
     ]
@@ -1577,6 +1525,9 @@
           "        if (c:=list(children)[1]._mock_children.items()):",
           "            for child in c:",
           "                children_list.append(list(child))"
+        ],
+        "hashes": [
+          "5d8c312220622f5c825271918aad764b"
         ]
       }
     ]
@@ -1596,6 +1547,9 @@
           "# foo.py",
           "import foo.bar",
           "foo.bar.foobar()"
+        ],
+        "hashes": [
+          "2f6e6c206e9730b29d97472330acf5eb"
         ]
       },
       {
@@ -1605,6 +1559,9 @@
           "monkeytype run foo.py",
           "...",
           "monkeytype apply foo.bar"
+        ],
+        "hashes": [
+          "3ec699273df7c9a252223b2c90cb6728"
         ]
       }
     ]
@@ -1623,6 +1580,9 @@
         "lines": [
           "import ipdb",
           "ipdb.set_trace()"
+        ],
+        "hashes": [
+          "b23010a846e5860423e8017025b2bf2f"
         ]
       }
     ]
@@ -1657,6 +1617,9 @@
           "        # input(\"> \")",
           "# sys.exit(0)",
           "# resume rest of the code"
+        ],
+        "hashes": [
+          "c64302fc6fd3269dc8f1f97141712c76"
         ]
       }
     ]
@@ -1694,6 +1657,9 @@
           "            loop.run_until_complete(asyncio.gather(*pending, return_exceptions=True))",
           "            loop.stop()",
           "            loop.close()"
+        ],
+        "hashes": [
+          "89bfa7230aab04b1c84b98e8850f8cd3"
         ]
       }
     ]
@@ -1725,6 +1691,9 @@
           "[1, 999]",
           "[1, 999]",
           "'''"
+        ],
+        "hashes": [
+          "e4c8c6bb6a8bc67265536b3d78c45c6b"
         ]
       }
     ]
@@ -1741,6 +1710,9 @@
         "type": "text",
         "lines": [
           "- https://testdriven.io/tips/94ca0d2c-4c0d-4b8f-9762-6daa11d504f7/\n"
+        ],
+        "hashes": [
+          "95fb8082706c75735e6f3cb3262caebb"
         ]
       }
     ]
@@ -1757,6 +1729,9 @@
         "type": "text",
         "lines": [
           "- `functools.singledispatch` only dispatches on the type of the first argument.\n"
+        ],
+        "hashes": [
+          "6dae7adfcbc5896b53d848189c5b4354"
         ]
       },
       {
@@ -1775,6 +1750,9 @@
           "    print(f\"String: {arg}\")",
           "func(1)        # Output: Integer: 1",
           "func('hello')  # Output: String: hello"
+        ],
+        "hashes": [
+          "9294a5772923a441378c970826b5d4c0"
         ]
       }
     ]
@@ -1792,6 +1770,9 @@
         "lang": "python",
         "lines": [
           "interface[\"name\"].startswith((\"ge\", \"xe\", \"ae\", \"et\"))"
+        ],
+        "hashes": [
+          "0bd715f46d4f2868eaaffee015f3d1c9"
         ]
       }
     ]
@@ -1838,6 +1819,9 @@
           "         ^         ^",
           "    mocked with wrong value",
           "'''"
+        ],
+        "hashes": [
+          "8314c198cba3c848137c60cce28b7a53"
         ]
       }
     ]
@@ -1859,6 +1843,9 @@
           "                        markup=True, rich_tracebacks=True)",
           "logger.handlers = [rh]",
           "logger.propagate = False"
+        ],
+        "hashes": [
+          "da50948474c9894eb988afb39a920b58"
         ]
       }
     ]
@@ -1875,6 +1862,9 @@
         "type": "text",
         "lines": [
           "- https://stackoverflow.com/a/74080156\n"
+        ],
+        "hashes": [
+          "32a9586f67ed18574d7bd27f4b9529fd"
         ]
       }
     ]
@@ -1908,6 +1898,9 @@
           "poetry shell # activate python venv",
           "python3 main.py",
           "exit"
+        ],
+        "hashes": [
+          "4d6bdd28e9c001c3ecc18cc970067400"
         ]
       }
     ]
@@ -1933,6 +1926,9 @@
           "# OR",
           "# globally",
           "poetry config virtualenvs.in-project true"
+        ],
+        "hashes": [
+          "cbaa6b8d350e8fe30991970bf6c5efdf"
         ]
       }
     ]
@@ -1961,6 +1957,9 @@
           "@pytest.mark.solo",
           "def test_solo(mocker):",
           "    pass"
+        ],
+        "hashes": [
+          "9f6e96dc67fb6ded189a9d320d71ba39"
         ]
       },
       {
@@ -1971,6 +1970,9 @@
           "[pytest]",
           "markers =",
           "    solo: mark a test as a solo test"
+        ],
+        "hashes": [
+          "bc2d9378cb62cb9e1d7da5b7c9329ea1"
         ]
       },
       {
@@ -1978,6 +1980,9 @@
         "lang": "bash",
         "lines": [
           "pytest -m solo"
+        ],
+        "hashes": [
+          "f0f9d60664df26c9ed95d5bed3676a8d"
         ]
       }
     ]
@@ -1995,6 +2000,9 @@
         "lang": "bash",
         "lines": [
           "pytest -s ./tests/test_exception_handlers.py::test_exception_handler"
+        ],
+        "hashes": [
+          "38cb377e748f8a4c63182bb6a9390370"
         ]
       }
     ]
@@ -2020,6 +2028,9 @@
         "lang": "bash",
         "lines": [
           "mypy foo.py > mypy.txt; sed -i -e note:/d' -e '/of \"Logger\"/d' -e '/\\[import-untyped\\]/d' mypy.txt; less mypy.txt"
+        ],
+        "hashes": [
+          "ee2dbf69af448794f743df1046aa4d8f"
         ]
       }
     ]
@@ -2051,6 +2062,9 @@
           "        raise Exception(\"foo error\")",
           "    except Exception as e:",
           "        fooLogger.exception(e)"
+        ],
+        "hashes": [
+          "5f4591417b75c30daa98cafe3d852d8b"
         ]
       }
     ]
@@ -2074,6 +2088,9 @@
           "        print('KeyboardInterrupt')",
           "    else:",
           "        pass"
+        ],
+        "hashes": [
+          "f051f87a0b3c094eb6a3c029a0192ba6"
         ]
       }
     ]
@@ -2090,6 +2107,9 @@
         "type": "text",
         "lines": [
           "- error handling in decorators can be difficult. is there is a try block inside the decorator, and the calling function was passed with incorrect parameters, the traceback only show the try block inside the decorator. the calling function, which called the decorated function with wrong parameters, will not be shown.\n"
+        ],
+        "hashes": [
+          "da29aff167ce548e4a5bea8eb39202d1"
         ]
       }
     ]
@@ -2124,6 +2144,9 @@
           "17\tdef foo():",
           "18\t    pass",
           "19\tcalling_function()"
+        ],
+        "hashes": [
+          "76901de2d2596bf8b8ea56e97ccec1b6"
         ]
       }
     ]
@@ -2140,6 +2163,9 @@
         "type": "text",
         "lines": [
           "- correct way to error handle an **async** Task, scheduled with `asyncio.create_task`. don't use `asyncio.add_done_callback(cb)` because it will not  properly capture the traceback when getting the error with `def cb(task): ... task.exception()`(for some reason idk)\n"
+        ],
+        "hashes": [
+          "1a57782b5802fbfaee2e679b7bad623b"
         ]
       },
       {
@@ -2154,6 +2180,9 @@
           "    function_that_errors()",
           "  except Exception as e:",
           "    logging.exception(e)"
+        ],
+        "hashes": [
+          "839b86a8b94ab7dbd62f8ab3d2cd0a46"
         ]
       }
     ]
@@ -2180,6 +2209,9 @@
         "lines": [
           "sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git libgdbm-dev libnss3-dev",
           "pyenv install 3.11"
+        ],
+        "hashes": [
+          "0c5c5822336b34c81db9bb0be2d889b6"
         ]
       }
     ]
@@ -2200,6 +2232,9 @@
           "  system",
           "* 3.11.9 (set by /root/.pyenv/version)",
           "> pyenv global 3.11.9"
+        ],
+        "hashes": [
+          "1261bb5e2ee7ab6c9dcc0222cce5df6b"
         ]
       }
     ]
@@ -2238,6 +2273,9 @@
           "# restart shell",
           "bash",
           "pipx install poetry"
+        ],
+        "hashes": [
+          "210112ee90ab35d08050e94ff15c16d3"
         ]
       }
     ]
@@ -2277,6 +2315,9 @@
           "    return StreamingHttpResponse(stream(), content_type='text/event-stream')",
           "# usage: urls.py",
           "urlpatterns =  [path('stream', SSEStream, name='stream')]"
+        ],
+        "hashes": [
+          "941715049b0fa0ac8af8c610030f41aa"
         ]
       }
     ]
@@ -2301,6 +2342,9 @@
           "async_to_sync(channel_layer.send)('test_channel', {'type': 'hello'})",
           "async_to_sync(channel_layer.receive)('test_channel')",
           "{'type': 'hello'}"
+        ],
+        "hashes": [
+          "ca2af9b5f9f3d2bba45d8e1c4923a01c"
         ]
       }
     ]
@@ -2318,6 +2362,9 @@
         "lines": [
           "poetry add -D black ruff pylint isort",
           "set FILE=config.py && isort %FILE%  && black %FILE% && ruff check %FILE% --fix  && mypy %FILE%"
+        ],
+        "hashes": [
+          "55091fa5a9f62e978a824f002586ae14"
         ]
       }
     ]
@@ -2340,6 +2387,9 @@
           "logger.handlers = [RichHandler(rich_tracebacks=True)]",
           "logger.level = logging.DEBUG",
           "logger.propagate = False"
+        ],
+        "hashes": [
+          "29c4e1723106422818d599000d58f91b"
         ]
       }
     ]
@@ -2355,6 +2405,9 @@
         "type": "text",
         "lines": [
           "- https://ianhopkinson.org.uk/2022/02/understanding-setup-py-setup-cfg-and-pyproject-toml-in-python/\n"
+        ],
+        "hashes": [
+          "401b0c2cb976eb1bad52e53aeb1a84ec"
         ]
       },
       {
@@ -2367,6 +2420,9 @@
           "\u2514\u2500\u2500 src",
           "    \u2514\u2500\u2500 foobar",
           "        \u2514\u2500\u2500 __init__.py"
+        ],
+        "hashes": [
+          "945061a0136365b24cb8c3fb6c8497cb"
         ]
       }
     ]
@@ -2386,6 +2442,9 @@
           "[build-system]",
           "requires = [\"setuptools>=61.0\"]",
           "build-backend = \"setuptools.build_meta\""
+        ],
+        "hashes": [
+          "548ed794d42318683efd507c0deedf6d"
         ]
       }
     ]
@@ -2406,6 +2465,9 @@
           "from setuptools import setup",
           "if __name__ == \"__main__\":",
           "    setup()"
+        ],
+        "hashes": [
+          "5976fecb1b16cf57feb31321e445f0e4"
         ]
       }
     ]
@@ -2424,6 +2486,9 @@
         "lines": [
           "pip install --editable .",
           "pip install -e ."
+        ],
+        "hashes": [
+          "dbe555fed4cc148303622bcc2c8e42a9"
         ]
       }
     ]
@@ -2440,6 +2505,9 @@
         "lang": "bash",
         "lines": [
           "redis-cli"
+        ],
+        "hashes": [
+          "e18d783ebb5e667930c55b679625db33"
         ]
       }
     ]
@@ -2456,6 +2524,9 @@
         "lang": "bash",
         "lines": [
           "keys *"
+        ],
+        "hashes": [
+          "1a91da50f97ab5808d8dc38d6ba7a60a"
         ]
       }
     ]
@@ -2472,6 +2543,9 @@
         "lang": "bash",
         "lines": [
           "xrange <key> - +"
+        ],
+        "hashes": [
+          "383e15f5ccc2f01aad4fd08c4acd12d9"
         ]
       }
     ]
@@ -2489,28 +2563,9 @@
         "lines": [
           "#             < query >",
           "redis-cli keys rq:res* | awk '{print $1}' | xargs redis-cli del"
-        ]
-      }
-    ]
-  },
-  {
-    "title": "rust",
-    "tags": [
-      "rust"
-    ],
-    "description": "",
-    "blocks": [
-      {
-        "type": "text",
-        "lines": [
-          "update `cargo` and `rust`"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "bash",
-        "lines": [
-          "rustup update"
+        ],
+        "hashes": [
+          "5737e7fac6b947007883c1356d969f76"
         ]
       }
     ]
@@ -2535,6 +2590,9 @@
           "    println!(\"ref_x: {}\", ref_x);",
           "    println!(\"pointer_x: {:?}\", pointer_x);",
           "}"
+        ],
+        "hashes": [
+          "4fb662e886db31540ea360f7cd963273"
         ]
       }
     ]
@@ -2551,6 +2609,9 @@
         "lang": "bash",
         "lines": [
           "ls /run/service/"
+        ],
+        "hashes": [
+          "e2f35d1451a810402826d2ee126c6035"
         ]
       }
     ]
@@ -2567,6 +2628,9 @@
         "lang": "bash",
         "lines": [
           "s6-svc -r /run/service/svc-openssh-server"
+        ],
+        "hashes": [
+          "e996499c2de8308c928f59212d9b4713"
         ]
       }
     ]
@@ -2585,6 +2649,9 @@
           "# apt install pipx",
           "# pipx install sqlfluff",
           "sqlfluff lint --dialect postgres schema.ql"
+        ],
+        "hashes": [
+          "3eee657e31dfe2b7ecc794df44213671"
         ]
       }
     ]
@@ -2605,6 +2672,9 @@
           "document.getElementById('mydiv').innerHTML += html_to_insert;",
           "// with .insertAdjacentHTML, preserves event listeners",
           "document.getElementById('mydiv').insertAdjacentHTML('beforeend', html_to_insert);"
+        ],
+        "hashes": [
+          "5d86c287634f7ee3c31a70adfcf12d18"
         ]
       }
     ]
@@ -2620,52 +2690,18 @@
         "type": "text",
         "lines": [
           "- using `filter` encapsulates a `position:fixed` object in a block, making its position **relative** to that invisible block, and **not relative to the window**\",\n"
+        ],
+        "hashes": [
+          "4ff714a12b282328db22726884bc6583"
         ]
       },
       {
         "type": "text",
         "lines": [
           "- https://stackoverflow.com/a/52937920\n"
-        ]
-      }
-    ]
-  },
-  {
-    "title": "svelte",
-    "tags": [
-      "svelte"
-    ],
-    "description": "",
-    "blocks": [
-      {
-        "type": "text",
-        "lines": [
-          "without adding `props` to a component (which enables `runes`), all variables are reactive by default"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "svelte",
-        "lines": [
-          "<script lang=\"ts\">",
-          "    // const { bar } = $props(); <- will break the update",
-          "    let foo = false; // <- doesn't need $state to work",
-          "    function foo_f() {",
-          "        foo = !foo;",
-          "    }",
-          "</script>",
-          "",
-          "<main class:foo={foo}>",
-          "    <button onclick={foo_f}>",
-          "        {foo ? \"foo\" : \"bar\"}",
-          "    </button>",
-          "</main>"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "child components should always be `width: 100%; height: 100%`; let the parent component deal with sizing the component to the overall layout"
+        ],
+        "hashes": [
+          "a60b4ae6dca4d0e975952e341ae3542f"
         ]
       }
     ]
@@ -2684,6 +2720,9 @@
           "npm create vite@latest",
           "npm i --save-dev @tsconfig/svelte",
           "./tsconfig.node.json: $.compilerOptions.noEmit > $.compilerOptions.emitDeclarationOnly // https://stackoverflow.com/a/77369498"
+        ],
+        "hashes": [
+          "295e3ac609aa17b7d2d7d4cb795c9853"
         ]
       }
     ]
@@ -2702,6 +2741,9 @@
           "{@const square: Piece | Empty = g.get(...}",
           "{@const marked = !isPiece(square) ? square.is_marked() : null}",
           "<div class=\"{marked ? 'marked' : null}\"></div>"
+        ],
+        "hashes": [
+          "aaf21a73ef97410265214c7af61c3418"
         ]
       }
     ]
@@ -2720,6 +2762,9 @@
           "# run in project",
           "npx sv add vitest",
           "mv test src/"
+        ],
+        "hashes": [
+          "9a40e3bb3e1508ab7fe4d79da399da40"
         ]
       }
     ]
@@ -2740,6 +2785,9 @@
           "  vertical split | - CTRL + b + %",
           " horizonal split _ - CTRL + b + \"",
           "   navigate panels - CTRL + b + \u2191 / \u2193 / \u2190 / \u2192"
+        ],
+        "hashes": [
+          "54085fa5fa701f65d601e556b0413de4"
         ]
       }
     ]
@@ -2765,6 +2813,9 @@
         "lang": "",
         "lines": [
           "CTRL + B + ,"
+        ],
+        "hashes": [
+          "9874460dffed40d1036825aae263cb90"
         ]
       }
     ]
@@ -2783,6 +2834,9 @@
         "lines": [
           "CTRL + B + :",
           "select-pane -T <PANE NAME>"
+        ],
+        "hashes": [
+          "07c53dded56f05ef1dad2ef07e1f2d67"
         ]
       }
     ]
@@ -2808,6 +2862,9 @@
         "lang": "",
         "lines": [
           "CTRL + b + d"
+        ],
+        "hashes": [
+          "c7049627cfb1874729dbd377c0c974e6"
         ]
       }
     ]
@@ -2825,130 +2882,9 @@
         "lang": "bash",
         "lines": [
           "tmux a"
-        ]
-      }
-    ]
-  },
-  {
-    "title": "typescript",
-    "tags": [
-      "typescript"
-    ],
-    "description": "",
-    "blocks": [
-      {
-        "type": "text",
-        "lines": [
-          "custom error boilerplate"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "typescript",
-        "lines": [
-          "type ErrorTypes = ",
-          "    | 'FooError'; // Add more as needed",
-          "",
-          "type ErrorMessageFn = (vars?: unknown) => string;",
-          "",
-          "const ErrorMessages: Record<ErrorTypes, ErrorMessageFn> = {",
-          "    FooError: (v) => `Foo ${v}`,",
-          "};",
-          "",
-          "export class AppError extends Error {",
-          "    override name: ErrorTypes;",
-          "    override message: string;",
-          "    cause?: unknown;",
-          "",
-          "    constructor(",
-          "        name: ErrorTypes,",
-          "        vars?: unknown,",
-          "        customMessage?: string,",
-          "        cause?: unknown",
-          "    ) {",
-          "        const finalMessage = customMessage || ErrorMessages[name](vars);",
-          "        super(finalMessage);",
-          "",
-          "        if (Error.captureStackTrace) {",
-          "            Error.captureStackTrace(this, AppError);",
-          "        }",
-          "",
-          "        this.name = name;",
-          "        this.message = finalMessage;",
-          "        this.cause = cause;",
-          "    }",
-          "",
-          "    toJSON() {",
-          "        const json: Record<string, unknown> = {",
-          "            name: this.name,",
-          "            message: this.message,",
-          "        };",
-          "",
-          "        if (this.cause !== undefined) {",
-          "            json.cause = this.cause;",
-          "        }",
-          "",
-          "        return json;",
-          "    }",
-          "",
-          "}"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "array vs tuple; usage of `as const` to convert an array to tuple, so the compiler knows the data structure at compile time"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "typescript",
-        "lines": [
-          "// Type inference of `Foo` is just `string[]`",
-          "const Foo = [\"Foo\", \"Bar\"];",
-          "",
-          "// TS will say `Type 'string | undefined' is not assignable to type 'string'. Type 'undefined' is not assignable to type 'string'.`",
-          "var f: string = Foo[0]; ",
-          "",
-          "vs",
-          "",
-          "// Type inference now includes all static values",
-          "const Foo = [\"Foo\", \"Bar\"] as const;"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "check all files"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "bash",
-        "lines": [
-          "npx tsc --noEmit"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "no `export` in a file make it a script, pushing all variable to the **global scope**. with `export` the file is a module."
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "typescript",
-        "lines": [
-          "// foo.ts",
-          "const foo = \"foo\"",
-          "",
-          "// bar.ts",
-          "const bar = \"bar\"",
-          "export default bar;",
-          "",
-          "// foobar.ts",
-          "const foo = \"foo\" // <- error - cannot redefine 'foo'",
-          "const bar = \"bar\" // <- no error"
+        ],
+        "hashes": [
+          "b65c80cbdc7bf1014a9f21cb0e2ee296"
         ]
       }
     ]
@@ -2974,6 +2910,9 @@
           "        \"noEmit\": false",
           "    }",
           "}"
+        ],
+        "hashes": [
+          "d7e64b833348c0ee723811346ff3eada"
         ]
       },
       {
@@ -2987,12 +2926,18 @@
           "document.addEventListener(\"DOMContentLoaded\", function (e) {  // <- this works just fine!",
           "    // blah blah",
           "});"
+        ],
+        "hashes": [
+          "3aa7f8ad9efba5e8a908ac493264936e"
         ]
       },
       {
         "type": "text",
         "lines": [
           "- https://gist.github.com/khansgithub/c7a6bfca57631a4c45e2c75b7b5f881e#transpile-multile-ts-files\n"
+        ],
+        "hashes": [
+          "e56ebc7f28f408f3480901f7d82eb6d0"
         ]
       }
     ]
@@ -3035,6 +2980,9 @@
           "}",
           "// tsc with build option from /app/",
           "tsc -b . ./src/front"
+        ],
+        "hashes": [
+          "ca5da480c958ed0be3c24f77ccbfd1e9"
         ]
       },
       {
@@ -3067,6 +3015,9 @@
           "        \"noEmit\": false",
           "    }",
           "}"
+        ],
+        "hashes": [
+          "2830b99511c5b8081354852e1bdd21a1"
         ]
       }
     ]
@@ -3086,6 +3037,9 @@
           "    return (arg as any)[field] !== undefined;",
           "}",
           "identify<Piece>(square, \"piece_type\")"
+        ],
+        "hashes": [
+          "f6603a1112778c2af78c3f6f0ae0f65e"
         ]
       }
     ]
@@ -3109,6 +3063,9 @@
           "const foo = new Foo()",
           "foo.foobar()",
           "// -> \"bar\""
+        ],
+        "hashes": [
+          "cf1ef6b451278504a667755811ba902a"
         ]
       }
     ]
@@ -3138,6 +3095,9 @@
           "{",
           "    \"sourceMap\": true",
           "}"
+        ],
+        "hashes": [
+          "e929dec84aac7482448a06fc6f748bd8"
         ]
       }
     ]
@@ -3192,6 +3152,9 @@
           "\t\t}",
           "\t]",
           "}"
+        ],
+        "hashes": [
+          "4190a905d0c7008f7f5dcd00b18c0cde"
         ]
       }
     ]
@@ -3277,6 +3240,9 @@
           "  }",
           "}",
           "</style>"
+        ],
+        "hashes": [
+          "1c4a864f19e5dabb9548087471965156"
         ]
       }
     ]
@@ -3292,33 +3258,9 @@
         "type": "text",
         "lines": [
           "label a test, and run all tests with that label"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "python",
-        "lines": [
-          "# test.py",
-          "@pytest.mark.solo",
-          "def test_solo(mocker):",
-          "    pass"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "",
-        "lines": [
-          "# pytest.ini",
-          "[pytest]",
-          "markers =",
-          "    solo: mark a test as a solo test"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "bash",
-        "lines": [
-          "pytest -m solo"
+        ],
+        "hashes": [
+          "c09359c7b78b3958594b38c9350fd7bd"
         ]
       }
     ]
@@ -3334,63 +3276,9 @@
         "type": "text",
         "lines": [
           "set global python version"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "bash",
-        "lines": [
-          "> pyenv versions",
-          "  system",
-          "* 3.11.9 (set by /root/.pyenv/version)",
-          "> pyenv global 3.11.9"
-        ]
-      },
-      {
-        "type": "text",
-        "lines": [
-          "script to install `pyenv` to install `python` to install `pipx` to install `poetry` ..."
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "bash",
-        "lines": [
-          "apt-get install locales",
-          "localedef -i en_US -f UTF-8 en_US.UTF-8",
-          "",
-          "apt install curl",
-          "",
-          "curl https://pyenv.run | ",
-          "",
-          "for file in .bash_profile .profile .bashrc; do",
-          "    echo 'export PYENV_ROOT=\"$HOME/.pyenv\"' >> ~/$file",
-          "    echo '[[ -d $PYENV_ROOT/bin ]] && export PATH=\"$PYENV_ROOT/bin:$PATH\"' >> ~/$file",
-          "    echo 'eval \"$(pyenv init -)\"' >> ~/$file",
-          "done",
-          "",
-          "echo 'eval \"$(pyenv virtualenv-init -)\"' >> ~/.bashrc",
-          "",
-          "apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git libgdbm-dev libnss3-dev",
-          "pyenv install 3.11",
-          "",
-          "# restart shell",
-          "bash",
-          "",
-          "pyenv global 3.11.9",
-          "",
-          "python -m pip install --user pipx",
-          "",
-          "python -m pipx ensurepath",
-          "",
-          "python -m pipx completions",
-          "",
-          "eval \"$(register-python-argcomplete pipx)\"",
-          "",
-          "# restart shell",
-          "bash",
-          "",
-          "pipx install poetry"
+        ],
+        "hashes": [
+          "201fda924604951382c74d5d96ec9ad6"
         ]
       }
     ]
@@ -3406,14 +3294,9 @@
         "type": "text",
         "lines": [
           "some libraries required"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "bash",
-        "lines": [
-          "sudo apt-get install -y make build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev libffi-dev liblzma-dev python3-openssl git libgdbm-dev libnss3-dev",
-          "pyenv install 3.11"
+        ],
+        "hashes": [
+          "98bc5b6ee4dee7dbf64359457b75822f"
         ]
       }
     ]
@@ -3429,20 +3312,9 @@
         "type": "text",
         "lines": [
           "steps to install tunnels"
-        ]
-      },
-      {
-        "type": "code",
-        "lang": "",
-        "lines": [
-          "wget -O vscode_cli.tar.gz 'https://code.visualstudio.com/sha/download?build=stable&os=cli-alpine-x64' && tar -xzf vscode_cli.tar.gz -C /opt",
-          "",
-          "chmod +x /opt/code",
-          "cd opt",
-          "./code tunnel",
-          "",
-          "# install Microsoft: Tunnels",
-          "# Remote-Tunnels: Connect to Tunnel"
+        ],
+        "hashes": [
+          "33014f026b937035490d3db84fe1e6d5"
         ]
       }
     ]
@@ -3458,6 +3330,9 @@
         "type": "text",
         "lines": [
           "using `filter` encapsulates a `position:fixed` object in a block, making its position **relative** to that invisible block, and **not relative to the window**"
+        ],
+        "hashes": [
+          "3fae49823caeedd62311b88a8b414b45"
         ]
       }
     ]

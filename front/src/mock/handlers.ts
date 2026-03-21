@@ -35,72 +35,241 @@ let query = http.post(
         const url = new URL(request.url)
         let query = url.searchParams.get("q");
         let response: QueryResponse = {
-            "snippets": [
+            snippets: [
                 {
-                    "title": "Hello World Example",
-                    "tags": ["js", "example"],
-                    "snippets": [
-                        "```js\nconsole.log('Hello, world!')\n```\n\n**This is a mocked markdown response.**",
-                        "Simple _markdown_ and `inline code` is **supported**.",
-                    ]
+                    id: 1,
+                    title: "Hello World Example",
+                    tags: ["js", "example"],
+                    snippets: [
+                        {
+                            type: "code",
+                            lang: "js",
+                            lines: ["console.log('Hello, world!')"],
+                            snippet_id: 1,
+                            pos: 0,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["", "**This is a mocked markdown response.**"],
+                            snippet_id: 1,
+                            pos: 1,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["Simple _markdown_ and `inline code` is **supported**."],
+                            snippet_id: 1,
+                            pos: 2,
+                        },
+                    ],
                 },
                 {
-                    "title": "Python Greeting",
-                    "tags": ["python", "example"],
-                    "snippets": [
-                        "```python\nprint('Hello, world!')\n```\n\n_This is another mocked code block in Python._",
-                        "**Python** is great for quick scripting!"
-                    ]
+                    id: 2,
+                    title: "Python Greeting",
+                    tags: ["python", "example"],
+                    snippets: [
+                        {
+                            type: "code",
+                            lang: "python",
+                            lines: ["print('Hello, world!')"],
+                            snippet_id: 2,
+                            pos: 0,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["", "_This is another mocked code block in Python._"],
+                            snippet_id: 2,
+                            pos: 1,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["**Python** is great for quick scripting!"],
+                            snippet_id: 2,
+                            pos: 2,
+                        },
+                    ],
                 },
                 {
-                    "title": "TypeScript Function",
-                    "tags": ["typescript", "add"],
-                    "snippets": [
-                        "```typescript\nfunction add(a: number, b: number): number {\n  return a + b;\n}\n```\n\n**Simple TypeScript addition function.**",
-                        "You _could_ use this in your projects."
-                    ]
+                    id: 3,
+                    title: "TypeScript Function",
+                    tags: ["typescript", "add"],
+                    snippets: [
+                        {
+                            type: "code",
+                            lang: "typescript",
+                            lines: [
+                                "function add(a: number, b: number): number {",
+                                "  return a + b;",
+                                "}",
+                            ],
+                            snippet_id: 3,
+                            pos: 0,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["", "**Simple TypeScript addition function.**"],
+                            snippet_id: 3,
+                            pos: 1,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["You _could_ use this in your projects."],
+                            snippet_id: 3,
+                            pos: 2,
+                        },
+                    ],
                 },
                 {
-                    "title": "Usage Example (bash)",
-                    "tags": ["bash", "curl"],
-                    "snippets": [
-                        "### Usage Example\n\n```bash\ncurl -X POST https://api.example.com/query -d '{\"q\": \"example\"}'\n```\n\n> Feel free to change the query to experiment.",
-                        "_Try using in your shell!_"
-                    ]
+                    id: 4,
+                    title: "Usage Example (bash)",
+                    tags: ["bash", "curl"],
+                    snippets: [
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["### Usage Example", ""],
+                            snippet_id: 4,
+                            pos: 0,
+                        },
+                        {
+                            type: "code",
+                            lang: "bash",
+                            lines: [
+                                "curl -X POST https://api.example.com/query -d '{\"q\": \"example\"}'",
+                            ],
+                            snippet_id: 4,
+                            pos: 1,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["", "> Feel free to change the query to experiment."],
+                            snippet_id: 4,
+                            pos: 2,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["_Try using in your shell!_"],
+                            snippet_id: 4,
+                            pos: 3,
+                        },
+                    ],
                 },
                 {
-                    "title": "Markdown Features",
-                    "tags": ["markdown", "docs"],
-                    "snippets": [
-                        "- Markdown supports:\n    - **Bold**\n    - _Italic_\n    - `Inline code`\n    - Code blocks",
-                        "Great for documentation."
-                    ]
+                    id: 5,
+                    title: "Markdown Features",
+                    tags: ["markdown", "docs"],
+                    snippets: [
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: [
+                                "- Markdown supports:",
+                                "    - **Bold**",
+                                "    - _Italic_",
+                                "    - `Inline code`",
+                                "    - Code blocks",
+                            ],
+                            snippet_id: 5,
+                            pos: 0,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["Great for documentation."],
+                            snippet_id: 5,
+                            pos: 1,
+                        },
+                    ],
                 },
                 {
-                    "title": "Mocked JSON Output",
-                    "tags": ["json", "output"],
-                    "snippets": [
-                        "```json\n{\n  \"result\": \"This is a mock response\"\n}\n```\n\nSample JSON output.",
-                        "You can copy/paste this into a tool."
-                    ]
+                    id: 6,
+                    title: "Mocked JSON Output",
+                    tags: ["json", "output"],
+                    snippets: [
+                        {
+                            type: "code",
+                            lang: "json",
+                            lines: ["{", '  "result": "This is a mock response"', "}"],
+                            snippet_id: 6,
+                            pos: 0,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["", "Sample JSON output."],
+                            snippet_id: 6,
+                            pos: 1,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["You can copy/paste this into a tool."],
+                            snippet_id: 6,
+                            pos: 2,
+                        },
+                    ],
                 },
                 {
-                    "title": "Horizontal Rule & Note",
-                    "tags": ["markdown", "divider"],
-                    "snippets": [
-                        "---\n\nYou can add multiple code snippets and markdown text in one snippet array, as shown here.",
-                        "Use `---` for a horizontal rule."
-                    ]
+                    id: 7,
+                    title: "Horizontal Rule & Note",
+                    tags: ["markdown", "divider"],
+                    snippets: [
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: [
+                                "---",
+                                "",
+                                "You can add multiple code snippets and markdown text in one snippet array, as shown here.",
+                            ],
+                            snippet_id: 7,
+                            pos: 0,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["Use `---` for a horizontal rule."],
+                            snippet_id: 7,
+                            pos: 1,
+                        },
+                    ],
                 },
                 {
-                    "title": "Multi-Language Example",
-                    "tags": ["multi", "demo"],
-                    "snippets": [
-                        "```go\nfmt.Println(\"Hello from Go\")\n```",
-                        "Or try Ruby:\n\n```ruby\nputs 'Hello from Ruby!'\n```"
-                    ]
-                }
-            ]
+                    id: 8,
+                    title: "Multi-Language Example",
+                    tags: ["multi", "demo"],
+                    snippets: [
+                        {
+                            type: "code",
+                            lang: "go",
+                            lines: ['fmt.Println("Hello from Go")'],
+                            snippet_id: 8,
+                            pos: 0,
+                        },
+                        {
+                            type: "text",
+                            lang: null,
+                            lines: ["Or try Ruby:", ""],
+                            snippet_id: 8,
+                            pos: 1,
+                        },
+                        {
+                            type: "code",
+                            lang: "ruby",
+                            lines: ["puts 'Hello from Ruby!'"],
+                            snippet_id: 8,
+                            pos: 2,
+                        },
+                    ],
+                },
+            ],
         };
         logger.info(query, "query");
         logger.info(response, "response");

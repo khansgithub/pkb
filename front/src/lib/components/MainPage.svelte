@@ -1,22 +1,24 @@
 <script lang="ts">
-    import { cacheResponseSnippets, query, queryInDb } from "$lib/api";
     import Results from "$lib/components/Results.svelte";
     import SearchBox from "$lib/components/SearchBox.svelte";
     import { DEBOUNCE_T } from "$lib/const";
+    import { getSnippetsFromQuery } from "$lib/function";
     import { logger } from "$lib/logger";
     import { queryStore } from "$lib/queryStore";
-    import type { Snippet } from "$lib/types";
     import { debounce } from "lodash-es";
+    import type { Snippet } from "$lib/types";
 
     const cards = $derived($queryStore);
     const log = logger.child({ module: "search_box" });
 
     let show_button_spinner = $state(false);
-    let form = $state<HTMLFormElement | null>(null);
-    let input = $state<HTMLInputElement | null>(null);
-    let inputValue = $state("");
-    let errorMessage = $state<string | null>(null);
+    let form: HTMLFormElement | null = $state(null);
+    let input: HTMLInputElement | null = $state(null);
+    let inputValue: string = $state("");
+    let errorMessage: string | null = $state(null);
     let _debounceCallCount = 0;
+    
+    let snippets: Snippet[] = [];
 
     const onSubmitDebounced = debounce(async () => {
         _debounceCallCount++;
@@ -25,46 +27,22 @@
             "Debounced submit fired",
         );
         if (inputValue.trim().length <= 2) return;
-        alert("debounce");
         onSubmit();
     }, DEBOUNCE_T);
 
     async function onSubmit(e?: SubmitEvent) {
         e && e.preventDefault();
         log.info({ inputValue }, "onSubmit called");
+
         const queryString = $state.snapshot(inputValue);
-        const cached_query = await queryInDb(queryString);
 
-        var snippets: Snippet[] = [];
-
-        if (cached_query && cached_query.length > 0) {
-            log.info({ cached_query }, "Cached result found");
-            snippets = cached_query;
-        } else {
-            log.info({ queryString }, "No cached result found, sending POST");
-            const response = await query(queryString);
-            if ("error" in response) {
-                log.error(
-                    { error: response.error },
-                    "Error received from query",
-                );
-                errorMessage =
-                    response.error.message ??
-                    response.error.name ??
-                    "Something went wrong";
-                return;
-            }
-            errorMessage = null;
-            snippets = await cacheResponseSnippets({
-                query: queryString,
-                snippets: response.snippets,
-            });
-        }
+        [snippets, errorMessage] = await getSnippetsFromQuery(queryString, errorMessage);
 
         log.info(
             { queryString, responseSnapshot: $state.snapshot(snippets) },
             "POST complete, response received",
         );
+        
         $queryStore = snippets;
     }
 

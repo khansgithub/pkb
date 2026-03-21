@@ -7,8 +7,9 @@
         queryInDb,
         query,
         sync as db_sync,
-        type Response,
     } from "$lib/api";
+    import { isQueryResponse } from "$lib/api.contract";
+    import type { Snippet } from "$lib/types";
     import { debounce } from "lodash-es"; // or write a small helper
     import { cn } from "$lib/util.svelte";
     import { sync_button } from "$lib/css";
@@ -18,7 +19,7 @@
     var show_button_spinner = $state(false);
 
     var text = $state("");
-    var response: Response = $state({} as Response);
+    var response: Snippet[] = $state([]);
     var form: HTMLFormElement;
 
     var i = 0;
@@ -27,11 +28,20 @@
         logger.info(["debounce", i++]);
 
         logger.info("Check cache");
-        let cached_query: Response | undefined;
-        if ((cached_query = await queryInDb(q))) return cached_query;
+        const cached = await queryInDb(q);
+        if (cached) {
+            response = cached;
+            return;
+        }
 
         logger.info("Send POST");
-        response = await query(q).then(cacheResponseSnippets);
+        const r = await query(q);
+        if (isQueryResponse(r)) {
+            await cacheResponseSnippets({ query: q, snippets: r.snippets });
+            response = r.snippets;
+        } else {
+            response = [];
+        }
         logger.info(["response snapshot", $state.snapshot(response)]);
     }, DEBOUNCE_T);
 
@@ -42,7 +52,7 @@
         show_button_spinner = true;
         await db_sync();
         form.reset();
-        response = {} as Response;
+        response = [];
         show_button_spinner = false;
     }
 </script>

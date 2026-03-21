@@ -2,7 +2,7 @@ import { logger } from "$lib/logger";
 import DOMPurify from 'dompurify';
 import z from "zod";
 import { db, type QueryCache } from '../db';
-import { QueryEndpointResponseSchema, type ErrorResponse, type QueryResponse } from './api.contract';
+import { QueryEndpointResponseSchema, type QueryEndpointResponse } from './api.contract';
 import { ENDPOINTS } from './const';
 import type { Snippet } from './types';
 
@@ -12,7 +12,7 @@ var sanitise = DOMPurify.sanitize;
 var base_url = (): URL => new URL(window.location.origin);
 
 
-export async function query(query: string): Promise<QueryResponse | ErrorResponse> {
+export async function query(query: string): Promise<QueryEndpointResponse> {
     log.info({ query: query }, "Sending query");
 
     const q: string = sanitise(query);
