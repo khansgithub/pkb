@@ -10,27 +10,6 @@
 
     let { cards = null, queryString }: Props = $props();
 
-    let placeholderCards: Snippet[] = $state(
-        Array.from({ length: 6 }, (_, i) => ({
-            title: `Example Card ${i + 1}`,
-            tags: ["Tag 1", "Tag 2", "Tag 3"],
-            description: "This is a **description** with _markdown_ support.",
-            snippets: [
-                {
-                    type: "code" as const,
-                    lang: "js",
-                    lines: [
-                        "function helloWorld() {",
-                        "  console.log('Hello, world!');",
-                        "}",
-                    ],
-                    snippet_id: 0,
-                    pos: 0,
-                },
-            ],
-        })),
-    );
-
     const displayCards = $derived(
         cards ? (cards.length > 0 ? cards : [null]) : [],
     );

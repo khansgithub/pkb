@@ -19,7 +19,7 @@ export async function query(query: string): Promise<QueryEndpointResponse> {
     const url: URL = new URL(ENDPOINTS.query, base_url());
     url.searchParams.append("q", query);
 
-    logger.info({url:url.toString()}, "Sending query");
+    logger.info({ url: url.toString() }, "Sending query");
 
     const res = await fetch(url, { method: "get" });
     if (!(res.status >= 200 && res.status < 300)) { }
@@ -37,7 +37,7 @@ export async function cacheResponseSnippets(queryCache: QueryCache): Promise<Sni
         const row_id = await db.queries.put(queryCache);
         logger.info(["Cached. Row id: ", row_id, "Response: ", queryCache]);
     } catch (err) {
-        console.error("error with putting response into queries table", err)
+        logger.error(err, "error with putting response into queries table");
     }
     return queryCache.snippets;
 }

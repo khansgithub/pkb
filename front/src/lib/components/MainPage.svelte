@@ -22,7 +22,6 @@
 
     const onSubmitDebounced = debounce(
         async () => {
-            console.log("test")
             const p = new Promise<void>(async (resolve) => {
                 _debounceCallCount++;
                 log.info(
@@ -36,11 +35,12 @@
                 }
 
                 if (inputValue.trim().length <= 2) {
-                    input?.setCustomValidity("Input too short.");
+                    log.info({ inputValue }, "too short");
+                    input?.setCustomValidity(`Please lengthen this text to 10 characters or more (you're currently using ${inputValue.trim().length} characters)`);
                     input?.reportValidity();
                     resolve();
                     return false;
-                }
+                } else {}
 
                 await onSubmit();
                 loading = false;
@@ -87,6 +87,7 @@
             "onInput (user typed), scheduling debounced submit",
         );
         loading = true;
+        input?.setCustomValidity("")
         await callOnSubmit()
     }
 
@@ -124,7 +125,7 @@
 		}}>Pop</button
 	> -->
     <div
-        class="w-full h-full flex-1 flex-col items-center relative mt-15 md:mt-0 gap-2 overflow-y-scroll overflow-x-hidden"
+        class="w-full h-full flex-1 flex-col items-center relative md:mt-0 gap-2 overflow-y-scroll overflow-x-hidden"
     >
         <Results {cards} queryString={queryStringWhenNoResult} />
     </div>
