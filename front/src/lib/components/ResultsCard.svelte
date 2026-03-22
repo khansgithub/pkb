@@ -14,7 +14,7 @@
 </script>
 
 <div class="card-row w-full">
-    <div class="card bg-base-100 shadow-xl overflow-hidden">
+    <div class="card bg-gray-800 shadow-xl overflow-hidden">
         <input
             type="checkbox"
             id={expandId}

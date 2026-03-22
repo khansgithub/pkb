@@ -2,33 +2,54 @@
     import Results from "$lib/components/Results.svelte";
     import SearchBox from "$lib/components/SearchBox.svelte";
     import { DEBOUNCE_T } from "$lib/const";
-    import { getSnippetsFromQuery } from "$lib/function";
+    import { getSnippetsFromQuery, isMobile } from "$lib/functions";
     import { logger } from "$lib/logger";
     import { queryStore } from "$lib/queryStore";
-    import { debounce } from "lodash-es";
+    import { debounce, once } from "lodash-es";
     import type { Snippet } from "$lib/types";
 
     const cards = $derived($queryStore);
     const log = logger.child({ module: "search_box" });
 
-    let show_button_spinner = $state(false);
-    let form: HTMLFormElement | null = $state(null);
     let input: HTMLInputElement | null = $state(null);
     let inputValue: string = $state("");
+    let queryStringWhenNoResult = $state("");
     let errorMessage: string | null = $state(null);
+    let loading = $state(false);
     let _debounceCallCount = 0;
-    
+
     let snippets: Snippet[] = [];
 
-    const onSubmitDebounced = debounce(async () => {
-        _debounceCallCount++;
-        log.info(
-            { call: _debounceCallCount, inputValue },
-            "Debounced submit fired",
-        );
-        if (inputValue.trim().length <= 2) return;
-        onSubmit();
-    }, DEBOUNCE_T);
+    const onSubmitDebounced = debounce(
+        async () => {
+            console.log("test")
+            const p = new Promise<void>(async (resolve) => {
+                _debounceCallCount++;
+                log.info(
+                    { call: _debounceCallCount, inputValue },
+                    "Debounced submit fired",
+                );
+
+                if (inputValue.trim().length == 0) {
+                    resolve();
+                    return false;
+                }
+
+                if (inputValue.trim().length <= 2) {
+                    input?.setCustomValidity("Input too short.");
+                    input?.reportValidity();
+                    resolve();
+                    return false;
+                }
+
+                await onSubmit();
+                loading = false;
+                resolve();
+            }).then((res) => (loading = false))
+            await p;
+        },
+        DEBOUNCE_T * (isMobile() ? 3 : 1),
+    );
 
     async function onSubmit(e?: SubmitEvent) {
         e && e.preventDefault();
@@ -36,28 +57,37 @@
 
         const queryString = $state.snapshot(inputValue);
 
-        [snippets, errorMessage] = await getSnippetsFromQuery(queryString, errorMessage);
+        [snippets, errorMessage] = await getSnippetsFromQuery(
+            queryString,
+            errorMessage,
+        );
 
         log.info(
             { queryString, responseSnapshot: $state.snapshot(snippets) },
             "POST complete, response received",
         );
-        
+
+        loading = false;
+        if (snippets.length == 0)
+            queryStringWhenNoResult = inputValue.toLowerCase();
         $queryStore = snippets;
     }
 
-    async function doOnSubmit() {
+    async function callOnSubmit() {
         log.info("onChange (user typed), scheduling debounced submit");
         onSubmitDebounced.cancel();
         onSubmitDebounced();
     }
 
-    async function onInput() {
+    async function onInput(
+        e: Event & { currentTarget: EventTarget & HTMLInputElement },
+    ) {
         log.info(
             { inputValue },
             "onInput (user typed), scheduling debounced submit",
         );
-        doOnSubmit();
+        loading = true;
+        await callOnSubmit()
     }
 
     function onErrorClose() {
@@ -75,12 +105,17 @@
         <SearchBox
             bind:errorMessage
             bind:inputValue
-            bind:form
             bind:input
-            {onSubmit}
             {onInput}
             {onErrorClose}
         />
+    </div>
+    <div class="relative h-0 w-full overflow-visible">
+        {#if loading}
+            <span
+                class="loading loading-spinner loading-md absolute transform left-1/2 -translate-x-1/2"
+            ></span>
+        {/if}
     </div>
     <!-- <button
 		class="btn btn-outline btn-wide"
@@ -91,6 +126,6 @@
     <div
         class="w-full h-full flex-1 flex-col items-center relative mt-15 md:mt-0 gap-2 overflow-y-scroll overflow-x-hidden"
     >
-        <Results {cards} />
+        <Results {cards} queryString={queryStringWhenNoResult} />
     </div>
 </div>

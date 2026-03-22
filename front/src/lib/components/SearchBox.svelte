@@ -1,19 +1,17 @@
 <script lang="ts">
+    import type { FormEventHandler } from "svelte/elements";
+
     let {
         errorMessage = $bindable(),
         inputValue = $bindable(),
-        onSubmit,
         onInput,
         onErrorClose,
-        form = $bindable(),
         input = $bindable(),
     }: {
         errorMessage: string | null;
         inputValue: string;
-        onSubmit: (e: SubmitEvent) => Promise<void>;
-        onInput: () => Promise<void>;
+        onInput: FormEventHandler<HTMLInputElement>;
         onErrorClose: () => void;
-        form: HTMLFormElement | null;
         input: HTMLInputElement | null;
     } = $props();
 </script>
@@ -51,9 +49,11 @@
 {/if}
 <div class="pill">
     <div class="pill-inner"></div>
-    <form bind:this={form} onsubmit={onSubmit}>
+    <form>
         <input
             bind:this={input}
+            bind:value={inputValue}
+            oninput={onInput}
             aria-label="Search"
             autocapitalize="off"
             autocomplete="off"
@@ -62,11 +62,9 @@
             lang="en"
             maxlength="20"
             minlength="3"
-            placeholder="type here"
+            placeholder="search knowledge base"
             spellcheck="false"
             type="text"
-            bind:value={inputValue}
-            oninput={onInput}
         />
     </form>
     <div class="pill-backdrop absolute left-0 bottom-0 w-full h-full"></div>

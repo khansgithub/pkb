@@ -22,99 +22,118 @@ create type query_result as (
 );
 
 -----------------------------------------------------------------------------------------------------------------------------
--- blocks_trgm_query --
+-- blocks_trgm_query (IMPROVED)
 -----------------------------------------------------------------------------------------------------------------------------
 create or replace function blocks_trgm_query (q text) returns setof query_result language sql stable as $$
 with
-  matched_block as (
-    select
-      *,
-      array_to_string_immut (lines) as flat,
-      similarity (
-        array_to_string_immut (lines),
-        q
-      ) as sim
-    from
-      blocks
-    where
-      array_to_string_immut (lines) % q
-  )
+base as (
+  select
+    *,
+    array_to_string_immut(lines) as flat
+  from blocks
+),
+matched_block as (
+  select
+    *,
+    similarity(flat, q) as sim,
+    flat <-> q as dist
+  from base
+  where
+    flat % q
+    or flat ilike '%' || q || '%'
+)
 select
-  snippets.id,
-  snippets.title,
-  snippets.tags,
-  snippets.description,
-  matched_block.type,
-  matched_block.lang,
-  matched_block.lines,
-  matched_block.pos
-from
-  matched_block
-  left join snippets on matched_block.snippet_id = snippets.id
-  order by sim desc
+  s.id,
+  s.title,
+  s.tags,
+  s.description,
+  mb.type,
+  mb.lang,
+  mb.lines,
+  mb.pos
+from matched_block mb
+left join snippets s on mb.snippet_id = s.id
+order by
+  sim desc nulls last,
+  dist asc
+limit 20;
 $$;
 
 -----------------------------------------------------------------------------------------------------------------------------
--- blocks_fts_query --
+-- blocks_fts_query (UNCHANGED)
 -----------------------------------------------------------------------------------------------------------------------------
 create or replace function blocks_fts_query (q text) returns setof query_result language sql stable as $$
-with
-  matched_block as (
-    select
-      *
-    from
-      blocks
-    where
-      to_tsvector('simple', array_to_string_immut (lines)) @@ plainto_tsquery('simple', q)
-  )
+with matched_block as (
+  select *
+  from blocks
+  where
+    to_tsvector('simple', array_to_string_immut(lines))
+    @@ plainto_tsquery('simple', q)
+)
 select
-  snippets.id,
-  snippets.title,
-  snippets.tags,
-  snippets.description,
-  matched_block.type,
-  matched_block.lang,
-  matched_block.lines,
-  matched_block.pos
-from
-  matched_block
-  left join snippets on matched_block.snippet_id = snippets.id
+  s.id,
+  s.title,
+  s.tags,
+  s.description,
+  mb.type,
+  mb.lang,
+  mb.lines,
+  mb.pos
+from matched_block mb
+left join snippets s on mb.snippet_id = s.id;
 $$;
 
 -----------------------------------------------------------------------------------------------------------------------------
--- snippets_trgm_query --
+-- snippets_trgm_query (IMPROVED + WEIGHTED)
 -----------------------------------------------------------------------------------------------------------------------------
 create or replace function snippets_trgm_query (q text) returns setof query_result language sql stable as $$
-with
-  matched_metadata as (
-    select
-      *,
-      array_to_string_immut (array[title, description] || tags) as flat,
-      similarity (
-        array_to_string_immut (array[title, description] || tags),
-        q
-      ) as sim
-    from
-      snippets
-    where
-      array_to_string_immut (array[title, description] || tags) % q
-  )
+with base as (
+  select
+    *,
+    array_to_string_immut(tags) as tags_flat
+  from snippets
+),
+matched_metadata as (
+  select
+    *,
+    -- weighted similarity
+    similarity(title, q) * 2 +
+    similarity(description, q) +
+    similarity(tags_flat, q) * 1.5 as sim,
+    -- best distance across fields
+    least(
+      title <-> q,
+      description <-> q,
+      tags_flat <-> q
+    ) as dist
+  from base
+  where
+    title % q
+    or description % q
+    or tags_flat % q
+    or title ilike '%' || q || '%'
+    or description ilike '%' || q || '%'
+    or tags_flat ilike '%' || q || '%'
+)
 select
-  matched_metadata.id,
-  matched_metadata.title,
-  matched_metadata.tags,
-  matched_metadata.description,
-  blocks.type,
-  blocks.lang,
-  blocks.lines,
-  blocks.pos
-from matched_metadata
-left join blocks on matched_metadata.id = blocks.snippet_id
-order by sim desc
+  mm.id,
+  mm.title,
+  mm.tags,
+  mm.description,
+  b.type,
+  b.lang,
+  b.lines,
+  b.pos
+from matched_metadata mm
+left join blocks b on mm.id = b.snippet_id
+order by
+  sim desc nulls last,
+  dist asc
+limit 20;
 $$;
 
 -----------------------------------------------------------------------------------------------------------------------------
--- snippets_fts_query ---
+-- snippets_fts_query (UNCHANGED)
 -----------------------------------------------------------------------------------------------------------------------------
 create or replace function snippets_fts_query (q text) returns setof query_result language sql stable as $$
 with matched_metadata as (
@@ -127,20 +146,20 @@ with matched_metadata as (
     ) @@ plainto_tsquery('simple', q)
 )
 select
-  matched_metadata.id,
-  matched_metadata.title,
-  matched_metadata.tags,
-  matched_metadata.description,
-  blocks.type,
-  blocks.lang,
-  blocks.lines,
-  blocks.pos
-from matched_metadata
-left join blocks on matched_metadata.id = blocks.snippet_id;
+  mm.id,
+  mm.title,
+  mm.tags,
+  mm.description,
+  b.type,
+  b.lang,
+  b.lines,
+  b.pos
+from matched_metadata mm
+left join blocks b on mm.id = b.snippet_id;
 $$;
 
 -----------------------------------------------------------------------------------------------------------------------------
--- full_search
+-- full_search (SLIGHTLY IMPROVED RANKING)
 -----------------------------------------------------------------------------------------------------------------------------
 create or replace function full_search (q text) returns setof query_result language sql stable as $$
 WITH

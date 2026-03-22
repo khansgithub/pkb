@@ -3,6 +3,7 @@ import { queryInDb, cacheResponseSnippets, query } from "./api";
 import type { Snippet } from "./types";
 import { logger } from "$lib/logger";
 import { isErrorResponse } from "./api.contract";
+import { browser } from "$app/environment";
 
 const log = logger.child({ module: "search_box" });
 
@@ -18,7 +19,7 @@ export async function getSnippetsFromQuery(
     } else {
         log.info({ queryString }, "No cached result found, sending POST");
         const response = await query(queryString);
-        if (isErrorResponse(response )) {
+        if (isErrorResponse(response)) {
             log.error(
                 { error: response.error },
                 "Error received from query",
@@ -36,4 +37,20 @@ export async function getSnippetsFromQuery(
         });
     }
     return [snippets, errorMessage];
+}
+
+
+export function isMobile() {
+    if (!browser) {
+        return {
+            isMobile: false,
+            isTouch: false,
+            isMobileScreen: false
+        };
+    }
+
+    const isMobileScreen = window.matchMedia("(max-width: 768px)").matches;
+    const isTouch = navigator.maxTouchPoints > 0;
+
+    return isMobileScreen && isTouch
 }

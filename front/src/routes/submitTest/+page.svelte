@@ -11,7 +11,6 @@
     import { isQueryResponse } from "$lib/api.contract";
     import type { Snippet } from "$lib/types";
     import { debounce } from "lodash-es"; // or write a small helper
-    import { cn } from "$lib/util.svelte";
     import { sync_button } from "$lib/css";
     import { logger } from "$lib/logger";
 
