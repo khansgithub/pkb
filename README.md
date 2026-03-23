@@ -5,6 +5,9 @@ The tool will primarily present a UI to search for differnet snippets based on t
 
 Project is WIP and primarily for learning and experimentation.
 
+[demo](https://pkb-klpe4i3xm-khansgithubs-projects.vercel.app/)
+
+
 ## Technologies / Learning
 
 - **Svelte**
