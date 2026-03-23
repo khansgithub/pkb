@@ -29,7 +29,7 @@ with
 base as (
   select
     *,
-    array_to_string_immut(lines) as flat
+    array_to_string_immut(array[lang] ||lines) as flat
   from blocks
 ),
 matched_block as (
@@ -67,7 +67,7 @@ with matched_block as (
   select *
   from blocks
   where
-    to_tsvector('simple', array_to_string_immut(lines))
+    to_tsvector('simple', array_to_string_immut(array[lang] ||lines))
     @@ plainto_tsquery('simple', q)
 )
 select

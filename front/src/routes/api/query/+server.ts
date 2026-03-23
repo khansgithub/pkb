@@ -39,3 +39,5 @@ export const GET: RequestHandler = async ({ request }) => {
     }
     return successResponse(res.snippets);
 };
+
+// export const prerender = true;

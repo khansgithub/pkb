@@ -1,6 +1,5 @@
 import { logger } from "$lib/logger";
 import DOMPurify from 'dompurify';
-import z from "zod";
 import { db, type QueryCache } from '../db';
 import { QueryEndpointResponseSchema, type QueryEndpointResponse } from './api.contract';
 import { ENDPOINTS } from './const';

@@ -6,6 +6,10 @@ drop table if exists temp_snippets CASCADE;
 
 drop table if exists temp_blocks CASCADE;
 
+drop index if exists lines_flat_ts CASCADE;
+
+drop index if exists lines_flat_trgm CASCADE;
+
 drop sequence IF exists snippets_id_seq cascade;
 
 drop function if exists snippets_fts_query (text);
@@ -47,10 +51,10 @@ create table blocks (
 
 --indices - blocks
 create index lines_flat_ts on blocks using GIN (
-  to_tsvector('simple', array_to_string_immut (lines))
+  to_tsvector('simple', array_to_string_immut(array[lang] ||lines))
 );
 
-create index lines_flat_trgm on blocks using GIN (array_to_string_immut (lines) gin_trgm_ops);
+create index lines_flat_trgm on blocks using GIN (array_to_string_immut(array[lang] ||lines) gin_trgm_ops);
 
 --indices - snippets
 create index snippet_flat_ts on snippets using GIN (
@@ -107,7 +111,7 @@ with
 base as (
   select
     *,
-    array_to_string_immut(lines) as flat
+    array_to_string_immut(array[lang] ||lines) as flat
   from blocks
 ),
 matched_block as (
@@ -145,7 +149,7 @@ with matched_block as (
   select *
   from blocks
   where
-    to_tsvector('simple', array_to_string_immut(lines))
+    to_tsvector('simple', array_to_string_immut(array[lang] ||lines))
     @@ plainto_tsquery('simple', q)
 )
 select

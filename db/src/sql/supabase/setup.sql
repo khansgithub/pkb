@@ -4,6 +4,10 @@ drop table if exists snippets CASCADE;
 
 drop type IF exists block_type;
 
+drop index if exists lines_flat_ts;
+
+drop index if exists lines_flat_trgm;
+
 -- types
 create type block_type as ENUM('code', 'text');
 
@@ -29,10 +33,10 @@ create table blocks (
 
 --indices - blocks
 create index lines_flat_ts on blocks using GIN (
-  to_tsvector('simple', array_to_string_immut (lines))
+  to_tsvector('simple', array_to_string_immut(array[lang] ||lines))
 );
 
-create index lines_flat_trgm on blocks using GIN (array_to_string_immut (lines) gin_trgm_ops);
+create index lines_flat_trgm on blocks using GIN (array_to_string_immut(array[lang] ||lines) gin_trgm_ops);
 
 
 --indices - snippets

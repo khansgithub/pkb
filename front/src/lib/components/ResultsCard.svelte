@@ -66,7 +66,9 @@
                                                 "\n```",
                                         )}
                                     {:else}
-                                        {@html renderMarkdown(block.lines.join("\n"))}
+                                        {@html renderMarkdown(
+                                            block.lines.join("\n"),
+                                        )}
                                     {/if}
                                 </div>
                             {/each}

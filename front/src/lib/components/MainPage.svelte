@@ -5,8 +5,8 @@
     import { getSnippetsFromQuery, isMobile } from "$lib/functions";
     import { logger } from "$lib/logger";
     import { queryStore } from "$lib/queryStore";
-    import { debounce, once } from "lodash-es";
     import type { Snippet } from "$lib/types";
+    import { debounce } from "lodash-es";
 
     const cards = $derived($queryStore);
     const log = logger.child({ module: "search_box" });

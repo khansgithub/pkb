@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Snippet } from "$lib/types";
-    import { fly, fade, scale } from "svelte/transition";
+    import { fly } from "svelte/transition";
     import ResultsCard from "./ResultsCard.svelte";
 
     type Props = {
