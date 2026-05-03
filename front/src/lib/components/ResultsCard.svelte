@@ -50,7 +50,7 @@
                         </div>
                     {/if}
                     <div
-                        class="card-content-area border border-dashed bg-[rgba(0,0,0,0.2)] border-gray-800 text-neutral-content rounded-md p-3 text-sm overflow-y-auto"
+                        class="card-content-area border border-dashed bg-[rgba(0,0,0,0.2)] border-gray-800 text-neutral-content rounded-md p-3 text-sm overflow-y-auto cursor-text select-text"
                     >
                         <div
                             class="prose prose-invert prose-sm max-w-none prose-pre:bg-transparent prose-pre:p-0 prose-pre:my-0 prose-pre:border-0 prose-pre:font-mono prose-code:font-mono prose-code:before:content-none prose-code:after:content-none"
