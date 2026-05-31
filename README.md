@@ -3,8 +3,6 @@
 Building a prototype knowledge base to consolidate small sippets of information I've kept in gists. 
 The tool will primarily present a UI to search for differnet snippets based on their metadata.
 
-Project is WIP and primarily for learning and experimentation.
-
 [demo](https://pkb-wine.vercel.app)
 
 
