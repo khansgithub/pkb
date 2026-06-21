@@ -4,7 +4,7 @@ import type { FullSearchRow } from "./supabaseClient";
 import type { Block, Snippet } from "$lib/types";
 import { logger } from "$lib/logger";
 
-const log = logger.child({ module: "sql_client", level: "debug" });
+const log = logger.child({ module: "sql_client"});
 
 function queryErrorResponse(err: Error): ErrorResponse {
 	return {
